@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction aux Algorithmes</title>
+    <style>
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #fcfcfc;
+            color: #2D3748;
+        }
+        h1 {
+            color: #1A365D;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        h2 {
+            color: #2B6CB0;
+            margin-top: 30px;
+        }
+        p {
+            font-size: 1.1rem;
+        }
+        /* Style pour les blocs de code (Theme sombre) */
+        pre {
+            background-color: #1A202C;
+            color: #F7FAFC;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        code {
+            font-weight: bold;
+        }
+        /* Alerte pour guider l'étudiant vers le bot */
+        .bot-alert {
+            background-color: #EBF8FF;
+            border-left: 4px solid #3182CE;
+            color: #2B6CB0;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cours : Les Algorithmes de Recherche</h1>
+    
+    <p>Bienvenue sur cette plateforme d'apprentissage ! Aujourd'hui, nous allons étudier l'un des algorithmes les plus simples et fondamentaux : <strong>la recherche linéaire</strong> (ou recherche séquentielle).</p>
+
+    <h2>1. Le concept</h2>
+    <p>La recherche linéaire consiste à passer en revue les éléments d'une liste un par un, du premier au dernier, jusqu'à ce que l'élément recherché soit trouvé ou que la liste soit entièrement parcourue.</p>
+
+    <h2>2. Code d'exemple en Python</h2>
+    <p>Voici comment implémenter cet algorithme de manière simple :</p>
+
+    <pre><code>def recherche_lineaire(liste, cible):
+    # Parcourir chaque élément avec son index
+    for i in range(len(liste)):
+        if liste[i] == cible:
+            return i  # Élément trouvé ! On renvoie son index.
+            
+    return -1  # On a parcouru toute la liste sans rien trouver.
+
+# Exemple d'utilisation :
+ma_liste = [10, 23, 45, 70, 11, 15]
+resultat = recherche_lineaire(ma_liste, 70)
+print("Index de l'élément :", resultat) # Affiche 3</code></pre>
+
+    <h2>3. Complexité temporelle (Big-O)</h2>
+    <ul>
+        <li><strong>Meilleur cas :</strong> O(1) — L'élément cherché est le tout premier de la liste.</li>
+        <li><strong>Pire cas :</strong> O(n) — L'élément est à la toute fin ou n'existe pas dans la liste.</li>
+    </ul>
+
+    <div class="bot-alert">
+        <strong>Besoin d'aide ?</strong> Si vous ne comprenez pas une ligne de ce code Python ou la notion de complexité O(n), posez directement vos questions au <strong>tuteur virtuel</strong> disponible en bas à droite de votre écran !
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCRIPT DE VOTRE CHATBOT CI-DESSOUS (TODO)-->
+
+    <!-- ========================================== -->
+</body>
+</html>
