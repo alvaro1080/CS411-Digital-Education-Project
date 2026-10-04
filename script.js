@@ -1,6 +1,6 @@
 const initialData = [
   45, 23, 87, 12, 64, 38,
-  71, 9
+  71, 9, 56, 31, 82, 17
 ];
 
 let bubbleList = [...initialData];
