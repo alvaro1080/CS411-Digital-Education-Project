@@ -9,16 +9,16 @@
 
 <body>
 
-<header class="header">
+<header>
   <div class="header-inner">
     <div class="brand">
       <div class="logo">✦</div>
       <div>
-        <strong>An Introduction to Algorithmic Complexity</strong>
-        <small>Interactive Algorithm Lab</small>
+        <strong>Algorithm Lab</strong>
+        <small>An introduction to algorithmic complexity</small>
       </div>
     </div>
-    <div id="group-badge" class="group-badge">Group...</div>
+    <div id="group-badge" class="group-badge">Loading...</div>
   </div>
 </header>
 
@@ -51,7 +51,7 @@
         <h2>Observe before you conclude.</h2>
         <p>
           Both algorithms receive exactly the same data.
-          Watch how differently they approach the same problem.
+          Watch how they compare, move and organize elements.
         </p>
       </div>
 
@@ -82,8 +82,8 @@
         </div>
 
         <p>
-          Repeatedly compares neighboring elements and swaps them
-          when they are in the wrong order.
+          Compares neighboring elements and swaps them when they
+          are in the wrong order.
         </p>
 
         <div class="visual-box">
@@ -98,7 +98,7 @@
           <span>○</span>
           <div>
             <strong>Ready</strong>
-            <small>Start the experiment to see the comparisons.</small>
+            <small>Start the experiment to see comparisons.</small>
           </div>
         </div>
 
@@ -133,8 +133,8 @@
         </div>
 
         <p>
-          Divides the list into smaller parts, sorts them,
-          and merges them back together.
+          Splits the list into smaller parts, then merges those
+          parts back together in sorted order.
         </p>
 
         <div class="visual-box">
@@ -149,7 +149,7 @@
           <span>○</span>
           <div>
             <strong>Ready</strong>
-            <small>Watch the list divide and merge.</small>
+            <small>Watch the list split and merge back together.</small>
           </div>
         </div>
 
@@ -159,12 +159,12 @@
             <b id="count-merge-comp">0</b>
           </div>
           <div>
-            <span>Merges</span>
-            <b id="count-merge-swap">0</b>
+            <span>Writes</span>
+            <b id="count-merge-write">0</b>
           </div>
           <div>
-            <span>Splits</span>
-            <b id="count-merge-pass">0</b>
+            <span>Levels</span>
+            <b id="count-merge-level">0</b>
           </div>
         </div>
 
@@ -174,15 +174,16 @@
 
     <div class="legend">
       <strong>HOW TO READ</strong>
-      <span><i class="dot blue"></i> Element</span>
-      <span><i class="dot red"></i> Comparison</span>
-      <span><i class="dot green"></i> Sorted / merged</span>
+      <span><i class="dot blue"></i> Normal</span>
+      <span><i class="dot orange"></i> Comparing</span>
+      <span><i class="dot purple"></i> Merging</span>
+      <span><i class="dot green"></i> Sorted</span>
     </div>
 
     <div class="next">
       <span>Once you have observed...</span>
       <button id="btn-go-to-hypothesis" class="dark">
-        Move to analysis →
+        Continue to analysis →
       </button>
     </div>
 
@@ -195,9 +196,9 @@
 
     <div class="section-title">
       <small>MISSION 02</small>
-      <h2>What do the <span>observations tell you?</span></h2>
+      <h2>What do your <span>observations</span> tell you?</h2>
       <p>
-        Formulate a hypothesis before discovering the theory.
+        Form a hypothesis before discovering the theoretical explanation.
       </p>
     </div>
 
@@ -216,7 +217,7 @@
         <b>02</b>
         <div>
           <h3>Your hypothesis</h3>
-          <p>Which algorithm should scale better? Why?</p>
+          <p>Which algorithm seems more efficient for large inputs?</p>
           <textarea placeholder="Write your hypothesis..."></textarea>
         </div>
       </div>
@@ -241,9 +242,9 @@
         <div class="chat-message">
           <b>✦ Tutor</b>
           <p>
-            Look at the difference between the two algorithms.
-            What do you notice about how Merge Sort approaches
-            a large list?
+            Look at the two animations. What difference do you notice
+            between repeatedly swapping neighbors and repeatedly
+            splitting and merging the list?
           </p>
         </div>
       </div>
@@ -272,7 +273,7 @@
       <small>MISSION 03 · TIME FOR TELLING</small>
       <h2>You just observed <span>two different growth rates.</span></h2>
       <p>
-        Now discover the theory behind what you saw.
+        Here is the theory behind what you just saw.
       </p>
     </div>
 
@@ -283,20 +284,19 @@
         <small>ALGORITHM A</small>
         <h3>Bubble Sort</h3>
         <p>
-          It repeatedly compares neighboring elements.
-          As the list grows, the number of comparisons
-          grows quickly.
+          Repeatedly compares neighboring elements. In the worst case,
+          many comparisons and swaps are required.
         </p>
         <strong>O(n²)</strong>
       </article>
 
       <article class="theory-card">
-        <div class="theory-icon green">M</div>
+        <div class="theory-icon purple">M</div>
         <small>ALGORITHM B</small>
         <h3>Merge Sort</h3>
         <p>
-          It repeatedly divides the problem into smaller
-          pieces before merging the results.
+          Divides the list into smaller parts and merges them efficiently.
+          Each level processes the elements once.
         </p>
         <strong>O(n log n)</strong>
       </article>
@@ -306,12 +306,11 @@
     <div class="insight">
       <div>!</div>
       <section>
-        <small>KEY TAKEAWAY</small>
-        <h3>Same problem · very different growth</h3>
+        <small>THE KEY IDEA</small>
+        <h3>Different algorithms can scale very differently.</h3>
         <p>
-          Bubble Sort becomes expensive quickly as the list grows.
-          Merge Sort scales much better because it divides the
-          problem into smaller parts.
+          Bubble Sort can require roughly quadratic work, while Merge Sort
+          grows much more slowly as the input becomes larger.
         </p>
       </section>
     </div>
@@ -330,11 +329,10 @@
 </main>
 
 <footer>
-  <strong>An Introduction to Algorithmic Complexity</strong>
-  <span>Local experience · No external services</span>
+  <strong>Algorithm Lab</strong>
+  <span>Local experiment · No external services</span>
 </footer>
 
 <script src="script.js"></script>
-
 </body>
 </html>
