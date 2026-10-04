@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Algorithm Lab</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -10,327 +10,315 @@
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo">✦</div>
-      <div>
-        <strong>Algorithm Lab</strong>
-        <small>An introduction to algorithmic complexity</small>
-      </div>
-    </div>
-    <div id="group-badge" class="group-badge">Loading...</div>
+  <div class="brand">
+    <span>✦</span>
+    <strong>An Introduction to Algorithmic Complexity</strong>
   </div>
+  <div id="group-badge">Loading...</div>
 </header>
 
 <main>
 
-  <section class="hero">
-    <div class="eyebrow">● INTERACTIVE EXPERIENCE</div>
-    <h1>Watch algorithms <span>think.</span></h1>
-    <p>
-      Compare two sorting algorithms, observe their decisions,
-      and build your intuition before discovering the theory.
-    </p>
-  </section>
+<section class="hero">
+  <small>● INTERACTIVE EXPERIENCE</small>
+  <h1>Watch algorithms <span>think.</span></h1>
+  <p>
+    Compare two sorting algorithms, observe their decisions,
+    and build your intuition before learning the theory.
+  </p>
+</section>
 
-  <div class="steps">
-    <div class="step active"><b>01</b><span>Explore</span></div>
-    <div class="line"></div>
-    <div class="step"><b>02</b><span>Analyze</span></div>
-    <div class="line"></div>
-    <div class="step"><b>03</b><span>Understand</span></div>
+<div class="steps">
+  <div class="step active"><b>01</b> Explore</div>
+  <i></i>
+  <div class="step"><b>02</b> Analyse</div>
+  <i></i>
+  <div class="step"><b>03</b> Understand</div>
+</div>
+
+<!-- STEP 1 -->
+
+<section id="step-exploration">
+
+  <div class="intro">
+    <div>
+      <small>MISSION 01</small>
+      <h2>Observe before you conclude.</h2>
+      <p>
+        Both algorithms receive exactly the same data.
+        Watch how they compare, move and organise elements.
+      </p>
+    </div>
+    <div class="buttons">
+      <button id="btn-start-sim">▶ Start experiment</button>
+      <button id="btn-reset-sim" class="secondary">↻ Reset</button>
+    </div>
   </div>
 
-  <!-- STEP 1 -->
+  <div class="status">
+    <span>● LIVE</span>
+    <strong id="global-status">Ready to observe</strong>
+    <b>6 elements</b>
+  </div>
 
-  <section id="step-exploration">
+  <div class="algorithms">
 
-    <div class="intro-card">
-      <div>
-        <small>MISSION 01</small>
-        <h2>Observe before you conclude.</h2>
-        <p>
-          Both algorithms receive exactly the same data.
-          Watch how they compare, move and organize elements.
-        </p>
+    <!-- BUBBLE SORT -->
+
+    <article class="algorithm bubble">
+      <div class="algo-head">
+        <div>
+          <small>ALGORITHM A</small>
+          <h3>Bubble Sort</h3>
+        </div>
+        <b>?</b>
       </div>
 
-      <div class="buttons">
-        <button id="btn-start-sim">▶ Start experiment</button>
-        <button id="btn-reset-sim" class="secondary">↻ Reset</button>
-      </div>
-    </div>
-
-    <div class="status-bar">
-      <span class="live">● LIVE</span>
-      <strong id="global-status">Ready to observe</strong>
-      <span class="data">6 elements</span>
-    </div>
-
-    <div class="algorithms">
-
-      <!-- BUBBLE SORT -->
-
-      <article class="algorithm-card bubble">
-
-        <div class="algorithm-head">
-          <div>
-            <small>ALGORITHM A</small>
-            <h3>Bubble Sort</h3>
-          </div>
-          <b>O(n²)</b>
-        </div>
-
-        <p>
-          Compares neighboring elements and swaps them when they
-          are in the wrong order.
-        </p>
-
-        <div class="visual-box">
-          <div class="visual-head">
-            <span>VISUALIZATION</span>
-            <span id="bubble-action">Waiting</span>
-          </div>
-          <div id="container-bubble" class="visualizer"></div>
-        </div>
-
-        <div class="message">
-          <span>○</span>
-          <div>
-            <strong>Ready</strong>
-            <small>Start the experiment to see comparisons.</small>
-          </div>
-        </div>
-
-        <div class="stats">
-          <div>
-            <span>Comparisons</span>
-            <b id="count-bubble-comp">0</b>
-          </div>
-          <div>
-            <span>Swaps</span>
-            <b id="count-bubble-swap">0</b>
-          </div>
-          <div>
-            <span>Passes</span>
-            <b id="count-bubble-pass">0</b>
-          </div>
-        </div>
-
-      </article>
-
-
-      <!-- MERGE SORT -->
-
-      <article class="algorithm-card merge">
-
-        <div class="algorithm-head">
-          <div>
-            <small>ALGORITHM B</small>
-            <h3>Merge Sort</h3>
-          </div>
-          <b>O(n log n)</b>
-        </div>
-
-        <p>
-          Splits the list into smaller parts, then merges those
-          parts back together in sorted order.
-        </p>
-
-        <div class="visual-box">
-          <div class="visual-head">
-            <span>VISUALIZATION</span>
-            <span id="merge-action">Waiting</span>
-          </div>
-          <div id="container-merge" class="visualizer"></div>
-        </div>
-
-        <div class="message merge-message">
-          <span>○</span>
-          <div>
-            <strong>Ready</strong>
-            <small>Watch the list split and merge back together.</small>
-          </div>
-        </div>
-
-        <div class="stats">
-          <div>
-            <span>Comparisons</span>
-            <b id="count-merge-comp">0</b>
-          </div>
-          <div>
-            <span>Writes</span>
-            <b id="count-merge-write">0</b>
-          </div>
-          <div>
-            <span>Levels</span>
-            <b id="count-merge-level">0</b>
-          </div>
-        </div>
-
-      </article>
-
-    </div>
-
-    <div class="legend">
-      <strong>HOW TO READ</strong>
-      <span><i class="dot blue"></i> Normal</span>
-      <span><i class="dot orange"></i> Comparing</span>
-      <span><i class="dot purple"></i> Merging</span>
-      <span><i class="dot green"></i> Sorted</span>
-    </div>
-
-    <div class="next">
-      <span>Once you have observed...</span>
-      <button id="btn-go-to-hypothesis" class="dark">
-        Continue to analysis →
-      </button>
-    </div>
-
-  </section>
-
-
-  <!-- STEP 2 -->
-
-  <section id="step-hypothesis" class="hidden">
-
-    <div class="section-title">
-      <small>MISSION 02</small>
-      <h2>What do your <span>observations</span> tell you?</h2>
       <p>
-        Form a hypothesis before discovering the theoretical explanation.
+        Compares neighbouring elements and swaps them when they
+        are in the wrong order.
       </p>
-    </div>
 
-    <div id="ui-control-group" class="reflection hidden">
+      <div class="visual">
+        <div class="visual-head">
+          <span>VISUALISATION</span>
+          <span id="bubble-action">Waiting</span>
+        </div>
+        <div id="container-bubble" class="bars"></div>
+      </div>
 
-      <div class="reflection-card">
-        <b>01</b>
+      <div id="bubble-explanation" class="message">
+        <b>○</b>
+        <span>Start the experiment to see the comparisons.</span>
+      </div>
+
+      <div class="stats">
+        <div>Comparisons <b id="count-bubble-comp">0</b></div>
+        <div>Swaps <b id="count-bubble-swap">0</b></div>
+        <div>Passes <b id="count-bubble-pass">0</b></div>
+      </div>
+
+      <details>
+        <summary>Python pseudocode</summary>
+        <pre><code>for i in range(n):
+    for j in range(n-i-1):
+        if a[j] &gt; a[j+1]:
+            swap(a[j], a[j+1])</code></pre>
+      </details>
+    </article>
+
+    <!-- MERGE SORT -->
+
+    <article class="algorithm merge">
+      <div class="algo-head">
         <div>
-          <h3>Your observation</h3>
-          <p>What major difference did you notice?</p>
-          <textarea placeholder="Write your observation..."></textarea>
+          <small>ALGORITHM B</small>
+          <h3>Merge Sort</h3>
         </div>
+        <b>?</b>
       </div>
 
-      <div class="reflection-card">
-        <b>02</b>
-        <div>
-          <h3>Your hypothesis</h3>
-          <p>Which algorithm seems more efficient for large inputs?</p>
-          <textarea placeholder="Write your hypothesis..."></textarea>
-        </div>
-      </div>
-
-    </div>
-
-
-    <div id="ui-ai-group" class="ai hidden">
-
-      <div class="ai-header">
-        <div class="ai-icon">✦</div>
-        <div>
-          <small>INTERACTIVE TUTOR</small>
-          <strong>Your reasoning, not the answer.</strong>
-        </div>
-        <span>●</span>
-      </div>
-
-      <div id="chat-box" class="chat">
-        <small>SESSION OPEN · OBSERVATION MODULE</small>
-
-        <div class="chat-message">
-          <b>✦ Tutor</b>
-          <p>
-            Look at the two animations. What difference do you notice
-            between repeatedly swapping neighbors and repeatedly
-            splitting and merging the list?
-          </p>
-        </div>
-      </div>
-
-      <div class="chat-input">
-        <input id="ai-input" type="text" placeholder="Your observation...">
-        <button id="btn-send-ai">Send →</button>
-      </div>
-
-    </div>
-
-    <div class="next">
-      <button id="btn-go-to-telling" class="dark">
-        Discover the theory →
-      </button>
-    </div>
-
-  </section>
-
-
-  <!-- STEP 3 -->
-
-  <section id="step-telling" class="hidden">
-
-    <div class="section-title">
-      <small>MISSION 03 · TIME FOR TELLING</small>
-      <h2>You just observed <span>two different growth rates.</span></h2>
       <p>
-        Here is the theory behind what you just saw.
+        Splits the list into smaller parts, then merges the
+        sorted parts back together.
       </p>
-    </div>
 
-    <div class="theory-grid">
-
-      <article class="theory-card">
-        <div class="theory-icon orange">B</div>
-        <small>ALGORITHM A</small>
-        <h3>Bubble Sort</h3>
-        <p>
-          Repeatedly compares neighboring elements. In the worst case,
-          many comparisons and swaps are required.
-        </p>
-        <strong>O(n²)</strong>
-      </article>
-
-      <article class="theory-card">
-        <div class="theory-icon purple">M</div>
-        <small>ALGORITHM B</small>
-        <h3>Merge Sort</h3>
-        <p>
-          Divides the list into smaller parts and merges them efficiently.
-          Each level processes the elements once.
-        </p>
-        <strong>O(n log n)</strong>
-      </article>
-
-    </div>
-
-    <div class="insight">
-      <div>!</div>
-      <section>
-        <small>THE KEY IDEA</small>
-        <h3>Different algorithms can scale very differently.</h3>
-        <p>
-          Bubble Sort can require roughly quadratic work, while Merge Sort
-          grows much more slowly as the input becomes larger.
-        </p>
-      </section>
-    </div>
-
-    <div class="finish">
-      <div>
-        <small>EXPERIMENT COMPLETE</small>
-        <h3>Observe → compare → hypothesize → theorize.</h3>
+      <div class="visual">
+        <div class="visual-head">
+          <span>VISUALISATION</span>
+          <span id="merge-action">Waiting</span>
+        </div>
+        <div id="container-merge" class="bars"></div>
       </div>
 
-      <button id="btn-restart">↻ Restart</button>
+      <div id="merge-explanation" class="message merge-message">
+        <b>○</b>
+        <span>Watch the list split and then rebuild itself.</span>
+      </div>
+
+      <div class="stats">
+        <div>Comparisons <b id="count-merge-comp">0</b></div>
+        <div>Merges <b id="count-merge-swap">0</b></div>
+        <div>Levels <b id="count-merge-pass">0</b></div>
+      </div>
+
+      <details>
+        <summary>Python pseudocode</summary>
+        <pre><code>def merge_sort(a):
+    if len(a) &lt;= 1:
+        return a
+
+    mid = len(a) // 2
+    left = merge_sort(a[:mid])
+    right = merge_sort(a[mid:])
+
+    return merge(left, right)</code></pre>
+      </details>
+    </article>
+
+  </div>
+
+  <div class="legend">
+    <strong>HOW TO READ</strong>
+    <span><i class="blue"></i> Normal</span>
+    <span><i class="red"></i> Comparing</span>
+    <span><i class="yellow"></i> Moving</span>
+    <span><i class="purple"></i> Merging</span>
+  </div>
+
+  <div class="next">
+    <span>Once you have observed...</span>
+    <button id="btn-go-to-hypothesis" class="dark">
+      Analyse your observations →
+    </button>
+  </div>
+
+</section>
+
+<!-- STEP 2 -->
+
+<section id="step-hypothesis" class="hidden">
+
+  <div class="section-title">
+    <small>MISSION 02</small>
+    <h2>What do your <span>observations</span> tell you?</h2>
+    <p>
+      Form a hypothesis before discovering the theoretical explanation.
+    </p>
+  </div>
+
+  <div id="ui-control-group" class="reflection hidden">
+
+    <div class="reflection-card">
+      <b>01</b>
+      <div>
+        <h3>Your observation</h3>
+        <p>What major difference did you notice?</p>
+        <textarea placeholder="Write your observation..."></textarea>
+      </div>
     </div>
 
-  </section>
+    <div class="reflection-card">
+      <b>02</b>
+      <div>
+        <h3>Your hypothesis</h3>
+        <p>Which algorithm seems more efficient for large lists?</p>
+        <textarea placeholder="Write your hypothesis..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="ui-ai-group" class="ai hidden">
+    <div class="ai-header">
+      <span>✦</span>
+      <div>
+        <small>INTERACTIVE TUTOR</small>
+        <strong>Your reasoning, not the answer.</strong>
+      </div>
+    </div>
+
+    <div id="chat-box" class="chat">
+      <small>OBSERVATION SESSION</small>
+      <div class="chat-message">
+        <b>✦ Tutor</b>
+        <p>
+          Look at how Merge Sort repeatedly splits the list.
+          What might this mean for a very large list?
+        </p>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input id="ai-input" placeholder="Write your observation...">
+      <button id="btn-send-ai">Send →</button>
+    </div>
+  </div>
+
+  <div class="next">
+    <button id="btn-go-to-telling" class="dark">
+      Discover the theory →
+    </button>
+  </div>
+
+</section>
+
+<!-- STEP 3 -->
+
+<section id="step-telling" class="hidden">
+
+  <div class="section-title">
+    <small>MISSION 03 · TIME FOR TELLING</small>
+    <h2>Now let's explain <span>what you saw.</span></h2>
+    <p>
+      The observations reveal an important difference in how
+      the two algorithms scale.
+    </p>
+  </div>
+
+  <div class="theory-grid">
+
+    <article class="theory-card">
+      <div class="theory-icon orange">B</div>
+      <small>ALGORITHM A</small>
+      <h3>Bubble Sort</h3>
+      <p>
+        Bubble Sort repeatedly compares neighbouring elements.
+        In the worst case, many comparisons and swaps are required.
+      </p>
+
+      <div class="cases">
+        <div><span>Best case</span><strong>O(n)</strong></div>
+        <div><span>Worst case</span><strong>O(n²)</strong></div>
+      </div>
+    </article>
+
+    <article class="theory-card">
+      <div class="theory-icon purple">M</div>
+      <small>ALGORITHM B</small>
+      <h3>Merge Sort</h3>
+      <p>
+        Merge Sort divides the list into smaller parts and merges
+        them back in sorted order.
+      </p>
+
+      <div class="cases">
+        <div><span>Best case</span><strong>O(n log n)</strong></div>
+        <div><span>Worst case</span><strong>O(n log n)</strong></div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="insight">
+    <div>!</div>
+    <section>
+      <small>KEY IDEA</small>
+      <h3>Best case and worst case can be very different.</h3>
+      <p>
+        Bubble Sort can be surprisingly efficient when the list is
+        already sorted, but its worst case grows much faster.
+        Merge Sort keeps the same order of growth even when the
+        input is difficult.
+      </p>
+    </section>
+  </div>
+
+  <div class="finish">
+    <div>
+      <small>EXPERIMENT COMPLETE</small>
+      <h3>Observe → compare → hypothesise → theorise.</h3>
+    </div>
+    <button id="btn-restart">↻ Restart</button>
+  </div>
+
+</section>
 
 </main>
 
 <footer>
-  <strong>Algorithm Lab</strong>
-  <span>Local experiment · No external services</span>
+  <strong>An Introduction to Algorithmic Complexity</strong>
+  <span>Local experience · No external services</span>
 </footer>
 
 <script src="script.js"></script>
