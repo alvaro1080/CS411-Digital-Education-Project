@@ -1,4 +1,7 @@
-const initialData = [45,23,87,12,64,38];
+const initialData = [
+  45, 23, 87, 12, 64, 38,
+  71, 9, 56, 31, 82, 17
+];
 
 let bubbleList = [...initialData];
 let mergeList = [...initialData];
@@ -6,23 +9,16 @@ let mergeList = [...initialData];
 let running = false;
 let aiStep = 0;
 
-
-/* ---------- HELPERS ---------- */
-
 const $ = id => document.getElementById(id);
 
-function sleep(ms){
-  return new Promise(resolve => setTimeout(resolve,ms));
-}
 
-
-/* ---------- STARTUP ---------- */
-
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
   setupGroup();
 
-  renderBars("container-bubble",bubbleList);
+  renderBars("container-bubble", bubbleList);
+
+  renderMergeIdle();
 
   $("btn-start-sim").onclick = start;
   $("btn-reset-sim").onclick = reset;
@@ -32,16 +28,15 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   $("btn-send-ai").onclick = chat;
 
-  $("ai-input").onkeydown = e=>{
-    if(e.key==="Enter") chat();
+  $("ai-input").onkeydown = e => {
+    if (e.key === "Enter") chat();
   };
 
   $("btn-restart").onclick = restart;
-
 });
 
 
-function setupGroup(){
+function setupGroup() {
 
   const ai = Math.random() < .5;
 
@@ -52,11 +47,21 @@ function setupGroup(){
 }
 
 
-/* =====================================================
-   BUBBLE SORT
-   ===================================================== */
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-function renderBars(id,list,active=[],sorted=[]){
+
+/* =========================================================
+   BUBBLE SORT
+   ========================================================= */
+
+function renderBars(
+  id,
+  list,
+  active = [],
+  sorted = []
+) {
 
   const box = $(id);
 
@@ -64,40 +69,44 @@ function renderBars(id,list,active=[],sorted=[]){
 
   const max = Math.max(...initialData);
 
-  list.forEach((value,i)=>{
+  list.forEach((value, i) => {
 
     const wrap = document.createElement("div");
 
     wrap.className = "bar-wrap";
 
+
     const bar = document.createElement("div");
 
     bar.className = "bar";
 
-    if(active.includes(i)){
+
+    if (active.includes(i)) {
       bar.classList.add("compare");
     }
 
-    if(sorted.includes(i)){
+    if (sorted.includes(i)) {
       bar.classList.add("sorted");
     }
 
+
     bar.style.height =
-      `${Math.max(12,value/max*130)}px`;
+      `${Math.max(12, value / max * 155)}px`;
+
 
     const label = document.createElement("span");
 
     label.textContent = value;
 
-    wrap.append(bar,label);
+
+    wrap.append(bar, label);
 
     box.appendChild(wrap);
-
   });
 }
 
 
-async function bubbleSort(){
+async function bubbleSort() {
 
   let a = [...bubbleList];
 
@@ -106,76 +115,123 @@ async function bubbleSort(){
   let passes = 0;
 
 
-  for(let end=a.length-1;end>0;end--){
+  for (let end = a.length - 1; end > 0; end--) {
 
     passes++;
 
+    let swapped = false;
+
+
     $("count-bubble-pass").textContent = passes;
 
-    for(let j=0;j<end;j++){
+
+    $("bubble-action").textContent =
+      `Pass ${passes}: checking neighbors`;
+
+    await sleep(250);
+
+
+    for (let j = 0; j < end; j++) {
 
       comparisons++;
 
       $("count-bubble-comp").textContent =
         comparisons;
 
+
       $("bubble-action").textContent =
-        `Comparing ${a[j]} and ${a[j+1]}`;
+        `Compare ${a[j]} and ${a[j + 1]}`;
 
-      $("bubble-message-title").textContent =
-        "Compare";
-
-      $("bubble-message").textContent =
-        `${a[j]} and ${a[j+1]} are neighbors.`;
 
       renderBars(
         "container-bubble",
         a,
-        [j,j+1]
+        [j, j + 1]
       );
 
-      await sleep(450);
+
+      await sleep(300);
 
 
-      if(a[j] > a[j+1]){
+      if (a[j] > a[j + 1]) {
 
-        [a[j],a[j+1]] =
-        [a[j+1],a[j]];
+        [a[j], a[j + 1]] =
+          [a[j + 1], a[j]];
+
 
         swaps++;
+
+        swapped = true;
+
 
         $("count-bubble-swap").textContent =
           swaps;
 
+
         $("bubble-action").textContent =
-          "Swap";
+          `Swap ${a[j + 1]} and ${a[j]}`;
 
-        $("bubble-message-title").textContent =
-          "Swap";
-
-        $("bubble-message").textContent =
-          "The larger value moves to the right.";
 
         renderBars(
           "container-bubble",
           a,
-          [j,j+1]
+          [j, j + 1]
         );
 
-        await sleep(350);
 
-      }else{
+        await sleep(280);
 
-        $("bubble-message-title").textContent =
-          "No swap";
-
-        $("bubble-message").textContent =
-          "They are already in the correct order.";
-
-        await sleep(250);
       }
-
     }
+
+
+    /*
+      IMPORTANT PEDAGOGICAL POINT:
+
+      If no swap happened during the entire pass,
+      the array is already sorted.
+
+      We stop immediately.
+
+      Therefore:
+
+      Best case = one pass
+      One pass checks n-1 neighbors
+      => O(n)
+    */
+
+    if (!swapped) {
+
+      $("bubble-action").textContent =
+        "No swaps → already sorted";
+
+
+      await sleep(500);
+
+      break;
+    }
+
+
+    const sortedIndexes = [];
+
+    for (
+      let i = end;
+      i < a.length;
+      i++
+    ) {
+      sortedIndexes.push(i);
+    }
+
+
+    renderBars(
+      "container-bubble",
+      a,
+      [],
+      sortedIndexes
+    );
+
+
+    await sleep(250);
   }
 
 
@@ -183,686 +239,523 @@ async function bubbleSort(){
     "container-bubble",
     a,
     [],
-    a.map((_,i)=>i)
+    a.map((_, i) => i)
   );
+
 
   $("bubble-action").textContent =
     "Sorted";
 
-  $("bubble-message-title").textContent =
-    "Complete";
-
-  $("bubble-message").textContent =
-    "Bubble Sort has finished.";
 
   bubbleList = [...a];
 }
 
 
-/* =====================================================
+/* =========================================================
    MERGE SORT
-   ===================================================== */
-
-
-/*
-  Update the little phase indicator above
-  the Merge Sort animation.
-*/
-
-function setMergePhase(number,text){
-
-  $("merge-phase-number").textContent = number;
-
-  $("merge-phase-text").textContent = text;
-}
-
+   ========================================================= */
 
 /*
-  Update the explanation below the animation.
+  The important change here is that we DO NOT show
+  separate LEFT / RIGHT / RESULT boxes.
+
+  The learner sees one array.
+
+  During splitting:
+      current range = purple
+
+  During comparison:
+      two values = yellow
+
+  After merging:
+      current range = green
 */
 
-function setMergeMessage(title,text){
 
-  $("merge-message-title").textContent =
-    title;
+let mergeArray = [...initialData];
 
-  $("merge-message").textContent =
-    text;
-}
+let mergeActiveRange = [];
 
+let mergeCompare = [];
 
-/* ---------- SPLIT DISPLAY ---------- */
+let mergeSorted = [];
 
-function buildSplitLevels(array){
+let mergePhase = "";
 
-  const levels = [];
-
-
-  function split(list,depth){
-
-    if(!levels[depth]){
-      levels[depth] = [];
-    }
-
-    levels[depth].push([...list]);
-
-
-    if(list.length<=1){
-      return;
-    }
-
-    const mid =
-      Math.floor(list.length/2);
-
-    split(
-      list.slice(0,mid),
-      depth+1
-    );
-
-    split(
-      list.slice(mid),
-      depth+1
-    );
-  }
-
-
-  split(array,0);
-
-  return levels;
-}
-
-
-function renderSplit(levels){
-
-  const container =
-    $("container-merge");
-
-  container.innerHTML = "";
-
-
-  levels.forEach((level,levelIndex)=>{
-
-    const row =
-      document.createElement("div");
-
-    row.className =
-      "split-level";
-
-
-    level.forEach(group=>{
-
-      const groupBox =
-        document.createElement("div");
-
-      groupBox.className =
-        "split-group";
-
-
-      const label =
-        document.createElement("span");
-
-      label.className =
-        "split-label";
-
-      label.textContent =
-        group.length===1
-          ? "READY"
-          : "GROUP";
-
-
-      const items =
-        document.createElement("div");
-
-      items.className =
-        "split-items";
-
-
-      group.forEach(value=>{
-
-        const item =
-          document.createElement("span");
-
-        item.className =
-          "split-item";
-
-        if(group.length===1){
-          item.classList.add("single");
-        }
-
-        item.textContent =
-          value;
-
-        items.appendChild(item);
-      });
-
-
-      groupBox.append(label,items);
-
-      row.appendChild(groupBox);
-
-    });
-
-
-    container.appendChild(row);
-
-  });
-}
-
-
-async function animateSplit(array){
-
-  setMergePhase(
-    1,
-    "Split the array"
-  );
-
-  setMergeMessage(
-    "Step 1 — Split",
-    "The list is repeatedly divided until every group contains one value."
-  );
-
-
-  const levels =
-    buildSplitLevels(array);
-
-
-  for(let i=0;i<levels.length;i++){
-
-    renderSplit(
-      levels.slice(0,i+1)
-    );
-
-    $("merge-action").textContent =
-      i === levels.length-1
-        ? "Smallest groups reached"
-        : `Split level ${i+1}`;
-
-    await sleep(750);
-  }
-
-
-  await sleep(500);
-}
-
-
-/* ---------- MERGE DISPLAY ---------- */
 
 function renderMerge(
-  left,
-  right,
-  result,
-  leftIndex=-1,
-  rightIndex=-1
-){
+  array = mergeArray,
+  range = [],
+  compare = [],
+  sorted = [],
+  phase = "",
+  detail = ""
+) {
 
   const container =
     $("container-merge");
 
-  container.innerHTML = "";
+
+  if (!array.length) {
+
+    container.innerHTML = `
+      <div class="merge-help">
+        Press <strong>Start experiment</strong>
+        to watch the array.
+      </div>
+    `;
+
+    return;
+  }
 
 
-  const instruction =
-    document.createElement("div");
-
-  instruction.className =
-    "merge-instruction";
-
-  instruction.textContent =
-    "Compare the first remaining value in each sorted group.";
-
-  container.appendChild(instruction);
+  let html = `
+    <div class="merge-array">
+  `;
 
 
-  const columns =
-    document.createElement("div");
+  array.forEach((value, index) => {
 
-  columns.className =
-    "merge-columns";
+    let type = "";
 
 
-  /* LEFT */
-
-  const leftBox =
-    document.createElement("div");
-
-  leftBox.className =
-    "merge-source";
-
-  leftBox.innerHTML =
-    `<div class="merge-source-title">
-      LEFT — SORTED
-    </div>`;
-
-
-  const leftItems =
-    document.createElement("div");
-
-  leftItems.className =
-    "merge-items";
-
-
-  left.forEach((value,i)=>{
-
-    const item =
-      document.createElement("span");
-
-    item.className =
-      "merge-item";
-
-    item.textContent =
-      value;
-
-
-    if(i===leftIndex){
-      item.classList.add("current");
-    }
-
-    if(i<leftIndex){
-      item.classList.add("used");
+    if (sorted.includes(index)) {
+      type = "sorted";
     }
 
 
-    leftItems.appendChild(item);
+    if (range.includes(index)) {
+      type = "current";
+    }
+
+
+    if (compare.includes(index)) {
+      type = "compare";
+    }
+
+
+    html += `
+      <div class="merge-item ${type}">
+        ${value}
+      </div>
+    `;
   });
 
 
-  leftBox.appendChild(leftItems);
+  html += `
+    </div>
+
+    <div class="merge-info">
+
+      <div class="merge-phase">
+        ${phase}
+      </div>
+
+      <div class="merge-detail">
+        ${detail}
+      </div>
+
+    </div>
+  `;
 
 
-  /* ARROW */
-
-  const operator =
-    document.createElement("div");
-
-  operator.className =
-    "merge-operator";
-
-  operator.textContent =
-    "→";
-
-
-  /* RIGHT */
-
-  const rightBox =
-    document.createElement("div");
-
-  rightBox.className =
-    "merge-source";
-
-  rightBox.innerHTML =
-    `<div class="merge-source-title">
-      RIGHT — SORTED
-    </div>`;
-
-
-  const rightItems =
-    document.createElement("div");
-
-  rightItems.className =
-    "merge-items";
-
-
-  right.forEach((value,i)=>{
-
-    const item =
-      document.createElement("span");
-
-    item.className =
-      "merge-item";
-
-    item.textContent =
-      value;
-
-
-    if(i===rightIndex){
-      item.classList.add("current");
-    }
-
-    if(i<rightIndex){
-      item.classList.add("used");
-    }
-
-
-    rightItems.appendChild(item);
-
-  });
-
-
-  rightBox.appendChild(rightItems);
-
-
-  columns.append(
-    leftBox,
-    operator,
-    rightBox
-  );
-
-  container.appendChild(columns);
-
-
-  /* RESULT */
-
-  const resultBox =
-    document.createElement("div");
-
-  resultBox.className =
-    "merge-result";
-
-
-  const resultTitle =
-    document.createElement("div");
-
-  resultTitle.className =
-    "merge-result-title";
-
-  resultTitle.textContent =
-    "RESULT BEING BUILT";
-
-
-  resultBox.appendChild(resultTitle);
-
-
-  const resultItems =
-    document.createElement("div");
-
-  resultItems.className =
-    "merge-result-items";
-
-
-  result.forEach(value=>{
-
-    const item =
-      document.createElement("span");
-
-    item.className =
-      "merge-item";
-
-    item.textContent =
-      value;
-
-    resultItems.appendChild(item);
-
-  });
-
-
-  resultBox.appendChild(resultItems);
-
-  container.appendChild(resultBox);
+  container.innerHTML = html;
 }
 
 
-/* ---------- MERGING ---------- */
+function renderMergeIdle() {
 
-async function merge(left,right){
+  mergeArray = [...initialData];
 
-  let result = [];
+  renderMerge(
+    mergeArray,
+    [],
+    [],
+    [],
+    "Ready",
+    "The entire array will be divided, then rebuilt in sorted order."
+  );
+}
+
+
+/*
+  Merge two sorted ranges.
+
+  The array itself stays visible the entire time.
+*/
+
+async function mergeRanges(
+  a,
+  start,
+  middle,
+  end,
+  depth
+) {
+
+  const left = a.slice(start, middle);
+  const right = a.slice(middle, end);
 
   let i = 0;
   let j = 0;
 
+  const result = [];
 
-  $("count-merge-pass").textContent =
-    Number($("count-merge-pass").textContent)+1;
+  let comparisons = 0;
 
 
-  setMergePhase(
-    2,
-    "Compare and merge"
+  /*
+    Show the two sections that are about to be merged.
+  */
+
+  const range = [];
+
+  for (let x = start; x < end; x++) {
+    range.push(x);
+  }
+
+
+  $("merge-action").textContent =
+    `Merge positions ${start + 1}–${end}`;
+
+
+  renderMerge(
+    a,
+    range,
+    [],
+    mergeSorted,
+    "Merging",
+    "These values are already sorted inside their smaller sections."
   );
 
 
-  while(
-    i<left.length &&
-    j<right.length
-  ){
-
-    const a = left[i];
-    const b = right[j];
+  await sleep(550);
 
 
-    renderMerge(
-      left,
-      right,
-      result,
-      i,
-      j
-    );
+  while (
+    i < left.length &&
+    j < right.length
+  ) {
+
+    const leftIndex = start + i;
+    const rightIndex = middle + j;
+
+
+    comparisons++;
+
+    $("count-merge-comp").textContent =
+      Number($("count-merge-comp").textContent) + 1;
 
 
     $("merge-action").textContent =
-      `${a} vs ${b}`;
+      `Compare ${left[i]} and ${right[j]}`;
 
 
-    setMergeMessage(
-      "Compare",
-      `Which is smaller: ${a} or ${b}?`
+    renderMerge(
+      a,
+      range,
+      [leftIndex, rightIndex],
+      mergeSorted,
+      "Comparing",
+      `${left[i]} is compared with ${right[j]}`
     );
 
 
-    await sleep(800);
+    await sleep(500);
 
 
-    $("count-merge-comp").textContent =
-      Number($("count-merge-comp").textContent)+1;
+    if (left[i] <= right[j]) {
+
+      result.push(left[i]);
+
+      $("merge-action").textContent =
+        `Place ${left[i]}`;
 
 
-    if(a<=b){
+      renderMerge(
+        a,
+        range,
+        [leftIndex],
+        mergeSorted,
+        "Choosing smaller value",
+        `${left[i]} goes next because it is smaller.`
+      );
 
-      result.push(a);
+
       i++;
 
-      $("merge-action").textContent =
-        `Take ${a}`;
+    } else {
 
-      setMergeMessage(
-        "Take the left value",
-        `${a} is smaller, so it goes into the result.`
+      result.push(right[j]);
+
+      $("merge-action").textContent =
+        `Place ${right[j]}`;
+
+
+      renderMerge(
+        a,
+        range,
+        [rightIndex],
+        mergeSorted,
+        "Choosing smaller value",
+        `${right[j]} goes next because it is smaller.`
       );
 
-    }else{
 
-      result.push(b);
       j++;
-
-      $("merge-action").textContent =
-        `Take ${b}`;
-
-      setMergeMessage(
-        "Take the right value",
-        `${b} is smaller, so it goes into the result.`
-      );
     }
 
 
-    renderMerge(
-      left,
-      right,
-      result,
-      i,
-      j
-    );
-
-
-    await sleep(650);
-
+    await sleep(400);
   }
 
 
-  /* Remaining left values */
+  /*
+    Remaining values are already in sorted order.
+  */
 
-  while(i<left.length){
+  while (i < left.length) {
 
     result.push(left[i]);
 
-    $("merge-action").textContent =
-      `Take remaining ${left[i]}`;
+    const index = start + i;
 
-    setMergeMessage(
-      "No comparison needed",
-      "Everything remaining on this side is already larger than the values we placed."
+    $("merge-action").textContent =
+      `Place remaining ${left[i]}`;
+
+
+    renderMerge(
+      a,
+      range,
+      [index],
+      mergeSorted,
+      "Appending",
+      `${left[i]} has no smaller competitor left.`
     );
+
 
     i++;
 
-    renderMerge(
-      left,
-      right,
-      result,
-      i,
-      j
-    );
-
-    await sleep(450);
+    await sleep(300);
   }
 
 
-  /* Remaining right values */
-
-  while(j<right.length){
+  while (j < right.length) {
 
     result.push(right[j]);
 
-    $("merge-action").textContent =
-      `Take remaining ${right[j]}`;
+    const index = middle + j;
 
-    setMergeMessage(
-      "No comparison needed",
-      "The remaining values are already sorted."
+    $("merge-action").textContent =
+      `Place remaining ${right[j]}`;
+
+
+    renderMerge(
+      a,
+      range,
+      [index],
+      mergeSorted,
+      "Appending",
+      `${right[j]} has no smaller competitor left.`
     );
+
 
     j++;
 
-    renderMerge(
-      left,
-      right,
-      result,
-      i,
-      j
-    );
-
-    await sleep(450);
+    await sleep(300);
   }
 
 
-  /* Finished this merge */
+  /*
+    Put the merged values back into the original array.
+  */
 
-  $("merge-action").textContent =
-    "Merged!";
+  for (
+    let k = 0;
+    k < result.length;
+    k++
+  ) {
+
+    a[start + k] = result[k];
+  }
 
 
-  setMergeMessage(
-    "Group sorted",
-    `[ ${result.join(" · ")} ] is now sorted.`
+  /*
+    The entire newly merged section is now sorted.
+  */
+
+  for (let k = start; k < end; k++) {
+
+    if (!mergeSorted.includes(k)) {
+      mergeSorted.push(k);
+    }
+  }
+
+
+  $("count-merge-pass").textContent =
+    Number($("count-merge-pass").textContent) + 1;
+
+
+  renderMerge(
+    a,
+    [],
+    [],
+    mergeSorted,
+    "Merged ✓",
+    `The section is now sorted: ${result.join(" · ")}`
   );
 
 
-  $("container-merge").innerHTML = `
+  await sleep(600);
+}
 
-    <div class="merge-complete">
 
-      <strong>
-        [ ${result.join(" · ")} ]
-      </strong>
+async function mergeSort(
+  a,
+  start = 0,
+  end = a.length
+) {
 
-      This group is sorted.
+  /*
+    Base case:
+    one element is already sorted.
+  */
 
-    </div>
+  if (end - start <= 1) {
 
-  `;
+    renderMerge(
+      a,
+      [start],
+      [],
+      mergeSorted,
+      "Single element",
+      `${a[start]} is already sorted.`
+    );
+
+
+    await sleep(350);
+
+    return;
+  }
+
+
+  const middle =
+    Math.floor((start + end) / 2);
+
+
+  /*
+    Show the split.
+  */
+
+  const range = [];
+
+  for (
+    let i = start;
+    i < end;
+    i++
+  ) {
+    range.push(i);
+  }
+
+
+  $("merge-action").textContent =
+    `Split positions ${start + 1}–${end}`;
+
+
+  renderMerge(
+    a,
+    range,
+    [],
+    mergeSorted,
+    "Splitting",
+    `Divide ${a.slice(start, end).join(" · ")} into two smaller sections.`
+  );
 
 
   await sleep(650);
 
-  return result;
-}
+
+  /*
+    Sort the left half.
+  */
+
+  await mergeSort(
+    a,
+    start,
+    middle
+  );
 
 
-/* ---------- RECURSION ---------- */
+  /*
+    Sort the right half.
+  */
 
-async function mergeSort(a){
-
-  if(a.length<=1){
-    return a;
-  }
-
-
-  const mid =
-    Math.floor(a.length/2);
+  await mergeSort(
+    a,
+    middle,
+    end
+  );
 
 
-  const left =
-    a.slice(0,mid);
+  /*
+    Merge the two sorted halves.
+  */
 
-  const right =
-    a.slice(mid);
-
-
-  const sortedLeft =
-    await mergeSort(left);
-
-  const sortedRight =
-    await mergeSort(right);
-
-
-  return merge(
-    sortedLeft,
-    sortedRight
+  await mergeRanges(
+    a,
+    start,
+    middle,
+    end
   );
 }
 
 
-/* ---------- COMPLETE MERGE SORT ---------- */
+async function runMergeSort() {
 
-async function runMergeSort(){
+  $("count-merge-comp").textContent = "0";
 
-  $("count-merge-comp").textContent =
-    "0";
-
-  $("count-merge-pass").textContent =
-    "0";
+  $("count-merge-pass").textContent = "0";
 
 
-  const data =
-    [...mergeList];
+  mergeArray = [...mergeList];
+
+  mergeSorted = [];
 
 
-  /*
-    First show the entire splitting process.
-  */
-
-  await animateSplit(data);
-
-
-  /*
-    Then show the rebuilding process.
-  */
-
-  setMergePhase(
-    2,
-    "Compare and merge"
-  );
-
-
-  setMergeMessage(
-    "Step 2 — Rebuild",
-    "Now the one-value groups are combined into larger sorted groups."
+  renderMerge(
+    mergeArray,
+    [],
+    [],
+    [],
+    "Starting",
+    "First, the algorithm breaks the array into smaller sections."
   );
 
 
   await sleep(500);
 
 
-  const result =
-    await mergeSort(data);
+  await mergeSort(
+    mergeArray,
+    0,
+    mergeArray.length
+  );
 
 
-  mergeList =
-    [...result];
+  /*
+    Everything is sorted.
+  */
+
+  mergeSorted =
+    mergeArray.map((_, i) => i);
 
 
-  setMergePhase(
-    3,
-    "Finished"
+  renderMerge(
+    mergeArray,
+    [],
+    [],
+    mergeSorted,
+    "Sorted ✓",
+    "All sections have been merged into one sorted array."
   );
 
 
@@ -870,44 +763,25 @@ async function runMergeSort(){
     "Sorted";
 
 
-  setMergeMessage(
-    "Complete",
-    "Merge Sort split the problem, then rebuilt it in sorted order."
-  );
-
-
-  $("container-merge").innerHTML = `
-
-    <div class="merge-complete">
-
-      <strong>
-        [ ${result.join(" · ")} ]
-      </strong>
-
-      Merge Sort is finished.
-
-    </div>
-
-  `;
+  mergeList = [...mergeArray];
 }
 
 
-/* =====================================================
+/* =========================================================
    START / RESET
-   ===================================================== */
+   ========================================================= */
 
-async function start(){
+async function start() {
 
-  if(running){
-    return;
-  }
+  if (running) return;
 
 
   running = true;
 
 
-  $("btn-start-sim").disabled =
-    true;
+  $("btn-start-sim").disabled = true;
+
+  $("btn-reset-sim").disabled = true;
 
   $("btn-start-sim").textContent =
     "Running...";
@@ -916,6 +790,11 @@ async function start(){
   $("global-status").textContent =
     "Watching both algorithms...";
 
+
+  /*
+    Both algorithms run at the same time.
+    This makes the comparison easier to see.
+  */
 
   await Promise.all([
     bubbleSort(),
@@ -927,8 +806,9 @@ async function start(){
     "Experiment complete";
 
 
-  $("btn-start-sim").disabled =
-    false;
+  $("btn-start-sim").disabled = false;
+
+  $("btn-reset-sim").disabled = false;
 
   $("btn-start-sim").textContent =
     "↻ Run again";
@@ -938,18 +818,14 @@ async function start(){
 }
 
 
-function reset(){
+function reset() {
 
-  if(running){
-    return;
-  }
+  if (running) return;
 
 
-  bubbleList =
-    [...initialData];
+  bubbleList = [...initialData];
 
-  mergeList =
-    [...initialData];
+  mergeList = [...initialData];
 
 
   [
@@ -958,8 +834,10 @@ function reset(){
     "count-bubble-pass",
     "count-merge-comp",
     "count-merge-pass"
-  ].forEach(id=>{
+  ].forEach(id => {
+
     $(id).textContent = "0";
+
   });
 
 
@@ -969,52 +847,15 @@ function reset(){
   );
 
 
-  $("container-merge").innerHTML = `
-
-    <div class="merge-help">
-
-      <div class="merge-help-icon">
-        ↓
-      </div>
-
-      <strong>
-        Press Start experiment
-      </strong>
-
-      <span>
-        First we split the list.
-        Then we compare and merge the pieces.
-      </span>
-
-    </div>
-
-  `;
-
-
-  setMergePhase(
-    1,
-    "Split the array"
-  );
+  renderMergeIdle();
 
 
   $("bubble-action").textContent =
     "Waiting";
 
+
   $("merge-action").textContent =
     "Waiting";
-
-
-  $("bubble-message-title").textContent =
-    "Ready";
-
-  $("bubble-message").textContent =
-    "Watch two neighboring elements being compared.";
-
-
-  setMergeMessage(
-    "Follow the three stages",
-    "Split → compare → take the smaller → merge."
-  );
 
 
   $("global-status").textContent =
@@ -1022,29 +863,15 @@ function reset(){
 }
 
 
-/* =====================================================
+/* =========================================================
    NAVIGATION
-   ===================================================== */
+   ========================================================= */
 
-function updateSteps(active){
-
-  document
-    .querySelectorAll(".step")
-    .forEach((step,i)=>{
-
-      step.classList.toggle(
-        "active",
-        i===active
-      );
-
-    });
-}
-
-
-function showHypothesis(){
+function showHypothesis() {
 
   $("step-exploration")
     .classList.add("hidden");
+
 
   $("step-hypothesis")
     .classList.remove("hidden");
@@ -1056,13 +883,9 @@ function showHypothesis(){
       .includes("AI");
 
 
-  $(ai
-    ? "ui-ai-group"
-    : "ui-control-group"
-  ).classList.remove("hidden");
-
-
-  updateSteps(1);
+  $(ai ? "ui-ai-group" : "ui-control-group")
+    .classList
+    .remove("hidden");
 
 
   window.scrollTo({
@@ -1072,18 +895,16 @@ function showHypothesis(){
 }
 
 
-function showTheory(){
+function showTheory() {
 
   $("step-hypothesis")
     .classList.add("hidden");
+
 
   $("step-telling")
     .classList.remove("hidden");
 
 
-  updateSteps(2);
-
-
   window.scrollTo({
     top:0,
     behavior:"smooth"
@@ -1091,29 +912,30 @@ function showTheory(){
 }
 
 
-/* =====================================================
-   LOCAL AI TUTOR
-   ===================================================== */
+/* =========================================================
+   LOCAL TUTOR
+   ========================================================= */
 
-function chat(){
+function chat() {
 
   const input =
     $("ai-input");
+
 
   const text =
     input.value.trim();
 
 
-  if(!text){
-    return;
-  }
+  if (!text) return;
 
 
   const user =
     document.createElement("div");
 
+
   user.className =
     "user-message";
+
 
   user.textContent =
     "You: " + text;
@@ -1126,35 +948,38 @@ function chat(){
   input.value = "";
 
 
-  setTimeout(()=>{
+  setTimeout(() => {
 
     const reply =
       document.createElement("div");
+
 
     reply.className =
       "chat-message";
 
 
-    if(aiStep===0){
+    if (aiStep === 0) {
 
-      reply.innerHTML = `
+      reply.innerHTML =
+        `
         <b>✦ Tutor</b>
         <p>
-          Good observation. Now think about what happens
-          when the list becomes much larger. Does the amount
-          of work grow slowly or very quickly?
+          Good observation. Think about what happens
+          when the list becomes much larger. Does the
+          amount of work grow slowly or very quickly?
         </p>
-      `;
+        `;
 
-    }else{
+    } else {
 
-      reply.innerHTML = `
+      reply.innerHTML =
+        `
         <b>✦ Tutor</b>
         <p>
-          Exactly. You are now ready to compare the theoretical
-          growth of the two algorithms.
+          Exactly. You are now ready to compare the
+          theoretical growth of the two algorithms.
         </p>
-      `;
+        `;
 
     }
 
@@ -1169,21 +994,23 @@ function chat(){
 
     aiStep++;
 
-  },500);
+  }, 500);
 }
 
 
-/* =====================================================
+/* =========================================================
    RESTART
-   ===================================================== */
+   ========================================================= */
 
-function restart(){
+function restart() {
 
   $("step-telling")
     .classList.add("hidden");
 
+
   $("step-hypothesis")
     .classList.add("hidden");
+
 
   $("step-exploration")
     .classList.remove("hidden");
@@ -1191,7 +1018,6 @@ function restart(){
 
   aiStep = 0;
 
-  updateSteps(0);
 
   reset();
 
