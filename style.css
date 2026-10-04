@@ -1,746 +1,111 @@
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f8fafc;
-    color: #1e293b;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header {
-    background: #312e81;
-    color: white;
-    padding: 24px 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    margin-bottom: 32px;
-}
-
-.header-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    gap: 20px;
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 24px;
-}
-
-.group-badge {
-    background: #4338ca;
-    padding: 8px 14px;
-    border-radius: 999px;
-
-    font-size: 12px;
-    font-weight: bold;
-
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main-container {
-    max-width: 1100px;
-    margin: 0 auto;
-
-    padding: 0 20px 80px;
-}
-
-
-/* =========================================================
-   CARDS
-========================================================= */
-
-.card {
-    background: white;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-
-    padding: 28px;
-
-    box-shadow:
-        0 2px 5px rgba(0, 0, 0, 0.04);
-}
-
-.card h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-
-    color: #0f172a;
-}
-
-.card p {
-    line-height: 1.6;
-}
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.button-row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-
-    margin-top: 24px;
-}
-
-.btn {
-    border: none;
-    border-radius: 8px;
-
-    padding: 12px 20px;
-
-    font-size: 14px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s,
-        transform 0.15s,
-        opacity 0.2s;
-}
-
-.btn:hover {
-    transform: translateY(-1px);
-}
-
-.btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-    transform: none;
-}
-
-.btn-primary {
-    background: #4f46e5;
-    color: white;
-}
-
-.btn-primary:hover {
-    background: #4338ca;
-}
-
-.btn-secondary {
-    background: #e2e8f0;
-    color: #334155;
-}
-
-.btn-secondary:hover {
-    background: #cbd5e1;
-}
-
-.btn-dark {
-    background: #0f172a;
-    color: white;
-}
-
-.btn-dark:hover {
-    background: #1e293b;
-}
-
-.btn-success {
-    background: #059669;
-    color: white;
-}
-
-.btn-success:hover {
-    background: #047857;
-}
-
-
-/* =========================================================
-   ALGORITHMS GRID
-========================================================= */
-
-.algorithms-grid {
-    display: grid;
-
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    gap: 28px;
-
-    margin-top: 32px;
-}
-
-.algorithm-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.algorithm-header {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: flex-start;
-
-    gap: 12px;
-
-    margin-bottom: 16px;
-}
-
-.algorithm-header h3 {
-    margin: 0;
-
-    color: #1e1b4b;
-
-    font-size: 19px;
-}
-
-.badge {
-    font-size: 11px;
-
-    padding: 6px 9px;
-
-    border-radius: 5px;
-
-    font-weight: bold;
-
-    white-space: nowrap;
-}
-
-.bubble-badge {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.insertion-badge {
-    background: #d1fae5;
-    color: #065f46;
-}
-
-
-/* =========================================================
-   INSTRUCTIONS
-========================================================= */
-
-.instruction {
-    padding: 14px;
-
-    border-radius: 7px;
-
-    font-size: 14px;
-
-    font-style: italic;
-
-    margin-bottom: 20px;
-}
-
-.bubble-instruction {
-    background: #f8fafc;
-
-    border-left: 4px solid #f59e0b;
-}
-
-.insertion-instruction {
-    background: #f8fafc;
-
-    border-left: 4px solid #10b981;
-}
-
-
-/* =========================================================
-   VISUALIZER
-========================================================= */
-
-.visualizer {
-    height: 210px;
-
-    background: #0f172a;
-
-    border-radius: 9px;
-
-    padding: 25px 20px 20px;
-
-    display: flex;
-
-    align-items: flex-end;
-
-    justify-content: center;
-
-    gap: 10px;
-
-    overflow: hidden;
-}
-
-.bar-wrapper {
-    height: 100%;
-
-    flex: 1;
-
-    max-width: 70px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: flex-end;
-}
-
-.bar {
-    width: 100%;
-
-    min-height: 4px;
-
-    border-radius: 5px 5px 0 0;
-
-    background: #6366f1;
-
-    transition:
-        height 0.2s ease,
-        background 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.bar.active {
-    background: #f43f5e;
-
-    box-shadow:
-        0 0 15px rgba(244, 63, 94, 0.6);
-}
-
-.bar-label {
-    color: #94a3b8;
-
-    font-size: 12px;
-
-    font-family: monospace;
-
-    font-weight: bold;
-
-    margin-top: 8px;
-}
-
-
-/* =========================================================
-   STATISTICS
-========================================================= */
-
-.statistics {
-    display: flex;
-
-    justify-content: space-between;
-
-    color: #64748b;
-
-    font-size: 12px;
-
-    padding: 12px 4px 0;
-}
-
-.statistics strong {
-    color: #0f172a;
-}
-
-
-/* =========================================================
-   NEXT STEP
-========================================================= */
-
-.next-step {
-    text-align: center;
-
-    padding-top: 30px;
-}
-
-
-/* =========================================================
-   HYPOTHESIS
-========================================================= */
-
-.narrow-section {
-    max-width: 760px;
-
-    margin: 0 auto;
-}
-
-.hypothesis-card {
-    margin-top: 10px;
-}
-
-.info-box {
-    background: #f8fafc;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 8px;
-
-    padding: 16px;
-
-    color: #475569;
-
-    font-size: 14px;
-
-    margin: 25px 0;
-}
-
-.form-group {
-    margin-bottom: 24px;
-}
-
-.form-group label {
-    display: block;
-
-    font-size: 14px;
-
-    font-weight: bold;
-
-    color: #334155;
-
-    margin-bottom: 8px;
-}
-
-textarea,
-input {
-    width: 100%;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 8px;
-
-    padding: 12px;
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    font-size: 14px;
-
-    outline: none;
-
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-textarea:focus,
-input:focus {
-    border-color: #6366f1;
-
-    box-shadow:
-        0 0 0 3px rgba(99, 102, 241, 0.12);
-}
-
-
-/* =========================================================
-   AI SECTION
-========================================================= */
-
-.ai-info {
-    display: flex;
-
-    gap: 14px;
-
-    align-items: flex-start;
-
-    background: #eef2ff;
-
-    border: 1px solid #c7d2fe;
-
-    border-radius: 9px;
-
-    padding: 16px;
-
-    color: #312e81;
-
-    font-size: 14px;
-
-    margin: 25px 0;
-}
-
-.ai-info p {
-    margin: 5px 0 0;
-}
-
-.ai-icon {
-    font-size: 25px;
-}
-
-.chat-box {
-    height: 270px;
-
-    overflow-y: auto;
-
-    background: #020617;
-
-    border-radius: 8px;
-
-    padding: 18px;
-
-    font-family: monospace;
-
-    font-size: 13px;
-
-    line-height: 1.6;
-}
-
-.system-message {
-    color: #34d399;
-
-    margin-bottom: 16px;
-}
-
-.ai-message {
-    color: #a5b4fc;
-
-    margin-bottom: 16px;
-}
-
-.ai-message span {
-    color: white;
-}
-
-.user-message {
-    color: #cbd5e1;
-
-    padding-left: 10px;
-
-    border-left: 2px solid #475569;
-
-    margin-bottom: 16px;
-}
-
-.user-message span {
-    color: #818cf8;
-}
-
-.chat-input-row {
-    display: flex;
-
-    gap: 10px;
-
-    margin-top: 12px;
-}
-
-.chat-input-row input {
-    flex: 1;
-}
-
-
-/* =========================================================
-   VALIDATION
-========================================================= */
-
-.validation-row {
-    border-top: 1px solid #f1f5f9;
-
-    margin-top: 30px;
-
-    padding-top: 24px;
-
-    text-align: right;
-}
-
-
-/* =========================================================
-   THEORY
-========================================================= */
-
-.theory-card {
-    margin-top: 10px;
-}
-
-.theory-content h3 {
-    color: #312e81;
-
-    font-size: 20px;
-
-    margin-top: 25px;
-}
-
-.theory-block {
-    background: #f8fafc;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 9px;
-
-    padding: 20px;
-
-    margin: 20px 0;
-}
-
-.theory-block h4 {
-    margin-top: 0;
-
-    color: #312e81;
-
-    font-size: 17px;
-}
-
-.complexity {
-    display: inline-block;
-
-    background: #e0e7ff;
-
-    color: #3730a3;
-
-    border-radius: 6px;
-
-    padding: 8px 12px;
-
-    margin-top: 8px;
-
-    font-family: monospace;
-}
-
-.important-box {
-    background: #ecfdf5;
-
-    border: 1px solid #a7f3d0;
-
-    border-left: 5px solid #10b981;
-
-    border-radius: 8px;
-
-    padding: 18px;
-
-    color: #064e3b;
-
-    margin-top: 25px;
-}
-
-.restart-row {
-    text-align: center;
-
-    margin-top: 30px;
-}
-
-
-/* =========================================================
-   HIDDEN
-========================================================= */
-
-.hidden {
-    display: none !important;
-}
-
-
-/* =========================================================
-   ANIMATION
-========================================================= */
-
-.animate-fade-in {
-    animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-#chat-box::-webkit-scrollbar {
-    width: 7px;
-}
-
-#chat-box::-webkit-scrollbar-track {
-    background: #0f172a;
-}
-
-#chat-box::-webkit-scrollbar-thumb {
-    background: #475569;
-
-    border-radius: 4px;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 800px) {
-
-    .header-inner {
-        flex-direction: column;
-
-        align-items: flex-start;
-    }
-
-    .header h1 {
-        font-size: 20px;
-    }
-
-    .algorithms-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .algorithm-header {
-        flex-direction: column;
-    }
-
-    .visualizer {
-        height: 200px;
-    }
-
-}
-
-
-@media (max-width: 500px) {
-
-    .main-container {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
-    .card {
-        padding: 18px;
-    }
-
-    .button-row {
-        flex-direction: column;
-    }
-
-    .button-row .btn {
-        width: 100%;
-    }
-
-    .chat-input-row {
-        flex-direction: column;
-    }
-
-    .chat-input-row .btn {
-        width: 100%;
-    }
-
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f6f7fb;color:#172033;font:15px/1.5 Inter,Arial,sans-serif}
+header{height:72px;background:#fff;border-bottom:1px solid #e8eaf0;padding:0 max(20px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between}
+header b{display:block;letter-spacing:.08em;color:#111827}
+header small{color:#8991a3;font-size:11px}
+#group-badge{background:#eef2ff;color:#4338ca;padding:7px 12px;border-radius:20px;font-size:11px;font-weight:700}
+
+main{max-width:1100px;margin:auto;padding:55px 20px 80px}
+.hero{max-width:700px;margin-bottom:45px}
+.hero small,.section-head small,.intro small,.top small,.theory small,.finish small{color:#6366f1;font-weight:800;letter-spacing:.1em;font-size:11px}
+.hero h1{font-size:clamp(38px,6vw,68px);line-height:1;margin:12px 0}
+em{font-style:normal;color:#6366f1}
+.hero p,.section-head p{color:#687286;max-width:600px;font-size:17px}
+
+.steps{display:flex;align-items:center;margin-bottom:35px;color:#9aa1b1}
+.steps b{display:flex;gap:8px;align-items:center;color:#6366f1}
+.steps b span{color:#172033}
+.steps i{height:1px;background:#ddd;flex:1;margin:0 18px}
+
+.intro{background:#fff;border:1px solid #e8eaf0;border-radius:18px;padding:28px;display:flex;justify-content:space-between;gap:25px;align-items:center;box-shadow:0 8px 30px #1e293b08}
+h2{font-size:28px;margin:6px 0}
+h3{margin:4px 0;font-size:20px}
+p{margin:8px 0;color:#687286}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+button{border:0;border-radius:9px;padding:12px 17px;background:#6366f1;color:#fff;font-weight:700;cursor:pointer}
+button:hover{filter:brightness(.94)}
+button:disabled{opacity:.5}
+button.light{background:#f0f1f5;color:#4b5563}
+button.dark{background:#172033}
+
+.status{display:flex;align-items:center;gap:18px;padding:15px 4px;color:#70798b}
+.status span{color:#10a879;font-size:11px;font-weight:800}
+.status small{margin-left:auto}
+
+.algorithms{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.algorithm{background:#fff;border:1px solid #e8eaf0;border-radius:18px;padding:22px;box-shadow:0 8px 25px #1e293b08}
+.top{display:flex;justify-content:space-between;align-items:start}
+.top strong{background:#f1f3f7;padding:5px 9px;border-radius:7px;font-size:12px}
+.bubble .top h3{color:#b45309}
+.insertion .top h3{color:#047857}
+
+.visual{background:#101827;border-radius:12px;padding:12px;margin:20px 0}
+.visual>small{color:#9ca8bc;display:flex;justify-content:space-between;font-size:10px}
+.visual>small span{color:#34d399}
+.bars{height:155px;display:flex;align-items:end;justify-content:center;gap:8px;padding:10px}
+.bar-wrapper{height:100%;flex:1;max-width:55px;display:flex;flex-direction:column;justify-content:end;align-items:center}
+.bar{width:100%;background:#6366f1;border-radius:5px 5px 2px 2px;transition:.2s}
+.bar.active{background:#fb7185;box-shadow:0 0 14px #fb718577}
+.bar-wrapper small{color:#94a3b8;font:11px monospace;margin-top:5px}
+
+.message{display:flex;gap:9px;background:#f8fafc;border-radius:9px;padding:11px;color:#687286;font-size:13px}
+.message b{color:#172033}
+.stats{display:flex;justify-content:space-between;margin-top:15px;color:#8a92a2;font-size:11px}
+.stats b{display:block;color:#172033;font-size:18px}
+
+.legend{display:flex;gap:20px;align-items:center;padding:18px 4px;color:#727b8c;font-size:12px}
+.legend b{font-size:10px;color:#4b5563}
+.red{color:#fb7185}.green{color:#10b981}
+.next{text-align:center;padding:30px}
+.next small{display:block;color:#929aaa;margin-bottom:10px}
+
+.section-head{max-width:700px;margin-bottom:30px}
+.form{display:grid;gap:18px;max-width:750px}
+label{font-weight:700}
+textarea,input{width:100%;margin-top:8px;padding:13px;border:1px solid #dfe3ea;border-radius:9px;background:#fff;font:inherit;outline:none}
+textarea{resize:vertical}
+textarea:focus,input:focus{border-color:#6366f1;box-shadow:0 0 0 3px #6366f115}
+
+.tutor{background:#eef2ff;color:#4338ca;padding:14px;border-radius:10px}
+.tutor span{float:right;color:#10a879}
+.chat{background:#101827;color:#dbe2ef;border-radius:12px;padding:18px;margin-top:10px;height:270px;overflow:auto}
+.chat small{color:#34d399}
+.chat p{color:#cbd5e1}
+.chat p b{color:#a5b4fc}
+.chat .user{border-left:2px solid #6366f1;padding-left:10px}
+.chat-input{display:flex;gap:8px;margin-top:10px}
+.chat-input input{margin:0}.next-button{margin-top:25px}
+
+.theory{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.theory article{background:#fff;border:1px solid #e8eaf0;border-radius:16px;padding:25px}
+.theory article>b{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:#fff3d6;color:#b45309}
+.theory article:nth-child(2)>b{background:#dff8ed;color:#047857}
+.theory strong{display:inline-block;background:#eef2ff;color:#4338ca;padding:7px 11px;border-radius:7px}
+
+.insight{display:flex;gap:15px;background:#ecfdf5;border:1px solid #c9f0dc;border-radius:14px;padding:22px;margin-top:20px}
+.insight>b{display:grid;place-items:center;background:#10b981;color:#fff;border-radius:50%;width:32px;height:32px;flex:none}
+.insight h3{color:#065f46}
+
+.finish{margin-top:25px;background:#172033;color:#fff;border-radius:16px;padding:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.finish h3{margin:5px 0}.finish p{color:#aeb7c7}.finish small{color:#818cf8}
+.finish button{background:#fff;color:#172033}
+
+footer{text-align:center;border-top:1px solid #e8eaf0;padding:25px;color:#98a0af;font-size:11px}
+.hidden{display:none!important}
+
+@media(max-width:750px){
+  .algorithms,.theory{grid-template-columns:1fr}
+  .intro,.finish{flex-direction:column;align-items:flex-start}
+  .steps span{display:none}
+}
+@media(max-width:500px){
+  main{padding:35px 14px}
+  header{padding:0 14px}
+  header small{display:none}
+  #group-badge{font-size:9px}
+  .hero h1{font-size:42px}
+  .stats{gap:10px}.stats span{flex:1}
+  .chat-input{flex-direction:column}
+  .chat-input button{width:100%}
 }
