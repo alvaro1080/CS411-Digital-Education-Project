@@ -150,13 +150,16 @@
     for i in range(len(a)):
         swapped = False
 
-        for j in range(len(a)-i-1):
-            if a[j] > a[j+1]:
-                a[j], a[j+1] = a[j+1], a[j]
+        for j in range(len(a) - i - 1):
+            if a[j] > a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
                 swapped = True
 
         if not swapped:
-            break</code></pre>
+            break
+
+    return a
+</code></pre>
 
         </details>
 
@@ -234,7 +237,16 @@
     left = merge_sort(a[:mid])
     right = merge_sort(a[mid:])
 
-    return merge(left, right)</code></pre>
+    result = []
+
+    while left and right:
+        if left[0] <= right[0]:
+            result.append(left.pop(0))
+        else:
+            result.append(right.pop(0))
+
+    return result + left + right
+</code></pre>
 
         </details>
 
