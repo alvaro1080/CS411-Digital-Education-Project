@@ -4,7 +4,7 @@ const groups = ['CONTROL', 'AI_ASSISTED'];
 const currentGroup = groups[Math.floor(Math.random() * groups.length)];
 
 // Données de départ pour les animations (Corrigé : valeurs injectées pour le rendu)
-let initialData =;
+let initialData = [45, 12, 89, 34, 67, 22];
 let bubbleList = [...initialData];
 let insertionList = [...initialData];
 
