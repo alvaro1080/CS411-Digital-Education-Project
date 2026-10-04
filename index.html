@@ -1,161 +1,335 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Algorithm Lab</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algorithm Lab</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-<header>
-  <div>
-    <b>✦ ALGORITHM LAB</b>
-    <small>Laboratoire d'algorithmique interactive</small>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo">✦</div>
+      <div>
+        <strong>ALGORITHM LAB</strong>
+        <span>Laboratoire d'algorithmique interactive</span>
+      </div>
+    </div>
+
+    <div id="group-badge" class="group-badge">Attribution...</div>
   </div>
-  <span id="group-badge">Attribution...</span>
 </header>
 
 <main>
+
   <section class="hero">
-    <small>● EXPÉRIENCE INTERACTIVE</small>
-    <h1>Voyez les algorithmes <em>penser.</em></h1>
-    <p>Comparez deux méthodes de tri et observez leurs décisions avant de découvrir la théorie.</p>
+    <div class="eyebrow">● EXPÉRIENCE INTERACTIVE</div>
+    <h1>Voyez les algorithmes <span>penser.</span></h1>
+    <p>
+      Comparez deux méthodes de tri, observez leurs décisions
+      et construisez votre intuition avant de découvrir la théorie.
+    </p>
   </section>
 
-  <nav class="steps">
-    <b>01 <span>Explorer</span></b><i></i>
-    <b>02 <span>Analyser</span></b><i></i>
-    <b>03 <span>Comprendre</span></b>
-  </nav>
+  <div class="steps">
+    <div class="step active"><b>01</b><span>Explorer</span></div>
+    <div class="line"></div>
+    <div class="step"><b>02</b><span>Analyser</span></div>
+    <div class="line"></div>
+    <div class="step"><b>03</b><span>Comprendre</span></div>
+  </div>
+
+  <!-- STEP 1 -->
 
   <section id="step-exploration">
-    <div class="intro">
+
+    <div class="intro-card">
       <div>
         <small>MISSION 01</small>
         <h2>Observez avant de conclure.</h2>
-        <p>Les deux algorithmes reçoivent les mêmes données. Observez leurs comparaisons et déplacements.</p>
+        <p>
+          Les deux algorithmes reçoivent exactement les mêmes données.
+          Observez leurs comparaisons et leurs déplacements.
+        </p>
       </div>
-      <div class="actions">
+
+      <div class="buttons">
         <button id="btn-start-sim">▶ Lancer l'expérience</button>
-        <button id="btn-reset-sim" class="light">↻ Réinitialiser</button>
+        <button id="btn-reset-sim" class="secondary">↻ Réinitialiser</button>
       </div>
     </div>
 
-    <div class="status">
-      <span>● LIVE</span>
-      <b id="global-status">Prêt à observer</b>
-      <small>6 éléments</small>
+    <div class="status-bar">
+      <span class="live">● LIVE</span>
+      <strong id="global-status">Prêt à observer</strong>
+      <span class="data">6 éléments</span>
     </div>
 
     <div class="algorithms">
-      <article class="algorithm bubble">
-        <div class="top">
-          <div><small>ALGORITHME A</small><h3>Tri à bulles</h3></div>
-          <strong>O(n²)</strong>
-        </div>
-        <p>Compare les voisins et échange ceux qui sont dans le mauvais ordre.</p>
 
-        <div class="visual">
-          <small>VISUALISATION <span id="bubble-action">En attente</span></small>
-          <div id="container-bubble" class="bars"></div>
+      <!-- BUBBLE -->
+
+      <article class="algorithm-card bubble">
+
+        <div class="algorithm-head">
+          <div>
+            <small>ALGORITHME A</small>
+            <h3>Tri à bulles</h3>
+          </div>
+          <b>O(n²)</b>
         </div>
 
-        <div id="bubble-explanation" class="message">○ <span><b>Prêt</b><br>Observez les comparaisons.</span></div>
+        <p>
+          Compare deux voisins et les échange lorsqu'ils sont dans
+          le mauvais ordre.
+        </p>
+
+        <div class="visual-box">
+          <div class="visual-head">
+            <span>VISUALISATION</span>
+            <span id="bubble-action">En attente</span>
+          </div>
+          <div id="container-bubble" class="visualizer"></div>
+        </div>
+
+        <div id="bubble-explanation" class="message">
+          <span>○</span>
+          <div>
+            <strong>Prêt</strong>
+            <small>Lancez l'expérience pour voir les comparaisons.</small>
+          </div>
+        </div>
 
         <div class="stats">
-          <span>Comparaisons <b id="count-bubble-comp">0</b></span>
-          <span>Échanges <b id="count-bubble-swap">0</b></span>
-          <span>Passages <b id="count-bubble-pass">0</b></span>
+          <div>
+            <span>Comparaisons</span>
+            <b id="count-bubble-comp">0</b>
+          </div>
+          <div>
+            <span>Échanges</span>
+            <b id="count-bubble-swap">0</b>
+          </div>
+          <div>
+            <span>Passages</span>
+            <b id="count-bubble-pass">0</b>
+          </div>
         </div>
+
       </article>
 
-      <article class="algorithm insertion">
-        <div class="top">
-          <div><small>ALGORITHME B</small><h3>Tri par insertion</h3></div>
-          <strong>O(n²)</strong>
-        </div>
-        <p>Construit une partie triée en insérant chaque élément à sa position.</p>
+      <!-- INSERTION -->
 
-        <div class="visual">
-          <small>VISUALISATION <span id="insertion-action">En attente</span></small>
-          <div id="container-insertion" class="bars"></div>
+      <article class="algorithm-card insertion">
+
+        <div class="algorithm-head">
+          <div>
+            <small>ALGORITHME B</small>
+            <h3>Tri par insertion</h3>
+          </div>
+          <b>O(n²)</b>
         </div>
 
-        <div id="insertion-explanation" class="message">○ <span><b>Prêt</b><br>Observez la partie triée.</span></div>
+        <p>
+          Prend un élément à la fois et l'insère dans la partie
+          déjà triée.
+        </p>
+
+        <div class="visual-box">
+          <div class="visual-head">
+            <span>VISUALISATION</span>
+            <span id="insertion-action">En attente</span>
+          </div>
+          <div id="container-insertion" class="visualizer"></div>
+        </div>
+
+        <div id="insertion-explanation" class="message">
+          <span>○</span>
+          <div>
+            <strong>Prêt</strong>
+            <small>Observez comment la partie triée se construit.</small>
+          </div>
+        </div>
 
         <div class="stats">
-          <span>Comparaisons <b id="count-insert-comp">0</b></span>
-          <span>Déplacements <b id="count-insert-swap">0</b></span>
-          <span>Éléments <b id="count-insert-pass">1</b></span>
+          <div>
+            <span>Comparaisons</span>
+            <b id="count-insert-comp">0</b>
+          </div>
+          <div>
+            <span>Déplacements</span>
+            <b id="count-insert-swap">0</b>
+          </div>
+          <div>
+            <span>Éléments traités</span>
+            <b id="count-insert-pass">1</b>
+          </div>
         </div>
+
       </article>
+
     </div>
 
     <div class="legend">
-      <b>COMMENT LIRE</b>
-      <span>● Élément</span>
-      <span class="red">● Comparaison</span>
-      <span class="green">● Déplacement</span>
+      <strong>COMMENT LIRE</strong>
+      <span><i class="dot blue"></i> Élément</span>
+      <span><i class="dot red"></i> Comparaison</span>
+      <span><i class="dot green"></i> Déplacement</span>
     </div>
 
     <div class="next">
-      <small>Une fois que vous avez observé...</small>
-      <button id="btn-go-to-hypothesis" class="dark">Passer à l'analyse →</button>
+      <span>Une fois que vous avez observé...</span>
+      <button id="btn-go-to-hypothesis" class="dark">
+        Passer à l'analyse →
+      </button>
     </div>
+
   </section>
+
+  <!-- STEP 2 -->
 
   <section id="step-hypothesis" class="hidden">
-    <div class="section-head">
+
+    <div class="section-title">
       <small>MISSION 02</small>
-      <h2>Que vous disent <em>les observations ?</em></h2>
-      <p>Formulez une hypothèse avant de découvrir l'explication théorique.</p>
+      <h2>Que vous disent <span>les observations ?</span></h2>
+      <p>
+        Formulez une hypothèse avant de découvrir l'explication théorique.
+      </p>
     </div>
 
-    <div id="ui-control-group" class="hidden form">
-      <label>Votre observation<textarea placeholder="Qu'avez-vous remarqué ?"></textarea></label>
-      <label>Votre hypothèse<textarea placeholder="Lequel semble le plus efficace, et pourquoi ?"></textarea></label>
+    <div id="ui-control-group" class="reflection hidden">
+
+      <div class="reflection-card">
+        <b>01</b>
+        <div>
+          <h3>Votre observation</h3>
+          <p>Quelle différence majeure avez-vous remarquée ?</p>
+          <textarea placeholder="Écrivez votre observation..."></textarea>
+        </div>
+      </div>
+
+      <div class="reflection-card">
+        <b>02</b>
+        <div>
+          <h3>Votre hypothèse</h3>
+          <p>Lequel semble le plus efficace à grande échelle ?</p>
+          <textarea placeholder="Formulez votre hypothèse..."></textarea>
+        </div>
+      </div>
+
     </div>
 
-    <div id="ui-ai-group" class="hidden">
-      <div class="tutor">✦ <b>Tuteur interactif</b><span>● En ligne</span></div>
+    <div id="ui-ai-group" class="ai hidden">
+
+      <div class="ai-header">
+        <div class="ai-icon">✦</div>
+        <div>
+          <small>TUTEUR INTERACTIF</small>
+          <strong>Votre raisonnement, pas la réponse.</strong>
+        </div>
+        <span>●</span>
+      </div>
+
       <div id="chat-box" class="chat">
         <small>SESSION OUVERTE · MODULE D'OBSERVATION</small>
-        <p><b>✦ Tuteur</b><br>Que remarquez-vous sur la façon dont le tri par insertion construit sa partie triée ?</p>
+
+        <div class="chat-message">
+          <b>✦ Tuteur</b>
+          <p>
+            Regardez les comparaisons effectuées.
+            Que remarquez-vous sur la façon dont le tri par insertion
+            construit sa partie triée ?
+          </p>
+        </div>
       </div>
+
       <div class="chat-input">
-        <input id="ai-input" placeholder="Votre observation...">
+        <input id="ai-input" type="text" placeholder="Votre observation...">
         <button id="btn-send-ai">Envoyer →</button>
       </div>
+
     </div>
 
-    <button id="btn-go-to-telling" class="dark next-button">Découvrir la théorie →</button>
+    <div class="next">
+      <button id="btn-go-to-telling" class="dark">
+        Découvrir la théorie →
+      </button>
+    </div>
+
   </section>
 
+  <!-- STEP 3 -->
+
   <section id="step-telling" class="hidden">
-    <div class="section-head">
+
+    <div class="section-title">
       <small>MISSION 03 · TIME FOR TELLING</small>
-      <h2>Vous venez d'observer <em>O(n²)</em>.</h2>
-      <p>Voici la théorie qui explique ce que vous venez de voir.</p>
+      <h2>Vous venez d'observer <span>O(n²).</span></h2>
+      <p>
+        Voici maintenant la théorie qui explique ce que vous venez de voir.
+      </p>
     </div>
 
-    <div class="theory">
-      <article><b>B</b><small>ALGORITHME A</small><h3>Tri à bulles</h3><p>Compare les éléments voisins à chaque passage et peut effectuer de nombreux échanges.</p><strong>O(n²)</strong></article>
-      <article><b>I</b><small>ALGORITHME B</small><h3>Tri par insertion</h3><p>Insère chaque élément dans une partie déjà triée. Le pire cas nécessite de nombreux déplacements.</p><strong>O(n²)</strong></article>
+    <div class="theory-grid">
+
+      <article class="theory-card">
+        <div class="theory-icon orange">B</div>
+        <small>ALGORITHME A</small>
+        <h3>Tri à bulles</h3>
+        <p>
+          Compare des éléments voisins à chaque passage.
+          Dans le pire cas, de nombreux échanges sont nécessaires.
+        </p>
+        <strong>O(n²)</strong>
+      </article>
+
+      <article class="theory-card">
+        <div class="theory-icon green">I</div>
+        <small>ALGORITHME B</small>
+        <h3>Tri par insertion</h3>
+        <p>
+          Maintient une partie déjà triée et insère chaque nouvel
+          élément à sa bonne position.
+        </p>
+        <strong>O(n²)</strong>
+      </article>
+
     </div>
 
     <div class="insight">
-      <b>!</b><div><small>L'IDÉE À RETENIR</small><h3>Même ordre de grandeur</h3><p>Les deux algorithmes ont un comportement quadratique dans le pire cas : <strong>O(n²)</strong>.</p></div>
+      <div>!</div>
+      <section>
+        <small>L'IDÉE À RETENIR</small>
+        <h3>Deux algorithmes · même ordre de grandeur</h3>
+        <p>
+          Dans le pire cas, le nombre d'opérations peut augmenter
+          quadratiquement avec la taille de la liste.
+        </p>
+      </section>
     </div>
 
     <div class="finish">
-      <div><small>EXPÉRIENCE TERMINÉE</small><h3>Observer → comparer → hypothétiser → théoriser.</h3></div>
+      <div>
+        <small>EXPÉRIENCE TERMINÉE</small>
+        <h3>Observer → comparer → hypothétiser → théoriser.</h3>
+      </div>
+
       <button id="btn-restart">↻ Recommencer</button>
     </div>
+
   </section>
+
 </main>
 
-<footer>ALGORITHM LAB · Expérience locale · Aucun service externe</footer>
+<footer>
+  <strong>ALGORITHM LAB</strong>
+  <span>Expérience locale · Aucun service externe</span>
+</footer>
+
 <script src="script.js"></script>
+
 </body>
 </html>
