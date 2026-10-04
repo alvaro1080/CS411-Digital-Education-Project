@@ -11,44 +11,33 @@
 
 <header class="header">
   <div class="header-inner">
-
     <div class="brand">
       <div class="logo">✦</div>
       <strong>An Introduction to Algorithmic Complexity</strong>
     </div>
-
-    <div id="group-badge" class="group-badge">
-      Loading...
-    </div>
-
+    <div id="group-badge" class="group-badge">Loading...</div>
   </div>
 </header>
-
 
 <main>
 
   <!-- HERO -->
 
   <section class="hero">
-
     <div class="eyebrow">● INTERACTIVE EXPERIENCE</div>
 
-    <h1>
-      See algorithms <span>think.</span>
-    </h1>
+    <h1>See algorithms <span>think.</span></h1>
 
     <p>
       Compare two sorting algorithms, observe their decisions,
       and build your intuition before discovering the theory.
     </p>
-
   </section>
 
 
   <!-- PROGRESS -->
 
   <div class="steps">
-
     <div class="step active">
       <b>01</b>
       <span>Explore</span>
@@ -67,18 +56,14 @@
       <b>03</b>
       <span>Understand</span>
     </div>
-
   </div>
 
 
-  <!-- =====================================================
-       STEP 1
-       ===================================================== -->
+  <!-- ================= STEP 1 ================= -->
 
   <section id="step-exploration">
 
     <div class="intro-card">
-
       <div>
         <small>MISSION 01</small>
 
@@ -91,56 +76,38 @@
       </div>
 
       <div class="buttons">
-        <button id="btn-start-sim">
-          ▶ Start experiment
-        </button>
-
-        <button id="btn-reset-sim" class="secondary">
-          ↻ Reset
-        </button>
+        <button id="btn-start-sim">▶ Start experiment</button>
+        <button id="btn-reset-sim" class="secondary">↻ Reset</button>
       </div>
-
     </div>
 
 
     <div class="status-bar">
-
       <span class="live">● LIVE</span>
-
-      <strong id="global-status">
-        Ready to observe
-      </strong>
-
-      <span class="data">
-        6 elements
-      </span>
-
+      <strong id="global-status">Ready to observe</strong>
+      <span class="data">12 elements</span>
     </div>
 
 
     <div class="algorithms">
 
-      <!-- =================================================
-           BUBBLE SORT
-           ================================================= -->
+      <!-- ================= BUBBLE SORT ================= -->
 
       <article class="algorithm-card">
 
         <div class="algorithm-head">
-
           <div>
             <small>ALGORITHM A</small>
             <h3>Bubble Sort</h3>
           </div>
 
           <b>Sorting by neighbors</b>
-
         </div>
 
-
         <p>
-          Compares neighboring elements and swaps them when
-          they are in the wrong order.
+          Bubble Sort compares neighboring elements. If they are in
+          the wrong order, they are swapped. If a complete pass
+          makes no swaps, the algorithm stops early.
         </p>
 
 
@@ -151,30 +118,22 @@
             <span id="bubble-action">Waiting</span>
           </div>
 
-          <div
-            id="container-bubble"
-            class="visualizer">
-          </div>
+          <div id="container-bubble" class="visualizer"></div>
 
         </div>
 
 
         <div class="message">
-
           <span>○</span>
 
           <div>
+            <strong>Look for the early stop</strong>
 
-            <strong id="bubble-message-title">
-              Ready
-            </strong>
-
-            <small id="bubble-message">
-              Watch two neighboring elements being compared.
+            <small>
+              An already-sorted list needs only one pass.
+              That is the O(n) best case.
             </small>
-
           </div>
-
         </div>
 
 
@@ -199,90 +158,56 @@
 
 
         <details class="code">
-
-          <summary>
-            View Python code
-          </summary>
+          <summary>View Python code</summary>
 
 <pre><code>def bubble_sort(a):
     for i in range(len(a)):
+        swapped = False
+
         for j in range(len(a)-i-1):
             if a[j] > a[j+1]:
-                a[j], a[j+1] = a[j+1], a[j]</code></pre>
+                a[j], a[j+1] = a[j+1], a[j]
+                swapped = True
+
+        if not swapped:
+            break</code></pre>
 
         </details>
 
       </article>
 
 
-      <!-- =================================================
-           MERGE SORT
-           ================================================= -->
+      <!-- ================= MERGE SORT ================= -->
 
       <article class="algorithm-card">
 
         <div class="algorithm-head">
-
           <div>
             <small>ALGORITHM B</small>
             <h3>Merge Sort</h3>
           </div>
 
           <b>Divide & conquer</b>
-
         </div>
 
-
         <p>
-          Splits the list into smaller groups, then rebuilds
-          it by repeatedly taking the smallest available value.
+          Merge Sort repeatedly divides the array into smaller pieces,
+          then rebuilds it by comparing the smallest available values.
         </p>
 
 
         <div class="visual-box merge-box">
 
           <div class="visual-head">
-            <span>VISUALIZATION</span>
+            <span>ARRAY VISUALIZATION</span>
             <span id="merge-action">Waiting</span>
           </div>
 
+          <div id="container-merge" class="merge-visualizer">
 
-          <div class="merge-visualizer">
-
-            <div class="merge-phase">
-
-              <span
-                id="merge-phase-number"
-                class="phase-number">
-                1
-              </span>
-
-              <span id="merge-phase-text">
-                Split the array
-              </span>
-
-            </div>
-
-
-            <div id="container-merge">
-
-              <div class="merge-help">
-
-                <div class="merge-help-icon">
-                  ↓
-                </div>
-
-                <strong>
-                  Press Start experiment
-                </strong>
-
-                <span>
-                  First we split the list.
-                  Then we compare and merge the pieces.
-                </span>
-
-              </div>
-
+            <div class="merge-help">
+              Press <strong>Start experiment</strong> to watch
+              the array split and rebuild.
             </div>
 
           </div>
@@ -295,15 +220,12 @@
           <span>●</span>
 
           <div>
+            <strong>Follow the array</strong>
 
-            <strong id="merge-message-title">
-              Follow the three stages
-            </strong>
-
-            <small id="merge-message">
-              Split → compare → take the smaller → merge.
+            <small>
+              Purple = current section · Yellow = comparing ·
+              Green = already merged.
             </small>
-
           </div>
 
         </div>
@@ -323,7 +245,7 @@
 
           <div>
             <span>Elements</span>
-            <b>6</b>
+            <b>12</b>
           </div>
 
         </div>
@@ -331,9 +253,7 @@
 
         <details class="code">
 
-          <summary>
-            View Python code
-          </summary>
+          <summary>View Python code</summary>
 
 <pre><code>def merge_sort(a):
     if len(a) <= 1:
@@ -371,23 +291,17 @@
 
       <span>
         <i class="dot green"></i>
-        Selected / sorted
+        Sorted
       </span>
 
     </div>
 
 
-    <!-- NEXT -->
-
     <div class="next">
 
-      <span>
-        Once you have observed...
-      </span>
+      <span>Once you have observed...</span>
 
-      <button
-        id="btn-go-to-hypothesis"
-        class="dark">
+      <button id="btn-go-to-hypothesis" class="dark">
         Analyze your observations →
       </button>
 
@@ -396,22 +310,16 @@
   </section>
 
 
-  <!-- =====================================================
-       STEP 2
-       ===================================================== -->
+  <!-- ================= STEP 2 ================= -->
 
-  <section
-    id="step-hypothesis"
-    class="hidden">
+  <section id="step-hypothesis" class="hidden">
 
     <div class="section-title">
 
       <small>MISSION 02</small>
 
       <h2>
-        What do your
-        <span>observations</span>
-        tell you?
+        What do your <span>observations</span> tell you?
       </h2>
 
       <p>
@@ -423,16 +331,13 @@
 
     <!-- CONTROL GROUP -->
 
-    <div
-      id="ui-control-group"
-      class="reflection hidden">
+    <div id="ui-control-group" class="reflection hidden">
 
       <div class="reflection-card">
 
         <b>01</b>
 
         <div>
-
           <h3>Your observation</h3>
 
           <p>
@@ -440,9 +345,8 @@
           </p>
 
           <textarea
-            placeholder="Write your observation...">
-          </textarea>
-
+            placeholder="Write your observation..."
+          ></textarea>
         </div>
 
       </div>
@@ -453,7 +357,6 @@
         <b>02</b>
 
         <div>
-
           <h3>Your hypothesis</h3>
 
           <p>
@@ -461,9 +364,8 @@
           </p>
 
           <textarea
-            placeholder="Write your hypothesis...">
-          </textarea>
-
+            placeholder="Write your hypothesis..."
+          ></textarea>
         </div>
 
       </div>
@@ -471,28 +373,17 @@
     </div>
 
 
-    <!-- AI GROUP -->
+    <!-- LOCAL TUTOR -->
 
-    <div
-      id="ui-ai-group"
-      class="ai hidden">
+    <div id="ui-ai-group" class="ai hidden">
 
       <div class="ai-header">
 
-        <div class="ai-icon">
-          ✦
-        </div>
+        <div class="ai-icon">✦</div>
 
         <div>
-
-          <small>
-            INTERACTIVE TUTOR
-          </small>
-
-          <strong>
-            Your reasoning, not the answer.
-          </strong>
-
+          <small>LOCAL TUTOR</small>
+          <strong>Guided reasoning — no external AI</strong>
         </div>
 
       </div>
@@ -500,9 +391,7 @@
 
       <div id="chat-box" class="chat">
 
-        <small>
-          OBSERVATION SESSION
-        </small>
+        <small>OBSERVATION SESSION</small>
 
         <div class="chat-message">
 
@@ -523,7 +412,8 @@
         <input
           id="ai-input"
           type="text"
-          placeholder="Your observation...">
+          placeholder="Your observation..."
+        >
 
         <button id="btn-send-ai">
           Send →
@@ -536,9 +426,7 @@
 
     <div class="next">
 
-      <button
-        id="btn-go-to-telling"
-        class="dark">
+      <button id="btn-go-to-telling" class="dark">
         Discover the theory →
       </button>
 
@@ -547,23 +435,16 @@
   </section>
 
 
-  <!-- =====================================================
-       STEP 3
-       ===================================================== -->
+  <!-- ================= STEP 3 ================= -->
 
-  <section
-    id="step-telling"
-    class="hidden">
+  <section id="step-telling" class="hidden">
 
     <div class="section-title">
 
-      <small>
-        MISSION 03 · TIME FOR TELLING
-      </small>
+      <small>MISSION 03 · TIME FOR TELLING</small>
 
       <h2>
-        Now let's explain
-        <span>what you saw.</span>
+        Now let's explain <span>what you saw.</span>
       </h2>
 
       <p>
@@ -580,23 +461,18 @@
 
       <article class="theory-card">
 
-        <div class="theory-icon orange">
-          B
-        </div>
+        <div class="theory-icon orange">B</div>
 
-        <small>
-          ALGORITHM A
-        </small>
+        <small>ALGORITHM A</small>
 
-        <h3>
-          Bubble Sort
-        </h3>
+        <h3>Bubble Sort</h3>
 
         <p>
           Bubble Sort repeatedly compares neighboring elements.
-          Its performance depends strongly on the initial order
-          of the list.
+          With an optimized implementation, it can detect that
+          the list is already sorted and stop immediately.
         </p>
+
 
         <div class="complexities">
 
@@ -606,15 +482,21 @@
           </span>
 
           <span>
+            <b>Average case</b>
+            O(n²)
+          </span>
+
+          <span>
             <b>Worst case</b>
             O(n²)
           </span>
 
         </div>
 
+
         <p class="small-note">
-          If the list is already sorted, an optimized version
-          can finish after one pass.
+          The O(n) best case happens when the list is already sorted:
+          one pass is enough to check all neighboring elements.
         </p>
 
       </article>
@@ -624,28 +506,28 @@
 
       <article class="theory-card">
 
-        <div class="theory-icon purple">
-          M
-        </div>
+        <div class="theory-icon purple">M</div>
 
-        <small>
-          ALGORITHM B
-        </small>
+        <small>ALGORITHM B</small>
 
-        <h3>
-          Merge Sort
-        </h3>
+        <h3>Merge Sort</h3>
 
         <p>
           Merge Sort divides the list into smaller pieces and
-          merges sorted pieces together. The work stays much
-          more predictable as the input grows.
+          repeatedly merges sorted pieces together. The number
+          of levels grows logarithmically.
         </p>
+
 
         <div class="complexities purple-box">
 
           <span>
             <b>Best case</b>
+            O(n log n)
+          </span>
+
+          <span>
+            <b>Average case</b>
             O(n log n)
           </span>
 
@@ -667,20 +549,16 @@
 
       <section>
 
-        <small>
-          THE KEY IDEA
-        </small>
+        <small>THE KEY IDEA</small>
 
         <h3>
           Same task, very different strategies.
         </h3>
 
         <p>
-          Bubble Sort repeatedly works on neighboring elements.
-          Merge Sort instead divides the problem into smaller
-          problems and then combines their sorted results.
-          This is why we study
-          <strong>best, average and worst cases</strong>.
+          Bubble Sort can finish quickly when the list is already
+          sorted, while Merge Sort provides much more predictable
+          performance as the input grows.
         </p>
 
       </section>
@@ -692,9 +570,7 @@
 
       <div>
 
-        <small>
-          EXPERIMENT COMPLETE
-        </small>
+        <small>EXPERIMENT COMPLETE</small>
 
         <h3>
           Observe → compare → hypothesize → theorize.
