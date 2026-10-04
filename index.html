@@ -3,141 +3,438 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Exploration des Algorithmes de Tri</title>
-    <!-- Tailwind CSS pour un design moderne et responsive -->
-    <script src="https://tailwindcss.com"></script>
+
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
 
-    <!-- Header -->
-    <header class="bg-indigo-900 text-white py-6 px-4 shadow-md mb-8">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tight">🔬 Labo d'Algorithmique Interactive</h1>
-            <span id="group-badge" class="px-3 py-1 bg-indigo-700 rounded-full text-xs font-semibold tracking-wider uppercase">Mode : Attribution...</span>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-inner">
+            <h1>🔬 Labo d'Algorithmique Interactive</h1>
+
+            <span id="group-badge" class="group-badge">
+                Mode : Attribution...
+            </span>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 pb-24">
 
-        <!-- ================= ÉTAPE 1 : EXPLORATION ET ANIMATION ================= -->
-        <section id="step-exploration" class="space-y-8">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-xl font-bold text-slate-950 mb-2">Étape 1 : Observez et Comparez</h2>
-                <p class="text-slate-600">Explorez le comportement de ces deux algorithmes de tri distincts en observant leur fonctionnement visuel avec les mêmes données de départ.</p>
-                <div class="mt-4 flex gap-3">
-                    <button id="btn-start-sim" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-5 rounded-lg shadow transition">
+    <main class="main-container">
+
+        <!-- =====================================================
+             ÉTAPE 1 : EXPLORATION
+        ====================================================== -->
+
+        <section id="step-exploration">
+
+            <div class="card introduction">
+
+                <h2>Étape 1 : Observez et Comparez</h2>
+
+                <p>
+                    Explorez le comportement de ces deux algorithmes de tri
+                    en observant leur fonctionnement visuel avec les mêmes
+                    données de départ.
+                </p>
+
+                <div class="button-row">
+
+                    <button id="btn-start-sim" class="btn btn-primary">
                         ⚡ Lancer les animations simultanément
                     </button>
-                    <button id="btn-reset-sim" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 px-5 rounded-lg transition">
+
+                    <button id="btn-reset-sim" class="btn btn-secondary">
                         🔄 Réinitialiser les listes
                     </button>
+
                 </div>
             </div>
 
-            <!-- Grille des 2 algorithmes -->
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Algo A : Tri à Bulles -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+
+            <!-- ALGORITHMES -->
+
+            <div class="algorithms-grid">
+
+                <!-- TRI À BULLES -->
+
+                <div class="card algorithm-card">
+
                     <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-lg font-bold text-indigo-950">Algorithme A : Tri à Bulles</h3>
-                            <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded font-medium">Instruction Pas-à-Pas</span>
+
+                        <div class="algorithm-header">
+
+                            <h3>Algorithme A : Tri à Bulles</h3>
+
+                            <span class="badge bubble-badge">
+                                Instruction Pas-à-Pas
+                            </span>
+
                         </div>
-                        <p class="text-sm text-slate-600 mb-4 bg-slate-50 p-3 rounded border-l-4 border-amber-500 italic">
-                            "Parcours la liste de gauche à droite. Compare chaque élément avec son voisin de droite. Si le premier est plus grand que le second, permute-les. Recommence jusqu'à ce que plus aucune permutation ne soit nécessaire."
+
+                        <p class="instruction bubble-instruction">
+                            "Parcours la liste de gauche à droite.
+                            Compare chaque élément avec son voisin de droite.
+                            Si le premier est plus grand que le second,
+                            permute-les. Recommence jusqu'à ce que plus aucune
+                            permutation ne soit nécessaire."
                         </p>
+
                     </div>
-                    <!-- Zone d'animation du Tri à Bulles -->
-                    <div class="my-6 bg-slate-900 rounded-lg p-6 h-48 flex items-end justify-center gap-2" id="container-bubble"></div>
-                    <div class="text-xs text-slate-500 flex justify-between px-2">
-                        <span>Comparaisons : <strong id="count-bubble-comp">0</strong></span>
-                        <span>Permutations : <strong id="count-bubble-swap">0</strong></span>
+
+                    <div
+                        id="container-bubble"
+                        class="visualizer"
+                    ></div>
+
+                    <div class="statistics">
+
+                        <span>
+                            Comparaisons :
+                            <strong id="count-bubble-comp">0</strong>
+                        </span>
+
+                        <span>
+                            Permutations :
+                            <strong id="count-bubble-swap">0</strong>
+                        </span>
+
                     </div>
+
                 </div>
 
-                <!-- Algo B : Tri par Insertion -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+
+                <!-- TRI PAR INSERTION -->
+
+                <div class="card algorithm-card">
+
                     <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-lg font-bold text-indigo-950">Algorithme B : Tri par Insertion</h3>
-                            <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded font-medium">Instruction Pas-à-Pas</span>
+
+                        <div class="algorithm-header">
+
+                            <h3>Algorithme B : Tri par Insertion</h3>
+
+                            <span class="badge insertion-badge">
+                                Instruction Pas-à-Pas
+                            </span>
+
                         </div>
-                        <p class="text-sm text-slate-600 mb-4 bg-slate-50 p-3 rounded border-l-4 border-emerald-500 italic">
-                            "Prends chaque élément un par un, en commençant par le deuxième. Compare-le avec les éléments qui le précèdent (déjà triés) et insère-le directement à sa juste place en décalant les autres."
+
+                        <p class="instruction insertion-instruction">
+                            "Prends chaque élément un par un, en commençant
+                            par le deuxième. Compare-le avec les éléments
+                            qui le précèdent (déjà triés) et insère-le
+                            directement à sa juste place en décalant
+                            les autres."
                         </p>
+
                     </div>
-                    <!-- Zone d'animation du Tri par Insertion -->
-                    <div class="my-6 bg-slate-900 rounded-lg p-6 h-48 flex items-end justify-center gap-2" id="container-insertion"></div>
-                    <div class="text-xs text-slate-500 flex justify-between px-2">
-                        <span>Comparaisons : <strong id="count-insert-comp">0</strong></span>
-                        <span>Déplacements : <strong id="count-insert-swap">0</strong></span>
+
+                    <div
+                        id="container-insertion"
+                        class="visualizer"
+                    ></div>
+
+                    <div class="statistics">
+
+                        <span>
+                            Comparaisons :
+                            <strong id="count-insert-comp">0</strong>
+                        </span>
+
+                        <span>
+                            Déplacements :
+                            <strong id="count-insert-swap">0</strong>
+                        </span>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- Bouton pour passer à l'étape suivante -->
-            <div class="text-center pt-4">
-                <button id="btn-go-to-hypothesis" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition inline-flex items-center gap-2">
+
+            <!-- BOUTON ÉTAPE 2 -->
+
+            <div class="next-step">
+
+                <button
+                    id="btn-go-to-hypothesis"
+                    class="btn btn-dark"
+                >
                     Passer à la phase d'analyse ➡️
                 </button>
+
             </div>
+
         </section>
 
 
-        <!-- ================= ÉTAPE 2 : HYPOTHÈSES (DYNAMIQUE) ================= -->
-        <section id="step-hypothesis" class="hidden max-w-3xl mx-auto space-y-8 animate-fade-in">
-            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-xl font-bold text-slate-950 mb-4">Étape 2 : Analyse & Formulations d'Hypothèses</h2>
-                
-                <!-- CONDITION A : GROUPE DE CONTRÔLE (Autonomie complète) -->
-                <div id="ui-control-group" class="hidden space-y-6">
-                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm text-slate-600">
-                        📌 <strong>Consigne :</strong> Réfléchissez à la vitesse d'exécution de ces algorithmes si la taille de la liste augmentait (ex: 1 000 ou 1 000 000 d'éléments). Notez vos conclusions ci-dessous.
+        <!-- =====================================================
+             ÉTAPE 2 : HYPOTHÈSES
+        ====================================================== -->
+
+        <section
+            id="step-hypothesis"
+            class="hidden narrow-section"
+        >
+
+            <div class="card hypothesis-card">
+
+                <h2>
+                    Étape 2 : Analyse & Formulations d'Hypothèses
+                </h2>
+
+
+                <!-- GROUPE CONTRÔLE -->
+
+                <div
+                    id="ui-control-group"
+                    class="hidden"
+                >
+
+                    <div class="info-box">
+
+                        📌 <strong>Consigne :</strong>
+
+                        Réfléchissez à la vitesse d'exécution de ces
+                        algorithmes si la taille de la liste augmentait
+                        (ex: 1 000 ou 1 000 000 d'éléments).
+                        Notez vos conclusions ci-dessous.
+
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Quelle différence majeure observez-vous dans leur façon de traiter les éléments ?</label>
-                        <textarea rows="3" class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-slate-400" placeholder="Écrivez vos observations..."></textarea>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Quelle différence majeure observez-vous dans
+                            leur façon de traiter les éléments ?
+                        </label>
+
+                        <textarea
+                            rows="4"
+                            placeholder="Écrivez vos observations..."
+                        ></textarea>
+
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Lequel vous semble le plus efficace à grande échelle, et pourquoi ?</label>
-                        <textarea rows="3" class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-slate-400" placeholder="Formulez votre hypothèse..."></textarea>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Lequel vous semble le plus efficace à grande
+                            échelle, et pourquoi ?
+                        </label>
+
+                        <textarea
+                            rows="4"
+                            placeholder="Formulez votre hypothèse..."
+                        ></textarea>
+
                     </div>
+
                 </div>
 
-                <!-- CONDITION B : GROUPE AVEC IA (Placeholder interactif) -->
-                <div id="ui-ai-group" class="hidden space-y-6">
-                    <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 text-sm text-indigo-900 flex gap-3 items-start">
-                        <span class="text-xl">🤖</span>
+
+                <!-- GROUPE IA -->
+
+                <div
+                    id="ui-ai-group"
+                    class="hidden"
+                >
+
+                    <div class="ai-info">
+
+                        <span class="ai-icon">🤖</span>
+
                         <div>
-                            <strong>Tuteur IA Interactif :</strong> Je vais vous aider à analyser ce que vous venez de voir pour guider votre raisonnement. Discutons-en.
+
+                            <strong>Tuteur IA Interactif</strong>
+
+                            <p>
+                                Je vais vous aider à analyser ce que vous
+                                venez de voir pour guider votre raisonnement.
+                                Discutons-en.
+                            </p>
+
                         </div>
-                    </div>
-                    
-                    <!-- Chat Log Exemple / Simulation interactive -->
-                    <div class="border border-slate-200 rounded-lg bg-slate-950 p-4 h-64 overflow-y-auto space-y-4 text-sm font-mono" id="chat-box">
-                        <div class="text-emerald-400">🚨 [Système] Connexion établie avec le module d'IA Tuteur.</div>
-                        <div class="text-indigo-300">🤖 Tuteur IA : <span class="text-white">Bonjour ! Regardez le nombre de comparaisons effectuées pour les deux tris. Que remarquez-vous sur la façon dont l'Algorithme B (Insertion) range les éléments par rapport à l'Algorithme A ?</span></div>
+
                     </div>
 
-                    <div class="flex gap-2">
-                        <input type="text" id="ai-input" class="flex-1 p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm placeholder:text-slate-400" placeholder="Répondez au tuteur IA ici...">
-                        <button id="btn-send-ai" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 rounded-lg transition text-sm">
+
+                    <div
+                        id="chat-box"
+                        class="chat-box"
+                    >
+
+                        <div class="system-message">
+                            🚨 [Système] Connexion établie avec le module
+                            de Tuteur IA.
+                        </div>
+
+                        <div class="ai-message">
+
+                            🤖 Tuteur IA :
+
+                            <span>
+                                Bonjour ! Regardez le nombre de comparaisons
+                                effectuées pour les deux tris. Que remarquez-vous
+                                sur la façon dont l'Algorithme B (Insertion)
+                                range les éléments par rapport à l'Algorithme A ?
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chat-input-row">
+
+                        <input
+                            type="text"
+                            id="ai-input"
+                            placeholder="Répondez au tuteur IA ici..."
+                        >
+
+                        <button
+                            id="btn-send-ai"
+                            class="btn btn-primary"
+                        >
                             Envoyer
                         </button>
+
                     </div>
+
                 </div>
 
-                <!-- Validation des hypothèses -->
-                <div class="mt-8 pt-6 border-t border-slate-100 text-right">
-                    <button id="btn-go-to-telling" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition">
+
+                <!-- BOUTON ÉTAPE 3 -->
+
+                <div class="validation-row">
+
+                    <button
+                        id="btn-go-to-telling"
+                        class="btn btn-success"
+                    >
                         Valider et découvrir la théorie 💡
                     </button>
+
                 </div>
+
             </div>
+
         </section>
 
 
-        <!-- ================= ÉTAPE 3 : TIME FOR TELLING (THÉORIE) ================= -->
-        <section id="step-telling" class="hidden max-w-3xl mx-auto space-y-8 animate-fade-in">
-            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 space-y-6">
+        <!-- =====================================================
+             ÉTAPE 3 : TIME FOR TELLING
+        ====================================================== -->
+
+        <section
+            id="step-telling"
+            class="hidden narrow-section"
+        >
+
+            <div class="card theory-card">
+
+                <h2>
+                    Étape 3 : La théorie 💡
+                </h2>
+
+                <div class="theory-content">
+
+                    <h3>Complexité des algorithmes</h3>
+
+                    <p>
+                        Les deux algorithmes observés peuvent fonctionner
+                        correctement sur de petites listes, mais leur
+                        comportement change lorsque le nombre d'éléments
+                        augmente fortement.
+                    </p>
+
+
+                    <div class="theory-block">
+
+                        <h4>🫧 Tri à bulles</h4>
+
+                        <p>
+                            Le tri à bulles compare les éléments voisins
+                            et effectue des permutations lorsque nécessaire.
+                            Dans le pire cas, il doit effectuer un grand
+                            nombre de comparaisons et de permutations.
+                        </p>
+
+                        <div class="complexity">
+                            Complexité moyenne : <strong>O(n²)</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="theory-block">
+
+                        <h4>🃏 Tri par insertion</h4>
+
+                        <p>
+                            Le tri par insertion construit progressivement
+                            une partie triée de la liste. Chaque nouvel
+                            élément est comparé avec les éléments précédents
+                            jusqu'à trouver sa position.
+                        </p>
+
+                        <div class="complexity">
+                            Complexité moyenne : <strong>O(n²)</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="important-box">
+
+                        <strong>À retenir :</strong>
+
+                        <p>
+                            Dans le pire cas, les deux algorithmes ont une
+                            complexité quadratique, notée
+                            <strong>O(n²)</strong>.
+                        </p>
+
+                        <p>
+                            Cela signifie que si la taille de la liste
+                            augmente fortement, le nombre d'opérations peut
+                            augmenter beaucoup plus rapidement que la taille
+                            de la liste.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="restart-row">
+
+                    <button
+                        id="btn-restart"
+                        class="btn btn-dark"
+                    >
+                        🔄 Recommencer l'activité
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- JavaScript LOCAL : aucun CDN -->
+    <script src="script.js"></script>
+
+</body>
+</html>
