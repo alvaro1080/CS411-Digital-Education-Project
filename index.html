@@ -15,9 +15,9 @@
       <div class="logo">✦</div>
       <div>
         <strong>An Introduction to Algorithmic Complexity</strong>
+        <small>Interactive Algorithm Lab</small>
       </div>
     </div>
-
     <div id="group-badge" class="group-badge">Group...</div>
   </div>
 </header>
@@ -28,7 +28,7 @@
     <div class="eyebrow">● INTERACTIVE EXPERIENCE</div>
     <h1>Watch algorithms <span>think.</span></h1>
     <p>
-      Compare two sorting methods, observe their decisions,
+      Compare two sorting algorithms, observe their decisions,
       and build your intuition before discovering the theory.
     </p>
   </section>
@@ -51,12 +51,12 @@
         <h2>Observe before you conclude.</h2>
         <p>
           Both algorithms receive exactly the same data.
-          Observe their comparisons and movements.
+          Watch how differently they approach the same problem.
         </p>
       </div>
 
       <div class="buttons">
-        <button id="btn-start-sim">▶ Start the experiment</button>
+        <button id="btn-start-sim">▶ Start experiment</button>
         <button id="btn-reset-sim" class="secondary">↻ Reset</button>
       </div>
     </div>
@@ -69,7 +69,7 @@
 
     <div class="algorithms">
 
-      <!-- BUBBLE -->
+      <!-- BUBBLE SORT -->
 
       <article class="algorithm-card bubble">
 
@@ -82,8 +82,8 @@
         </div>
 
         <p>
-          Compares neighboring elements and swaps them when
-          they are in the wrong order.
+          Repeatedly compares neighboring elements and swaps them
+          when they are in the wrong order.
         </p>
 
         <div class="visual-box">
@@ -94,7 +94,7 @@
           <div id="container-bubble" class="visualizer"></div>
         </div>
 
-        <div id="bubble-explanation" class="message">
+        <div class="message">
           <span>○</span>
           <div>
             <strong>Ready</strong>
@@ -119,51 +119,52 @@
 
       </article>
 
-      <!-- INSERTION -->
 
-      <article class="algorithm-card insertion">
+      <!-- MERGE SORT -->
+
+      <article class="algorithm-card merge">
 
         <div class="algorithm-head">
           <div>
             <small>ALGORITHM B</small>
-            <h3>Insertion Sort</h3>
+            <h3>Merge Sort</h3>
           </div>
-          <b>O(n²)</b>
+          <b>O(n log n)</b>
         </div>
 
         <p>
-          Takes one element at a time and inserts it into
-          the already sorted part.
+          Divides the list into smaller parts, sorts them,
+          and merges them back together.
         </p>
 
         <div class="visual-box">
           <div class="visual-head">
             <span>VISUALIZATION</span>
-            <span id="insertion-action">Waiting</span>
+            <span id="merge-action">Waiting</span>
           </div>
-          <div id="container-insertion" class="visualizer"></div>
+          <div id="container-merge" class="visualizer"></div>
         </div>
 
-        <div id="insertion-explanation" class="message">
+        <div class="message merge-message">
           <span>○</span>
           <div>
             <strong>Ready</strong>
-            <small>Observe how the sorted section is built.</small>
+            <small>Watch the list divide and merge.</small>
           </div>
         </div>
 
         <div class="stats">
           <div>
             <span>Comparisons</span>
-            <b id="count-insert-comp">0</b>
+            <b id="count-merge-comp">0</b>
           </div>
           <div>
-            <span>Moves</span>
-            <b id="count-insert-swap">0</b>
+            <span>Merges</span>
+            <b id="count-merge-swap">0</b>
           </div>
           <div>
-            <span>Elements processed</span>
-            <b id="count-insert-pass">1</b>
+            <span>Splits</span>
+            <b id="count-merge-pass">0</b>
           </div>
         </div>
 
@@ -175,7 +176,7 @@
       <strong>HOW TO READ</strong>
       <span><i class="dot blue"></i> Element</span>
       <span><i class="dot red"></i> Comparison</span>
-      <span><i class="dot green"></i> Movement</span>
+      <span><i class="dot green"></i> Sorted / merged</span>
     </div>
 
     <div class="next">
@@ -187,6 +188,7 @@
 
   </section>
 
+
   <!-- STEP 2 -->
 
   <section id="step-hypothesis" class="hidden">
@@ -195,7 +197,7 @@
       <small>MISSION 02</small>
       <h2>What do the <span>observations tell you?</span></h2>
       <p>
-        Formulate a hypothesis before discovering the theoretical explanation.
+        Formulate a hypothesis before discovering the theory.
       </p>
     </div>
 
@@ -214,12 +216,13 @@
         <b>02</b>
         <div>
           <h3>Your hypothesis</h3>
-          <p>Which algorithm seems more efficient at large scale?</p>
+          <p>Which algorithm should scale better? Why?</p>
           <textarea placeholder="Write your hypothesis..."></textarea>
         </div>
       </div>
 
     </div>
+
 
     <div id="ui-ai-group" class="ai hidden">
 
@@ -238,9 +241,9 @@
         <div class="chat-message">
           <b>✦ Tutor</b>
           <p>
-            Look at the number of comparisons.
-            What do you notice about how insertion sort
-            builds its sorted section?
+            Look at the difference between the two algorithms.
+            What do you notice about how Merge Sort approaches
+            a large list?
           </p>
         </div>
       </div>
@@ -260,15 +263,16 @@
 
   </section>
 
+
   <!-- STEP 3 -->
 
   <section id="step-telling" class="hidden">
 
     <div class="section-title">
       <small>MISSION 03 · TIME FOR TELLING</small>
-      <h2>You just observed <span>O(n²).</span></h2>
+      <h2>You just observed <span>two different growth rates.</span></h2>
       <p>
-        Now discover the theory that explains what you just saw.
+        Now discover the theory behind what you saw.
       </p>
     </div>
 
@@ -279,21 +283,22 @@
         <small>ALGORITHM A</small>
         <h3>Bubble Sort</h3>
         <p>
-          Compares neighboring elements during each pass.
-          In the worst case, many swaps are required.
+          It repeatedly compares neighboring elements.
+          As the list grows, the number of comparisons
+          grows quickly.
         </p>
         <strong>O(n²)</strong>
       </article>
 
       <article class="theory-card">
-        <div class="theory-icon green">I</div>
+        <div class="theory-icon green">M</div>
         <small>ALGORITHM B</small>
-        <h3>Insertion Sort</h3>
+        <h3>Merge Sort</h3>
         <p>
-          Maintains a sorted section and inserts each new
-          element into its correct position.
+          It repeatedly divides the problem into smaller
+          pieces before merging the results.
         </p>
-        <strong>O(n²)</strong>
+        <strong>O(n log n)</strong>
       </article>
 
     </div>
@@ -302,10 +307,11 @@
       <div>!</div>
       <section>
         <small>KEY TAKEAWAY</small>
-        <h3>Two algorithms · same order of growth</h3>
+        <h3>Same problem · very different growth</h3>
         <p>
-          In the worst case, the number of operations can grow
-          quadratically with the size of the list.
+          Bubble Sort becomes expensive quickly as the list grows.
+          Merge Sort scales much better because it divides the
+          problem into smaller parts.
         </p>
       </section>
     </div>
