@@ -1,342 +1,307 @@
-const initialData=[45,23,87,12,64,38];
+const groups = ["CONTROL", "AI_ASSISTED"];
+const currentGroup = groups[Math.floor(Math.random() * groups.length)];
 
-let bubbleList=[...initialData];
-let insertionList=[...initialData];
-let running=false;
-let aiStep=0;
+const initialData = [45, 23, 87, 12, 64, 38];
 
-const $=id=>document.getElementById(id);
-const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+let bubbleList = [...initialData];
+let mergeList = [...initialData];
+let running = false;
+let aiStep = 0;
 
-/* GROUP */
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-const currentGroup=Math.random()<.5?"CONTROL":"AI_ASSISTED";
+document.addEventListener("DOMContentLoaded", () => {
+  setupGroup();
+  renderBars("container-bubble", bubbleList);
+  renderBars("container-merge", mergeList);
 
-$("group-badge").textContent=
-  currentGroup==="AI_ASSISTED"
-  ? "Mode : Tuteur IA"
-  : "Mode : Autonome";
+  $("btn-start-sim").onclick = startSimulations;
+  $("btn-reset-sim").onclick = resetSimulations;
+  $("btn-go-to-hypothesis").onclick = goToHypothesis;
+  $("btn-go-to-telling").onclick = goToTelling;
+  $("btn-send-ai").onclick = handleAiChat;
+  $("btn-restart").onclick = restartActivity;
 
-/* BARS */
+  $("ai-input").addEventListener("keydown", e => {
+    if (e.key === "Enter") handleAiChat();
+  });
+});
 
-function renderBars(id,list,active=[]){
 
-  const container=$(id);
+function setupGroup() {
+  const badge = $("group-badge");
 
-  if(!container)return;
+  if (currentGroup === "AI_ASSISTED") {
+    badge.textContent = "Experimental Group · AI Tutor";
+    badge.classList.add("green-badge");
+  } else {
+    badge.textContent = "Control Group · Independent";
+  }
+}
 
-  container.innerHTML="";
 
-  const max=Math.max(...initialData);
+function renderBars(containerId, list, active = [], color = "") {
+  const container = $(containerId);
+  container.innerHTML = "";
 
-  list.forEach((value,index)=>{
+  const max = Math.max(...initialData);
 
-    const wrapper=document.createElement("div");
-    wrapper.className="bar-wrapper";
+  list.forEach((value, i) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "bar-wrapper";
 
-    const bar=document.createElement("div");
-    bar.className="bar";
+    const bar = document.createElement("div");
+    bar.className = "bar";
 
-    if(active.includes(index)){
-      bar.classList.add("active");
-    }
+    if (active.includes(i)) bar.classList.add("active");
+    if (color) bar.classList.add(color);
 
-    bar.style.height=Math.max(8,value/max*120)+"px";
+    bar.style.height = `${Math.max(8, value / max * 130)}px`;
 
-    const label=document.createElement("small");
-    label.textContent=value;
+    const label = document.createElement("div");
+    label.className = "bar-label";
+    label.textContent = value;
 
-    wrapper.append(bar,label);
+    wrapper.append(bar, label);
     container.appendChild(wrapper);
   });
 }
 
-/* BUBBLE SORT */
 
-async function runBubbleSort(){
+/* ---------------- BUBBLE SORT ---------------- */
 
-  const arr=[...bubbleList];
+async function runBubbleSort() {
+  let arr = [...bubbleList];
+  let comparisons = 0;
+  let swaps = 0;
+  let passes = 0;
 
-  let comparisons=0;
-  let swaps=0;
+  for (let i = 0; i < arr.length - 1; i++) {
+    passes++;
+    $("count-bubble-pass").textContent = passes;
 
-  for(let i=0;i<arr.length;i++){
-
-    for(let j=0;j<arr.length-i-1;j++){
-
+    for (let j = 0; j < arr.length - i - 1; j++) {
       comparisons++;
-      $("count-bubble-comp").textContent=comparisons;
+      $("count-bubble-comp").textContent = comparisons;
+      $("bubble-action").textContent = "Comparing";
 
-      renderBars("container-bubble",arr,[j,j+1]);
-      $("bubble-action").textContent="Comparaison";
-
+      renderBars("container-bubble", arr, [j, j + 1]);
       await sleep(350);
 
-      if(arr[j]>arr[j+1]){
-
-        [arr[j],arr[j+1]]=[arr[j+1],arr[j]];
-
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
         swaps++;
-        $("count-bubble-swap").textContent=swaps;
 
-        $("bubble-action").textContent="Échange";
+        $("count-bubble-swap").textContent = swaps;
+        $("bubble-action").textContent = "Swapping";
 
-        renderBars("container-bubble",arr,[j,j+1]);
-
+        renderBars("container-bubble", arr, [j, j + 1], "sorted");
         await sleep(350);
       }
     }
-
-    $("count-bubble-pass").textContent=i+1;
   }
 
-  bubbleList=[...arr];
-
-  renderBars("container-bubble",arr);
-
-  $("bubble-action").textContent="Terminé";
+  $("bubble-action").textContent = "Complete";
+  renderBars("container-bubble", arr, [], "sorted");
+  bubbleList = [...arr];
 }
 
-/* INSERTION SORT */
 
-async function runInsertionSort(){
+/* ---------------- MERGE SORT ---------------- */
 
-  const arr=[...insertionList];
+async function runMergeSort() {
+  let comparisons = 0;
+  let merges = 0;
+  let splits = 0;
 
-  let comparisons=0;
-  let movements=0;
+  async function sort(arr, start = 0) {
+    if (arr.length <= 1) return arr;
 
-  for(let i=1;i<arr.length;i++){
+    splits++;
+    $("count-merge-pass").textContent = splits;
+    $("merge-action").textContent = "Splitting";
 
-    const key=arr[i];
-    let j=i-1;
+    const mid = Math.floor(arr.length / 2);
 
-    renderBars("container-insertion",arr,[i]);
+    await sleep(400);
 
-    $("insertion-action").textContent="Insertion";
+    const left = await sort(arr.slice(0, mid), start);
+    const right = await sort(arr.slice(mid), start + mid);
 
-    await sleep(350);
+    const result = [];
 
-    while(j>=0&&arr[j]>key){
+    let i = 0;
+    let j = 0;
 
+    while (i < left.length && j < right.length) {
       comparisons++;
-      movements++;
+      $("count-merge-comp").textContent = comparisons;
 
-      $("count-insert-comp").textContent=comparisons;
-      $("count-insert-swap").textContent=movements;
+      $("merge-action").textContent = "Comparing";
+      await sleep(250);
 
-      arr[j+1]=arr[j];
-
-      renderBars("container-insertion",arr,[j,j+1]);
-
-      $("insertion-action").textContent="Déplacement";
-
-      await sleep(350);
-
-      j--;
+      if (left[i] <= right[j]) {
+        result.push(left[i++]);
+      } else {
+        result.push(right[j++]);
+      }
     }
 
-    if(j>=0){
-      comparisons++;
-      $("count-insert-comp").textContent=comparisons;
-    }
+    while (i < left.length) result.push(left[i++]);
+    while (j < right.length) result.push(right[j++]);
 
-    arr[j+1]=key;
+    merges++;
+    $("count-merge-swap").textContent = merges;
+    $("merge-action").textContent = "Merging";
 
-    $("count-insert-pass").textContent=i+1;
+    renderBars("container-merge", result, [], "sorted");
+    await sleep(450);
 
-    renderBars("container-insertion",arr);
-
-    await sleep(250);
+    return result;
   }
 
-  insertionList=[...arr];
+  mergeList = await sort([...mergeList]);
 
-  renderBars("container-insertion",arr);
-
-  $("insertion-action").textContent="Terminé";
+  $("merge-action").textContent = "Complete";
+  renderBars("container-merge", mergeList, [], "sorted");
 }
 
-/* START */
 
-async function startSimulations(){
+/* ---------------- START ---------------- */
 
-  if(running)return;
+async function startSimulations() {
+  if (running) return;
 
-  running=true;
+  running = true;
 
-  const button=$("btn-start-sim");
+  const button = $("btn-start-sim");
+  button.disabled = true;
+  button.textContent = "⏳ Running...";
 
-  button.disabled=true;
-  button.textContent="⏳ Animations en cours...";
-
-  $("global-status").textContent="Animations en cours";
+  $("global-status").textContent = "Algorithms are working...";
 
   await Promise.all([
     runBubbleSort(),
-    runInsertionSort()
+    runMergeSort()
   ]);
 
-  running=false;
+  $("global-status").textContent = "Experiment complete";
+  button.disabled = false;
+  button.textContent = "↻ Run again";
 
-  button.disabled=false;
-  button.textContent="↻ Relancer les animations";
-
-  $("global-status").textContent="Expérience terminée";
+  running = false;
 }
 
-/* RESET */
 
-function resetSimulations(){
+/* ---------------- RESET ---------------- */
 
-  if(running)return;
+function resetSimulations() {
+  if (running) return;
 
-  bubbleList=[...initialData];
-  insertionList=[...initialData];
+  bubbleList = [...initialData];
+  mergeList = [...initialData];
 
-  $("count-bubble-comp").textContent="0";
-  $("count-bubble-swap").textContent="0";
-  $("count-bubble-pass").textContent="0";
+  [
+    "count-bubble-comp",
+    "count-bubble-swap",
+    "count-bubble-pass",
+    "count-merge-comp",
+    "count-merge-swap",
+    "count-merge-pass"
+  ].forEach(id => $(id).textContent = "0");
 
-  $("count-insert-comp").textContent="0";
-  $("count-insert-swap").textContent="0";
-  $("count-insert-pass").textContent="1";
+  renderBars("container-bubble", bubbleList);
+  renderBars("container-merge", mergeList);
 
-  $("bubble-action").textContent="En attente";
-  $("insertion-action").textContent="En attente";
-  $("global-status").textContent="Prêt à observer";
+  $("bubble-action").textContent = "Waiting";
+  $("merge-action").textContent = "Waiting";
+  $("global-status").textContent = "Ready to observe";
 
-  renderBars("container-bubble",bubbleList);
-  renderBars("container-insertion",insertionList);
-
-  const button=$("btn-start-sim");
-
-  button.disabled=false;
-  button.textContent="▶ Lancer l'expérience";
+  $("btn-start-sim").disabled = false;
+  $("btn-start-sim").textContent = "▶ Start experiment";
 }
 
-/* NAVIGATION */
 
-function showSection(id){
+/* ---------------- NAVIGATION ---------------- */
 
-  ["step-exploration","step-hypothesis","step-telling"]
-    .forEach(section=>$(section).classList.add("hidden"));
+function goToHypothesis() {
+  $("step-exploration").classList.add("hidden");
+  $("step-hypothesis").classList.remove("hidden");
 
-  $(id).classList.remove("hidden");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-function goToHypothesis(){
-
-  showSection("step-hypothesis");
-
-  if(currentGroup==="AI_ASSISTED"){
+  if (currentGroup === "AI_ASSISTED") {
     $("ui-ai-group").classList.remove("hidden");
-  }else{
+  } else {
     $("ui-control-group").classList.remove("hidden");
   }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function goToTelling(){
-  showSection("step-telling");
+
+function goToTelling() {
+  $("step-hypothesis").classList.add("hidden");
+  $("step-telling").classList.remove("hidden");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/* AI CHAT */
 
-function handleAiChat(){
+/* ---------------- LOCAL TUTOR ---------------- */
 
-  const input=$("ai-input");
-  const text=input.value.trim();
+function handleAiChat() {
+  const input = $("ai-input");
+  const chat = $("chat-box");
+  const text = input.value.trim();
 
-  if(!text)return;
+  if (!text) return;
 
-  const box=$("chat-box");
+  const user = document.createElement("div");
+  user.className = "user-message";
+  user.innerHTML = `<b>You:</b> ${escapeHtml(text)}`;
 
-  const user=document.createElement("div");
+  chat.appendChild(user);
+  input.value = "";
+  chat.scrollTop = chat.scrollHeight;
 
-  user.className="chat-message";
-  user.innerHTML=`<b>Vous</b><p>${text}</p>`;
+  setTimeout(() => {
+    const message = document.createElement("div");
+    message.className = "ai-message";
 
-  box.appendChild(user);
+    const response = aiStep === 0
+      ? "Good observation. Now compare the growth of the two algorithms. Which one do you think will handle a list of 10,000 elements better?"
+      : "Exactly. Merge Sort reduces the problem by repeatedly splitting it into smaller pieces. This leads to O(n log n) growth.";
 
-  input.value="";
-  box.scrollTop=box.scrollHeight;
+    message.innerHTML = `<b>✦ Tutor:</b> ${response}`;
+    chat.appendChild(message);
 
-  setTimeout(()=>{
-
-    const answer=document.createElement("div");
-    answer.className="chat-message";
-
-    if(aiStep===0){
-
-      answer.innerHTML=`
-        <b>✦ Tuteur</b>
-        <p>
-          Bonne observation. Imaginez maintenant une liste de
-          10 000 éléments. Le nombre de comparaisons augmenterait-il
-          linéairement ou beaucoup plus vite ?
-        </p>
-      `;
-
-      aiStep++;
-
-    }else{
-
-      answer.innerHTML=`
-        <b>✦ Tuteur</b>
-        <p>
-          Exactement. Lorsque les éléments doivent être comparés
-          avec beaucoup d'éléments précédents, le comportement
-          devient quadratique : O(n²).
-        </p>
-      `;
-    }
-
-    box.appendChild(answer);
-    box.scrollTop=box.scrollHeight;
-
-  },600);
+    chat.scrollTop = chat.scrollHeight;
+    aiStep++;
+  }, 600);
 }
 
-/* RESTART */
 
-function restartActivity(){
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
 
-  aiStep=0;
-  running=false;
+
+/* ---------------- RESTART ---------------- */
+
+function restartActivity() {
+  $("step-telling").classList.add("hidden");
+  $("step-hypothesis").classList.add("hidden");
+  $("step-exploration").classList.remove("hidden");
+
+  aiStep = 0;
+  running = false;
 
   $("ui-control-group").classList.add("hidden");
   $("ui-ai-group").classList.add("hidden");
 
   resetSimulations();
-  showSection("step-exploration");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
-/* EVENTS */
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-  renderBars("container-bubble",bubbleList);
-  renderBars("container-insertion",insertionList);
-
-  $("btn-start-sim").onclick=startSimulations;
-  $("btn-reset-sim").onclick=resetSimulations;
-
-  $("btn-go-to-hypothesis").onclick=goToHypothesis;
-  $("btn-go-to-telling").onclick=goToTelling;
-
-  $("btn-send-ai").onclick=handleAiChat;
-
-  $("ai-input").addEventListener("keydown",event=>{
-    if(event.key==="Enter"){
-      event.preventDefault();
-      handleAiChat();
-    }
-  });
-
-  $("btn-restart").onclick=restartActivity;
-});
