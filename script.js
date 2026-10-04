@@ -3,8 +3,8 @@
 const groups = ['CONTROL', 'AI_ASSISTED'];
 const currentGroup = groups[Math.floor(Math.random() * groups.length)];
 
-// Données de départ pour les animations (Corrigé : valeurs injectées pour le rendu)
-let initialData = [45, 12, 89, 34, 67, 22];
+// Données de départ pour les animations (Valeurs corrigées et remplies)
+let initialData = [45, 23, 87, 12, 64, 38];
 let bubbleList = [...initialData];
 let insertionList = [...initialData];
 
@@ -12,6 +12,8 @@ let insertionList = [...initialData];
 document.addEventListener("DOMContentLoaded", () => {
     // Mise à jour de l'UI du groupe assigné
     const badge = document.getElementById("group-badge");
+    if (!badge) return;
+    
     if (currentGroup === 'AI_ASSISTED') {
         badge.innerText = "Mode : Groupe expérimental (Avec Tuteur IA)";
         badge.className = "px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-semibold tracking-wider uppercase";
@@ -92,7 +94,7 @@ async function runBubbleSort() {
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr.length - i - 1; j++) {
             compCount++;
-            compEl.innerText = compCount;
+            if (compEl) compEl.innerText = compCount;
             renderBars('container-bubble', arr, [j, j + 1]);
             await new Promise(r => setTimeout(r, 600));
 
@@ -101,7 +103,7 @@ async function runBubbleSort() {
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
                 swapCount++;
-                swapEl.innerText = swapCount;
+                if (swapEl) swapEl.innerText = swapCount;
                 renderBars('container-bubble', arr, [j, j + 1]);
                 await new Promise(r => setTimeout(r, 600));
             }
@@ -123,19 +125,19 @@ async function runInsertionSort() {
         let j = i - 1;
 
         compCount++;
-        compEl.innerText = compCount;
+        if (compEl) compEl.innerText = compCount;
         renderBars('container-insertion', arr, [i, j]);
         await new Promise(r => setTimeout(r, 600));
 
         while (j >= 0 && arr[j] > key) {
             arr[j + 1] = arr[j];
             swapCount++;
-            swapEl.innerText = swapCount;
+            if (swapEl) swapEl.innerText = swapCount;
             renderBars('container-insertion', arr, [j, j + 1]);
             j = j - 1;
             if (j >= 0) {
                 compCount++;
-                compEl.innerText = compCount;
+                if (compEl) compEl.innerText = compCount;
             }
             await new Promise(r => setTimeout(r, 600));
         }
@@ -147,8 +149,10 @@ async function runInsertionSort() {
 }
 
 function startSimulations() {
-    document.getElementById("btn-start-sim").disabled = true;
-    document.getElementById("btn-start-sim").classList.add("opacity-50", "cursor-not-allowed");
+    const btn = document.getElementById("btn-start-sim");
+    if (!btn) return;
+    btn.disabled = true;
+    btn.classList.add("opacity-50", "cursor-not-allowed");
     runBubbleSort();
     runInsertionSort();
 }
@@ -156,16 +160,25 @@ function startSimulations() {
 function resetSimulations() {
     bubbleList = [...initialData];
     insertionList = [...initialData];
-    document.getElementById("count-bubble-comp").innerText = "0";
-    document.getElementById("count-bubble-swap").innerText = "0";
-    document.getElementById("count-insert-comp").innerText = "0";
-    document.getElementById("count-insert-swap").innerText = "0";
+    
+    const cbc = document.getElementById("count-bubble-comp");
+    const cbs = document.getElementById("count-bubble-swap");
+    const cic = document.getElementById("count-insert-comp");
+    const cis = document.getElementById("count-insert-swap");
+    
+    if (cbc) cbc.innerText = "0";
+    if (cbs) cbs.innerText = "0";
+    if (cic) cic.innerText = "0";
+    if (cis) cis.innerText = "0";
+    
     renderBars('container-bubble', bubbleList);
     renderBars('container-insertion', insertionList);
     
     const btn = document.getElementById("btn-start-sim");
-    btn.disabled = false;
-    btn.classList.remove("opacity-50", "cursor-not-allowed");
+    if (btn) {
+        btn.disabled = false;
+        btn.classList.remove("opacity-50", "cursor-not-allowed");
+    }
 }
 
 // --- PLACEHOLDER INTERACTIF DU CHATBOT IA ---
@@ -173,8 +186,9 @@ let aiStep = 0;
 function handleAiChat() {
     const inputEl = document.getElementById("ai-input");
     const chatBox = document.getElementById("chat-box");
-    const text = inputEl.value.trim();
+    if (!inputEl || !chatBox) return;
     
+    const text = inputEl.value.trim();
     if (!text) return;
 
     // Bulle Utilisateur
