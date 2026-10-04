@@ -1,278 +1,242 @@
-const groups=["CONTROL","AI_ASSISTED"];
-const currentGroup=groups[Math.floor(Math.random()*groups.length)];
+const initialData = [45, 23, 87, 12, 64, 38];
 
-const initial=[45,23,87,12,64,38];
-let bubble=[...initial],merge=[...initial];
-let running=false,aiStep=0;
+let bubbleList = [...initialData];
+let mergeList = [...initialData];
+let running = false;
+let aiStep = 0;
 
-document.addEventListener("DOMContentLoaded",()=>{
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+document.addEventListener("DOMContentLoaded", () => {
   setupGroup();
-  render("container-bubble",bubble);
-  render("container-merge",merge);
+  resetVisuals();
 
-  $("btn-start-sim").onclick=start;
-  $("btn-reset-sim").onclick=reset;
-  $("btn-go-to-hypothesis").onclick=goHypothesis;
-  $("btn-go-to-telling").onclick=goTheory;
-  $("btn-send-ai").onclick=chat;
-  $("ai-input").onkeydown=e=>{if(e.key==="Enter")chat()};
-  $("btn-restart").onclick=restart;
+  $("btn-start-sim").onclick = start;
+  $("btn-reset-sim").onclick = reset;
+  $("btn-go-to-hypothesis").onclick = goHypothesis;
+  $("btn-go-to-telling").onclick = goTheory;
+  $("btn-restart").onclick = restart;
+  $("btn-send-ai").onclick = chat;
+
+  $("ai-input").onkeydown = e => {
+    if (e.key === "Enter") chat();
+  };
 });
 
-const $=id=>document.getElementById(id);
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
-
-function setupGroup(){
-  const b=$("group-badge");
-  b.textContent=currentGroup==="AI_ASSISTED"?"Mode: AI-assisted":"Mode: Control";
-  b.style.background=currentGroup==="AI_ASSISTED"?"#059669":"#d97706";
-
-  if(currentGroup==="AI_ASSISTED")
-    $("ui-ai-group").classList.remove("hidden");
-  else
-    $("ui-control-group").classList.remove("hidden");
+function setupGroup() {
+  const ai = Math.random() < .5;
+  $("group-badge").textContent =
+    ai ? "Experimental group · AI Tutor" : "Control group · Independent";
+  $("group-badge").className = ai ? "ai-badge" : "control-badge";
 }
 
-function render(id,list,states={}){
-  const box=$(id);
-  box.innerHTML="";
-  const max=Math.max(...initial);
+function draw(id, list, active = [], type = "") {
+  const box = $(id);
+  box.innerHTML = "";
 
-  list.forEach((v,i)=>{
-    const w=document.createElement("div");
-    w.className="bar-wrapper";
+  const max = Math.max(...initialData);
 
-    const b=document.createElement("div");
-    b.className="bar "+(states[i]||"");
-    b.style.height=Math.max(8,v/max*130)+"px";
+  list.forEach((v, i) => {
+    const wrap = document.createElement("div");
+    wrap.className = "bar-wrap";
 
-    const label=document.createElement("div");
-    label.className="bar-label";
-    label.textContent=v;
+    const bar = document.createElement("div");
+    bar.className = "bar " + type;
 
-    w.append(b,label);
-    box.appendChild(w);
+    if (active.includes(i)) bar.classList.add("active");
+
+    bar.style.height = Math.max(8, v / max * 125) + "px";
+
+    const label = document.createElement("small");
+    label.textContent = v;
+
+    wrap.append(bar, label);
+    box.appendChild(wrap);
   });
 }
 
+/* ---------- Bubble Sort ---------- */
 
-/* BUBBLE SORT */
+async function bubbleSort() {
+  let a = [...bubbleList];
+  let comparisons = 0, swaps = 0, passes = 0;
 
-async function bubbleSort(){
-  let a=[...bubble],comp=0,swap=0;
+  for (let i = 0; i < a.length; i++) {
+    passes++;
+    $("count-bubble-pass").textContent = passes;
 
-  for(let end=a.length-1;end>0;end--){
-    let changed=false;
+    let swapped = false;
 
-    for(let j=0;j<end;j++){
-      comp++;
-      $("count-bubble-comp").textContent=comp;
-      $("bubble-action").textContent="Comparing";
+    for (let j = 0; j < a.length - i - 1; j++) {
+      comparisons++;
+      $("count-bubble-comp").textContent = comparisons;
+      $("bubble-action").textContent = "Comparing";
 
-      render("container-bubble",a,{[j]:"compare",[j+1]:"compare"});
-      await wait(450);
+      draw("container-bubble", a, [j, j + 1], "bubble-bar");
+      await sleep(400);
 
-      if(a[j]>a[j+1]){
-        [a[j],a[j+1]]=[a[j+1],a[j]];
-        swap++;
-        changed=true;
+      if (a[j] > a[j + 1]) {
+        [a[j], a[j + 1]] = [a[j + 1], a[j]];
+        swaps++;
+        swapped = true;
 
-        $("count-bubble-swap").textContent=swap;
-        $("bubble-action").textContent="Swapping";
+        $("count-bubble-swap").textContent = swaps;
+        $("bubble-action").textContent = "Moving";
 
-        render("container-bubble",a,{[j]:"sorted",[j+1]:"sorted"});
-        await wait(300);
+        draw("container-bubble", a, [j, j + 1], "bubble-bar");
+        await sleep(350);
       }
     }
 
-    $("count-bubble-pass").textContent=
-      Number($("count-bubble-pass").textContent)+1;
-
-    if(!changed)break;
+    if (!swapped) break;
   }
 
-  render("container-bubble",a);
-  $("bubble-action").textContent="Complete";
-  bubble=[...a];
+  $("bubble-action").textContent = "Complete";
+  draw("container-bubble", a, [], "bubble-bar");
+  bubbleList = a;
 }
 
+/* ---------- Merge Sort ---------- */
 
-/* MERGE SORT */
+async function mergeSort() {
+  let comparisons = 0, merges = 0, level = 0;
 
-async function mergeSort(){
-  let a=[...merge],comp=0,writes=0,level=0;
+  async function sort(a, depth = 0) {
+    if (a.length <= 1) return a;
 
-  async function sort(left,right,depth){
-    if(right-left<=1)return;
+    level = Math.max(level, depth + 1);
+    $("count-merge-pass").textContent = level;
 
-    level=Math.max(level,depth);
-    $("count-merge-level").textContent=level;
-    $("merge-action").textContent="Splitting";
+    $("merge-action").textContent = "Splitting";
 
-    const mid=Math.floor((left+right)/2);
+    draw("container-merge", a, [], "split-bar");
+    await sleep(500);
 
-    render("container-merge",a,
-      Object.fromEntries(
-        Array.from({length:right-left},(_,i)=>[left+i,"merge"])
-      )
-    );
+    const mid = Math.floor(a.length / 2);
+    const left = await sort(a.slice(0, mid), depth + 1);
+    const right = await sort(a.slice(mid), depth + 1);
 
-    await wait(550);
+    $("merge-action").textContent = "Merging";
+    merges++;
+    $("count-merge-swap").textContent = merges;
 
-    await sort(left,mid,depth+1);
-    await sort(mid,right,depth+1);
+    const result = [];
+    let i = 0, j = 0;
 
-    $("merge-action").textContent="Merging";
+    while (i < left.length && j < right.length) {
+      comparisons++;
+      $("count-merge-comp").textContent = comparisons;
 
-    const temp=[];
-    let i=left,j=mid;
+      if (left[i] <= right[j]) result.push(left[i++]);
+      else result.push(right[j++]);
 
-    while(i<mid&&j<right){
-      comp++;
-      $("count-merge-comp").textContent=comp;
-
-      render("container-merge",a,{
-        [i]:"compare",
-        [j]:"compare"
-      });
-
-      await wait(350);
-
-      if(a[i]<=a[j])temp.push(a[i++]);
-      else temp.push(a[j++]);
+      draw("container-merge", result, [], "merge-bar");
+      await sleep(220);
     }
 
-    while(i<mid)temp.push(a[i++]);
-    while(j<right)temp.push(a[j++]);
+    const final = result.concat(left.slice(i), right.slice(j));
 
-    for(let k=0;k<temp.length;k++){
-      a[left+k]=temp[k];
-      writes++;
+    draw("container-merge", final, [], "merge-bar");
+    await sleep(350);
 
-      $("count-merge-write").textContent=writes;
-
-      render("container-merge",a,{
-        [left+k]:"sorted"
-      });
-
-      await wait(180);
-    }
+    return final;
   }
 
-  await sort(0,a.length,1);
-
-  render("container-merge",a,
-    Object.fromEntries(a.map((_,i)=>[i,"sorted"]))
-  );
-
-  $("merge-action").textContent="Complete";
-  merge=[...a];
+  mergeList = await sort(mergeList);
+  $("merge-action").textContent = "Complete";
+  draw("container-merge", mergeList, [], "merge-bar");
 }
 
+/* ---------- Controls ---------- */
 
-/* START */
+async function start() {
+  if (running) return;
 
-async function start(){
-  if(running)return;
+  running = true;
+  $("btn-start-sim").disabled = true;
+  $("global-status").textContent = "Algorithms running...";
 
-  running=true;
-  $("btn-start-sim").disabled=true;
-  $("btn-start-sim").textContent="⏳ Running...";
+  await Promise.all([bubbleSort(), mergeSort()]);
 
-  await Promise.all([
-    bubbleSort(),
-    mergeSort()
-  ]);
-
-  running=false;
-  $("btn-start-sim").disabled=false;
-  $("btn-start-sim").textContent="⚡ Run again";
+  $("global-status").textContent = "Experiment complete";
+  $("btn-start-sim").disabled = false;
+  $("btn-start-sim").textContent = "▶ Run again";
+  running = false;
 }
 
+function reset() {
+  if (running) return;
 
-/* RESET */
+  bubbleList = [...initialData];
+  mergeList = [...initialData];
 
-function reset(){
-  if(running)return;
+  ["count-bubble-comp","count-bubble-swap",
+   "count-bubble-pass","count-merge-comp",
+   "count-merge-swap","count-merge-pass"]
+   .forEach(id => $(id).textContent = id.includes("pass") ? "0" : "0");
 
-  bubble=[...initial];
-  merge=[...initial];
+  $("btn-start-sim").disabled = false;
+  $("btn-start-sim").textContent = "▶ Start experiment";
+  $("global-status").textContent = "Ready to observe";
 
-  [
-    "count-bubble-comp",
-    "count-bubble-swap",
-    "count-bubble-pass",
-    "count-merge-comp",
-    "count-merge-write",
-    "count-merge-level"
-  ].forEach(id=>$(id).textContent="0");
-
-  render("container-bubble",bubble);
-  render("container-merge",merge);
-
-  $("bubble-action").textContent="Waiting";
-  $("merge-action").textContent="Waiting";
-
-  $("btn-start-sim").disabled=false;
-  $("btn-start-sim").textContent="▶ Start experiment";
+  resetVisuals();
 }
 
+function resetVisuals() {
+  draw("container-bubble", initialData, [], "bubble-bar");
+  draw("container-merge", initialData, [], "merge-bar");
+}
 
-/* NAVIGATION */
+/* ---------- Navigation ---------- */
 
-function goHypothesis(){
+function goHypothesis() {
   $("step-exploration").classList.add("hidden");
   $("step-hypothesis").classList.remove("hidden");
-  $("step-hypothesis").classList.add("animate-fade-in");
-  window.scrollTo({top:0,behavior:"smooth"});
+
+  if (Math.random() < .5)
+    $("ui-control-group").classList.remove("hidden");
+  else
+    $("ui-ai-group").classList.remove("hidden");
+
+  window.scrollTo({top: 0, behavior: "smooth"});
 }
 
-function goTheory(){
+function goTheory() {
   $("step-hypothesis").classList.add("hidden");
   $("step-telling").classList.remove("hidden");
-  $("step-telling").classList.add("animate-fade-in");
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top: 0, behavior: "smooth"});
 }
 
+/* ---------- Local simulated tutor ---------- */
 
-/* LOCAL TUTOR */
+function chat() {
+  const input = $("ai-input");
+  const box = $("chat-box");
+  const text = input.value.trim();
 
-function chat(){
-  const input=$("ai-input"),box=$("chat-box");
-  const text=input.value.trim();
-  if(!text)return;
+  if (!text) return;
 
-  const user=document.createElement("div");
-  user.className="user-message";
-  user.textContent="You: "+text;
+  const user = document.createElement("div");
+  user.className = "user-message";
+  user.textContent = "You: " + text;
   box.appendChild(user);
-  input.value="";
 
-  setTimeout(()=>{
-    const msg=document.createElement("div");
-    msg.className="chat-message";
-    const p=document.createElement("p");
+  input.value = "";
 
-    p.textContent=aiStep++===0
-      ?"Good observation. Now compare how many times Bubble Sort repeatedly examines neighboring elements with how Merge Sort divides the list into smaller parts. Which approach do you think scales better?"
-      :"Exactly. Merge Sort reduces the problem by repeatedly dividing it, then processes each level of the list during merging. This leads to O(n log n) growth.";
+  setTimeout(() => {
+    const reply = document.createElement("div");
+    reply.className = "chat-message";
 
-    msg.innerHTML="<b>✦ Tutor</b>";
-    msg.appendChild(p);
-    box.appendChild(msg);
-    box.scrollTop=box.scrollHeight;
-  },600);
+    reply.innerHTML = aiStep++
+      ? "<b>✦ Tutor</b><p>Exactly. Merge Sort keeps dividing the problem into smaller parts, which helps it scale much better for large lists.</p>"
+      : "<b>✦ Tutor</b><p>Good observation. Notice how the list is repeatedly divided before the sorted parts are merged together. What might happen when the list becomes much larger?</p>";
+
+    box.appendChild(reply);
+    box.scrollTop = box.scrollHeight;
+  }, 500);
 }
 
-
-/* RESTART */
-
-function restart(){
-  aiStep=0;
-  running=false;
-  $("step-telling").classList.add("hidden");
-  $("step-hypothesis").classList.add("hidden");
-  $("step-exploration").classList.remove("hidden");
-  reset();
-  window.scrollTo({top:0,behavior:"smooth"});
+function restart() {
+  location.reload();
 }
