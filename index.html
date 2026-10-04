@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,32 +14,31 @@
     <div class="brand">
       <div class="logo">✦</div>
       <div>
-        <strong>ALGORITHM LAB</strong>
-        <span>Laboratoire d'algorithmique interactive</span>
+        <strong>An Introduction to Algorithmic Complexity</strong>
       </div>
     </div>
 
-    <div id="group-badge" class="group-badge">Attribution...</div>
+    <div id="group-badge" class="group-badge">Group...</div>
   </div>
 </header>
 
 <main>
 
   <section class="hero">
-    <div class="eyebrow">● EXPÉRIENCE INTERACTIVE</div>
-    <h1>Voyez les algorithmes <span>penser.</span></h1>
+    <div class="eyebrow">● INTERACTIVE EXPERIENCE</div>
+    <h1>Watch algorithms <span>think.</span></h1>
     <p>
-      Comparez deux méthodes de tri, observez leurs décisions
-      et construisez votre intuition avant de découvrir la théorie.
+      Compare two sorting methods, observe their decisions,
+      and build your intuition before discovering the theory.
     </p>
   </section>
 
   <div class="steps">
-    <div class="step active"><b>01</b><span>Explorer</span></div>
+    <div class="step active"><b>01</b><span>Explore</span></div>
     <div class="line"></div>
-    <div class="step"><b>02</b><span>Analyser</span></div>
+    <div class="step"><b>02</b><span>Analyze</span></div>
     <div class="line"></div>
-    <div class="step"><b>03</b><span>Comprendre</span></div>
+    <div class="step"><b>03</b><span>Understand</span></div>
   </div>
 
   <!-- STEP 1 -->
@@ -49,23 +48,23 @@
     <div class="intro-card">
       <div>
         <small>MISSION 01</small>
-        <h2>Observez avant de conclure.</h2>
+        <h2>Observe before you conclude.</h2>
         <p>
-          Les deux algorithmes reçoivent exactement les mêmes données.
-          Observez leurs comparaisons et leurs déplacements.
+          Both algorithms receive exactly the same data.
+          Observe their comparisons and movements.
         </p>
       </div>
 
       <div class="buttons">
-        <button id="btn-start-sim">▶ Lancer l'expérience</button>
-        <button id="btn-reset-sim" class="secondary">↻ Réinitialiser</button>
+        <button id="btn-start-sim">▶ Start the experiment</button>
+        <button id="btn-reset-sim" class="secondary">↻ Reset</button>
       </div>
     </div>
 
     <div class="status-bar">
       <span class="live">● LIVE</span>
-      <strong id="global-status">Prêt à observer</strong>
-      <span class="data">6 éléments</span>
+      <strong id="global-status">Ready to observe</strong>
+      <span class="data">6 elements</span>
     </div>
 
     <div class="algorithms">
@@ -76,21 +75,21 @@
 
         <div class="algorithm-head">
           <div>
-            <small>ALGORITHME A</small>
-            <h3>Tri à bulles</h3>
+            <small>ALGORITHM A</small>
+            <h3>Bubble Sort</h3>
           </div>
           <b>O(n²)</b>
         </div>
 
         <p>
-          Compare deux voisins et les échange lorsqu'ils sont dans
-          le mauvais ordre.
+          Compares neighboring elements and swaps them when
+          they are in the wrong order.
         </p>
 
         <div class="visual-box">
           <div class="visual-head">
-            <span>VISUALISATION</span>
-            <span id="bubble-action">En attente</span>
+            <span>VISUALIZATION</span>
+            <span id="bubble-action">Waiting</span>
           </div>
           <div id="container-bubble" class="visualizer"></div>
         </div>
@@ -98,22 +97,22 @@
         <div id="bubble-explanation" class="message">
           <span>○</span>
           <div>
-            <strong>Prêt</strong>
-            <small>Lancez l'expérience pour voir les comparaisons.</small>
+            <strong>Ready</strong>
+            <small>Start the experiment to see the comparisons.</small>
           </div>
         </div>
 
         <div class="stats">
           <div>
-            <span>Comparaisons</span>
+            <span>Comparisons</span>
             <b id="count-bubble-comp">0</b>
           </div>
           <div>
-            <span>Échanges</span>
+            <span>Swaps</span>
             <b id="count-bubble-swap">0</b>
           </div>
           <div>
-            <span>Passages</span>
+            <span>Passes</span>
             <b id="count-bubble-pass">0</b>
           </div>
         </div>
@@ -126,21 +125,21 @@
 
         <div class="algorithm-head">
           <div>
-            <small>ALGORITHME B</small>
-            <h3>Tri par insertion</h3>
+            <small>ALGORITHM B</small>
+            <h3>Insertion Sort</h3>
           </div>
           <b>O(n²)</b>
         </div>
 
         <p>
-          Prend un élément à la fois et l'insère dans la partie
-          déjà triée.
+          Takes one element at a time and inserts it into
+          the already sorted part.
         </p>
 
         <div class="visual-box">
           <div class="visual-head">
-            <span>VISUALISATION</span>
-            <span id="insertion-action">En attente</span>
+            <span>VISUALIZATION</span>
+            <span id="insertion-action">Waiting</span>
           </div>
           <div id="container-insertion" class="visualizer"></div>
         </div>
@@ -148,22 +147,22 @@
         <div id="insertion-explanation" class="message">
           <span>○</span>
           <div>
-            <strong>Prêt</strong>
-            <small>Observez comment la partie triée se construit.</small>
+            <strong>Ready</strong>
+            <small>Observe how the sorted section is built.</small>
           </div>
         </div>
 
         <div class="stats">
           <div>
-            <span>Comparaisons</span>
+            <span>Comparisons</span>
             <b id="count-insert-comp">0</b>
           </div>
           <div>
-            <span>Déplacements</span>
+            <span>Moves</span>
             <b id="count-insert-swap">0</b>
           </div>
           <div>
-            <span>Éléments traités</span>
+            <span>Elements processed</span>
             <b id="count-insert-pass">1</b>
           </div>
         </div>
@@ -173,16 +172,16 @@
     </div>
 
     <div class="legend">
-      <strong>COMMENT LIRE</strong>
-      <span><i class="dot blue"></i> Élément</span>
-      <span><i class="dot red"></i> Comparaison</span>
-      <span><i class="dot green"></i> Déplacement</span>
+      <strong>HOW TO READ</strong>
+      <span><i class="dot blue"></i> Element</span>
+      <span><i class="dot red"></i> Comparison</span>
+      <span><i class="dot green"></i> Movement</span>
     </div>
 
     <div class="next">
-      <span>Une fois que vous avez observé...</span>
+      <span>Once you have observed...</span>
       <button id="btn-go-to-hypothesis" class="dark">
-        Passer à l'analyse →
+        Move to analysis →
       </button>
     </div>
 
@@ -194,9 +193,9 @@
 
     <div class="section-title">
       <small>MISSION 02</small>
-      <h2>Que vous disent <span>les observations ?</span></h2>
+      <h2>What do the <span>observations tell you?</span></h2>
       <p>
-        Formulez une hypothèse avant de découvrir l'explication théorique.
+        Formulate a hypothesis before discovering the theoretical explanation.
       </p>
     </div>
 
@@ -205,18 +204,18 @@
       <div class="reflection-card">
         <b>01</b>
         <div>
-          <h3>Votre observation</h3>
-          <p>Quelle différence majeure avez-vous remarquée ?</p>
-          <textarea placeholder="Écrivez votre observation..."></textarea>
+          <h3>Your observation</h3>
+          <p>What major difference did you notice?</p>
+          <textarea placeholder="Write your observation..."></textarea>
         </div>
       </div>
 
       <div class="reflection-card">
         <b>02</b>
         <div>
-          <h3>Votre hypothèse</h3>
-          <p>Lequel semble le plus efficace à grande échelle ?</p>
-          <textarea placeholder="Formulez votre hypothèse..."></textarea>
+          <h3>Your hypothesis</h3>
+          <p>Which algorithm seems more efficient at large scale?</p>
+          <textarea placeholder="Write your hypothesis..."></textarea>
         </div>
       </div>
 
@@ -227,35 +226,35 @@
       <div class="ai-header">
         <div class="ai-icon">✦</div>
         <div>
-          <small>TUTEUR INTERACTIF</small>
-          <strong>Votre raisonnement, pas la réponse.</strong>
+          <small>INTERACTIVE TUTOR</small>
+          <strong>Your reasoning, not the answer.</strong>
         </div>
         <span>●</span>
       </div>
 
       <div id="chat-box" class="chat">
-        <small>SESSION OUVERTE · MODULE D'OBSERVATION</small>
+        <small>SESSION OPEN · OBSERVATION MODULE</small>
 
         <div class="chat-message">
-          <b>✦ Tuteur</b>
+          <b>✦ Tutor</b>
           <p>
-            Regardez les comparaisons effectuées.
-            Que remarquez-vous sur la façon dont le tri par insertion
-            construit sa partie triée ?
+            Look at the number of comparisons.
+            What do you notice about how insertion sort
+            builds its sorted section?
           </p>
         </div>
       </div>
 
       <div class="chat-input">
-        <input id="ai-input" type="text" placeholder="Votre observation...">
-        <button id="btn-send-ai">Envoyer →</button>
+        <input id="ai-input" type="text" placeholder="Your observation...">
+        <button id="btn-send-ai">Send →</button>
       </div>
 
     </div>
 
     <div class="next">
       <button id="btn-go-to-telling" class="dark">
-        Découvrir la théorie →
+        Discover the theory →
       </button>
     </div>
 
@@ -267,9 +266,9 @@
 
     <div class="section-title">
       <small>MISSION 03 · TIME FOR TELLING</small>
-      <h2>Vous venez d'observer <span>O(n²).</span></h2>
+      <h2>You just observed <span>O(n²).</span></h2>
       <p>
-        Voici maintenant la théorie qui explique ce que vous venez de voir.
+        Now discover the theory that explains what you just saw.
       </p>
     </div>
 
@@ -277,22 +276,22 @@
 
       <article class="theory-card">
         <div class="theory-icon orange">B</div>
-        <small>ALGORITHME A</small>
-        <h3>Tri à bulles</h3>
+        <small>ALGORITHM A</small>
+        <h3>Bubble Sort</h3>
         <p>
-          Compare des éléments voisins à chaque passage.
-          Dans le pire cas, de nombreux échanges sont nécessaires.
+          Compares neighboring elements during each pass.
+          In the worst case, many swaps are required.
         </p>
         <strong>O(n²)</strong>
       </article>
 
       <article class="theory-card">
         <div class="theory-icon green">I</div>
-        <small>ALGORITHME B</small>
-        <h3>Tri par insertion</h3>
+        <small>ALGORITHM B</small>
+        <h3>Insertion Sort</h3>
         <p>
-          Maintient une partie déjà triée et insère chaque nouvel
-          élément à sa bonne position.
+          Maintains a sorted section and inserts each new
+          element into its correct position.
         </p>
         <strong>O(n²)</strong>
       </article>
@@ -302,22 +301,22 @@
     <div class="insight">
       <div>!</div>
       <section>
-        <small>L'IDÉE À RETENIR</small>
-        <h3>Deux algorithmes · même ordre de grandeur</h3>
+        <small>KEY TAKEAWAY</small>
+        <h3>Two algorithms · same order of growth</h3>
         <p>
-          Dans le pire cas, le nombre d'opérations peut augmenter
-          quadratiquement avec la taille de la liste.
+          In the worst case, the number of operations can grow
+          quadratically with the size of the list.
         </p>
       </section>
     </div>
 
     <div class="finish">
       <div>
-        <small>EXPÉRIENCE TERMINÉE</small>
-        <h3>Observer → comparer → hypothétiser → théoriser.</h3>
+        <small>EXPERIMENT COMPLETE</small>
+        <h3>Observe → compare → hypothesize → theorize.</h3>
       </div>
 
-      <button id="btn-restart">↻ Recommencer</button>
+      <button id="btn-restart">↻ Restart</button>
     </div>
 
   </section>
@@ -325,8 +324,8 @@
 </main>
 
 <footer>
-  <strong>ALGORITHM LAB</strong>
-  <span>Expérience locale · Aucun service externe</span>
+  <strong>An Introduction to Algorithmic Complexity</strong>
+  <span>Local experience · No external services</span>
 </footer>
 
 <script src="script.js"></script>
