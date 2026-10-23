@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 3 · Analyze — Algorithm Lab</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div class="brand">
+            <div class="logo">✦</div>
+            <strong>An Introduction to Algorithmic Complexity</strong>
+        </div>
+        <div id="group-badge" class="group-badge">Loading...</div>
+    </div>
+</header>
+
+<main>
+
+    <ol class="steps" aria-label="Progress">
+        <li class="step is-done"><b>✓</b><span>Refresh</span></li>
+        <li class="line is-done" aria-hidden="true"></li>
+        <li class="step is-done"><b>✓</b><span>Explore</span></li>
+        <li class="line is-done" aria-hidden="true"></li>
+        <li class="step is-active" aria-current="step"><b>03</b><span>Analyze</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><b>04</b><span>Understand</span></li>
+    </ol>
+
+    <section>
+
+        <div class="section-title">
+            <small>MISSION 03</small>
+            <h2>What do your <span>observations</span> tell you?</h2>
+            <p>Form a hypothesis before discovering the theory.</p>
+        </div>
+
+        <!-- Control group -->
+        <div id="ui-control-group" class="reflection" hidden>
+
+            <div class="card reflection-card">
+                <b>01</b>
+                <div>
+                    <h3>Your observation</h3>
+                    <p>What major difference did you notice?</p>
+                    <textarea rows="4" placeholder="Write your observation..."></textarea>
+                </div>
+            </div>
+
+            <div class="card reflection-card">
+                <b>02</b>
+                <div>
+                    <h3>Your hypothesis</h3>
+                    <p>Which algorithm might scale better? Why?</p>
+                    <textarea rows="4" placeholder="Write your hypothesis..."></textarea>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- AI group: local tutor -->
+        <div id="ui-ai-group" class="tutor" hidden>
+
+            <div class="tutor-header">
+                <div class="tutor-icon">✦</div>
+                <div>
+                    <small>LOCAL TUTOR</small>
+                    <strong>Guided reasoning — no external AI</strong>
+                </div>
+            </div>
+
+            <div id="chat-box" class="chat">
+                <small>OBSERVATION SESSION</small>
+
+                <div class="chat-message">
+                    <b>✦ Tutor</b>
+                    <p>
+                        Look at how Merge Sort repeatedly splits the list.
+                        What might happen when the list becomes very large?
+                    </p>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <input id="ai-input" type="text" placeholder="Your observation...">
+                <button id="btn-send-ai">Send →</button>
+            </div>
+
+        </div>
+
+        <div class="next">
+            <a class="btn btn-dark" href="theory.html">Discover the theory →</a>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <strong>An Introduction to Algorithmic Complexity</strong>
+    <span>Local experiment · No external services</span>
+</footer>
+
+<script src="js/shared.js"></script>
+<script src="js/hypothesis.js"></script>
+</body>
+</html>
