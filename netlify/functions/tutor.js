@@ -43,12 +43,13 @@ exports.handler = async (event) => {
   } catch (error) {
     console.error("Tutor error:", error);
 
+    const errorMessage = error?.message || "Unknown error";
+
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        fallback:
-          "The AI tutor is unavailable right now. Please use the lesson content and your observations to continue.",
+        fallback: `The AI tutor is unavailable right now. Error: ${errorMessage}`,
       }),
     };
   }
