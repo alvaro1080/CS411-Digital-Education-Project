@@ -1,26 +1,13 @@
+const { OpenAI } = require("openai");
+
+
+const openai = new OpenAI();
+
+
 const getAIResponse = async (question) => {
-  // Netlify injecte automatiquement ces deux variables exactes au runtime
-  const gatewayUrl = process.env.OPENAI_BASE_URL;
-  const gatewayToken = process.env.OPENAI_API_KEY;
-
-  if (!gatewayUrl || !gatewayToken) {
-    throw new Error(
-      "Netlify AI Gateway n'est pas actif. Assurez-vous d'avoir fait au moins un déploiement de production."
-    );
-  }
-
-  // OPENAI_BASE_URL se termine généralement par /v1 ou inclut déjà la route de la passerelle.
-  // On nettoie les slashes pour éviter les doublons.
-  const normalizedUrl = gatewayUrl.replace(/\/$/, "");
-
-  const response = await fetch(`${normalizedUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${gatewayToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini", // Nom standard du modèle OpenAI
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini", // Nom standard du modèle géré par la passerelle
       messages: [
         {
           role: "system",
@@ -33,25 +20,20 @@ const getAIResponse = async (question) => {
         },
       ],
       temperature: 0.7,
-    }),
-  });
+    });
 
-  const data = await response.json().catch(() => ({}));
-
-  if (!response.ok) {
-    const detail = data?.error?.message || data?.message || "Unknown AI Gateway error";
-    throw new Error(`AI Gateway error (${response.status}): ${detail}`);
+    // Le SDK gère le parsing et extrait directement le contenu textuel
+    return completion.choices[0]?.message?.content || "I could not generate a response right now.";
+  } catch (apiError) {
+    // Permet de capturer les erreurs spécifiques renvoyées par la passerelle ou OpenAI
+    throw new Error(`AI Gateway API Error: ${apiError.message}`);
   }
-
-  return (
-    data.choices?.[0]?.message?.content ||
-    "I could not generate a response right now."
-  );
 };
 
-// Handler pour Netlify Functions (Format classique v1)
+// Handler principal de la fonction Netlify
 exports.handler = async (event) => {
   try {
+    // Validation et extraction du message reçu
     const body = JSON.parse(event.body || "{}");
     const question = (body.message || "").trim();
 
@@ -63,6 +45,7 @@ exports.handler = async (event) => {
       };
     }
 
+    // Appel de la fonction IA
     const reply = await getAIResponse(question);
 
     return {
