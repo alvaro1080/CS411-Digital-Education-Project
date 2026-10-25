@@ -1,13 +1,16 @@
 const getAIResponse = async (question) => {
-  const gatewayUrl = process.env.NETLIFY_AI_GATEWAY_URL || process.env.AI_GATEWAY_URL;
-  const gatewayToken = process.env.NETLIFY_AI_GATEWAY_TOKEN || process.env.AI_GATEWAY_TOKEN;
+  // Netlify injecte automatiquement ces deux variables exactes au runtime
+  const gatewayUrl = process.env.OPENAI_BASE_URL;
+  const gatewayToken = process.env.OPENAI_API_KEY;
 
   if (!gatewayUrl || !gatewayToken) {
     throw new Error(
-      "Netlify AI Gateway is not configured. Set NETLIFY_AI_GATEWAY_URL and NETLIFY_AI_GATEWAY_TOKEN (or AI_GATEWAY_URL and AI_GATEWAY_TOKEN)."
+      "Netlify AI Gateway n'est pas actif. Assurez-vous d'avoir fait au moins un déploiement de production."
     );
   }
 
+  // OPENAI_BASE_URL se termine généralement par /v1 ou inclut déjà la route de la passerelle.
+  // On nettoie les slashes pour éviter les doublons.
   const normalizedUrl = gatewayUrl.replace(/\/$/, "");
 
   const response = await fetch(`${normalizedUrl}/chat/completions`, {
@@ -17,7 +20,7 @@ const getAIResponse = async (question) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "openai/gpt-4o-mini",
+      model: "gpt-4o-mini", // Nom standard du modèle OpenAI
       messages: [
         {
           role: "system",
@@ -46,6 +49,7 @@ const getAIResponse = async (question) => {
   );
 };
 
+// Handler pour Netlify Functions (Format classique v1)
 exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body || "{}");
