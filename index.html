@@ -1,590 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Algorithm Lab</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 1 · Refresh — Algorithm Lab</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
+<body data-redraw-group>
 
 <header class="header">
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo">✦</div>
-      <strong>An Introduction to Algorithmic Complexity</strong>
+    <div class="header-inner">
+        <div class="brand">
+            <div class="logo">✦</div>
+            <strong>An Introduction to Algorithmic Complexity</strong>
+        </div>
+        <div id="group-badge" class="group-badge">Loading...</div>
     </div>
-    <div id="group-badge" class="group-badge">Loading...</div>
-  </div>
 </header>
 
 <main>
 
-  <!-- HERO -->
-
-  <section class="hero">
-    <div class="eyebrow">● INTERACTIVE EXPERIENCE</div>
-
-    <h1>See algorithms <span>think.</span></h1>
-
-    <p>
-      Compare two sorting algorithms, observe their decisions,
-      and build your intuition before discovering the theory.
-    </p>
-  </section>
-
-
-  <!-- PROGRESS -->
-
-  <div class="steps">
-    <div class="step active">
-      <b>01</b>
-      <span>Explore</span>
-    </div>
-
-    <div class="line"></div>
-
-    <div class="step">
-      <b>02</b>
-      <span>Analyze</span>
-    </div>
-
-    <div class="line"></div>
-
-    <div class="step">
-      <b>03</b>
-      <span>Understand</span>
-    </div>
-  </div>
-
-
-  <!-- ================= STEP 1 ================= -->
-
-  <section id="step-exploration">
-
-    <div class="intro-card">
-      <div>
-        <small>MISSION 01</small>
-
-        <h2>Observe before you conclude.</h2>
-
+    <section class="hero">
+        <div class="eyebrow">● WARM-UP</div>
+        <h1>Quick <span>refresher.</span></h1>
         <p>
-          Both algorithms receive exactly the same data.
-          Watch how they compare, move and organize elements.
+            The experiment uses a few basic programming ideas. Skim these
+            five cards so everything feels familiar. All examples are in Python.
         </p>
-      </div>
+    </section>
 
-      <div class="buttons">
-        <button id="btn-start-sim">▶ Start experiment</button>
-        <button id="btn-reset-sim" class="secondary">↻ Reset</button>
-      </div>
-    </div>
+    <ol class="steps" aria-label="Progress">
+        <li class="step is-active" aria-current="step"><b>01</b><span>Refresh</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><b>02</b><span>Explore</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><b>03</b><span>Analyze</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><b>04</b><span>Understand</span></li>
+    </ol>
 
+    <section>
 
-    <div class="status-bar">
-      <span class="live">● LIVE</span>
-      <strong id="global-status">Ready to observe</strong>
-      <span class="data">12 elements</span>
-    </div>
-
-
-    <div class="algorithms">
-
-      <!-- ================= BUBBLE SORT ================= -->
-
-      <article class="algorithm-card">
-
-        <div class="algorithm-head">
-          <div>
-            <small>ALGORITHM A</small>
-            <h3>Bubble Sort</h3>
-          </div>
-
-          <b>Sorting by neighbors</b>
+        <div class="section-title">
+            <small>MISSION 01</small>
+            <h2>The building blocks.</h2>
+            <p>
+                Already comfortable with these? Go straight to the experiment.
+            </p>
         </div>
 
-        <p>
-          Bubble Sort compares neighboring elements. If they are in
-          the wrong order, they are swapped. If a complete pass
-          makes no swaps, the algorithm stops early.
-        </p>
+        <div class="refresher-grid">
 
+            <article class="card refresher-card">
+                <div class="refresher-tag">1 · Values</div>
+                <h3>Storing information</h3>
+                <p>
+                    A variable gives a name to a value, such as a number,
+                    some text, or a true/false answer.
+                </p>
+                <pre><code>age = 19
+name = "Ada"
+is_sorted = False</code></pre>
+            </article>
 
-        <div class="visual-box">
+            <article class="card refresher-card">
+                <div class="refresher-tag">2 · Conditions</div>
+                <h3>Making decisions</h3>
+                <p>
+                    An <code>if</code> runs some code only when a
+                    comparison is true. Sorting algorithms rely on
+                    this constantly.
+                </p>
+                <pre><code>if a > b:
+    print("a is bigger")
+else:
+    print("b is bigger or equal")</code></pre>
+            </article>
 
-          <div class="visual-head">
-            <span>VISUALIZATION</span>
-            <span id="bubble-action">Waiting</span>
-          </div>
+            <article class="card refresher-card">
+                <div class="refresher-tag">3 · Loops</div>
+                <h3>Repeating work</h3>
+                <p>
+                    A loop repeats the same instructions. A
+                    <code>for</code> loop runs a set number of times;
+                    a <code>while</code> loop runs as long as a condition holds.
+                </p>
+                <pre><code>for i in range(3):
+    print(i)        # 0, 1, 2
 
-          <div id="container-bubble" class="visualizer"></div>
+while x > 0:
+    x = x - 1</code></pre>
+            </article>
 
-        </div>
+            <article class="card refresher-card">
+                <div class="refresher-tag">4 · Arrays</div>
+                <h3>Ordered collections</h3>
+                <p>
+                    An array (a list in Python) holds many values. Each
+                    one has a position, called an index, starting at 0.
+                </p>
+                <pre><code>a = [45, 23, 87]
+a[0]               # 45
+len(a)             # 3
 
+# swap two neighbors
+a[0], a[1] = a[1], a[0]</code></pre>
+            </article>
 
-        <div class="stats">
+            <article class="card refresher-card">
+                <div class="refresher-tag">5 · Functions</div>
+                <h3>Reusable recipes</h3>
+                <p>
+                    A function packages instructions under a name. It can
+                    even call itself, which is called recursion.
+                </p>
+                <pre><code>def double(x):
+    return x * 2
 
-          <div>
-            <span>Comparisons</span>
-            <b id="count-bubble-comp">0</b>
-          </div>
+def countdown(n):
+    if n == 0:
+        return
+    countdown(n - 1)</code></pre>
+            </article>
 
-          <div>
-            <span>Swaps</span>
-            <b id="count-bubble-swap">0</b>
-          </div>
-
-          <div>
-            <span>Passes</span>
-            <b id="count-bubble-pass">0</b>
-          </div>
-
-        </div>
-
-
-        <details class="code">
-          <summary>View Python code</summary>
-
-<pre><code>def bubble_sort(a):
-    for i in range(len(a)):
-        swapped = False
-
-        for j in range(len(a) - i - 1):
-            if a[j] > a[j + 1]:
-                a[j], a[j + 1] = a[j + 1], a[j]
-                swapped = True
-
-        if not swapped:
-            break
-
-    return a
-</code></pre>
-
-        </details>
-
-      </article>
-
-
-      <!-- ================= MERGE SORT ================= -->
-
-      <article class="algorithm-card">
-
-        <div class="algorithm-head">
-          <div>
-            <small>ALGORITHM B</small>
-            <h3>Merge Sort</h3>
-          </div>
-
-          <b>Divide & conquer</b>
-        </div>
-
-        <p>
-          Merge Sort repeatedly divides the array into smaller pieces,
-          then rebuilds it by comparing the smallest available values.
-        </p>
-
-
-        <div class="visual-box merge-box">
-
-          <div class="visual-head">
-            <span>ARRAY VISUALIZATION</span>
-            <span id="merge-action">Waiting</span>
-          </div>
-
-          <div id="container-merge" class="merge-visualizer">
-
-            <div class="merge-help">
-              Press <strong>Start experiment</strong> to watch
-              the array split and rebuild.
-            </div>
-
-          </div>
+            <article class="card refresher-card refresher-goal">
+                <div class="refresher-tag">What's next</div>
+                <h3>Put it to use</h3>
+                <p>
+                    You will watch two sorting algorithms at work. Both
+                    use comparisons, loops, arrays and swaps, and one of
+                    them also uses recursion.
+                </p>
+                <p>
+                    Your task is simply to observe how each one behaves.
+                </p>
+            </article>
 
         </div>
 
-
-        <div class="stats">
-
-          <div>
-            <span>Comparisons</span>
-            <b id="count-merge-comp">0</b>
-          </div>
-
-          <div>
-            <span>Merges</span>
-            <b id="count-merge-pass">0</b>
-          </div>
-
-          <div>
-            <span>Elements</span>
-            <b>12</b>
-          </div>
-
+        <div class="next">
+            <span>Ready to see algorithms think?</span>
+            <a class="btn btn-dark" href="explore.html">Start exploring →</a>
         </div>
 
-
-        <details class="code">
-
-          <summary>View Python code</summary>
-
-<pre><code>def merge_sort(a):
-    if len(a) <= 1:
-        return a
-
-    mid = len(a) // 2
-
-    left = merge_sort(a[:mid])
-    right = merge_sort(a[mid:])
-
-    result = []
-
-    while left and right:
-        if left[0] <= right[0]:
-            result.append(left.pop(0))
-        else:
-            result.append(right.pop(0))
-
-    return result + left + right
-</code></pre>
-
-        </details>
-
-      </article>
-
-    </div>
-
-
-    <!-- LEGEND -->
-
-    <div class="legend">
-
-      <strong>HOW TO READ</strong>
-
-      <span>
-        <i class="dot blue"></i>
-        Normal
-      </span>
-
-      <span>
-        <i class="dot yellow"></i>
-        Comparing
-      </span>
-
-      <span>
-        <i class="dot green"></i>
-        Sorted
-      </span>
-
-    </div>
-
-
-    <div class="next">
-
-      <span>Once you have observed...</span>
-
-      <button id="btn-go-to-hypothesis" class="dark">
-        Analyze your observations →
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- ================= STEP 2 ================= -->
-
-  <section id="step-hypothesis" class="hidden">
-
-    <div class="section-title">
-
-      <small>MISSION 02</small>
-
-      <h2>
-        What do your <span>observations</span> tell you?
-      </h2>
-
-      <p>
-        Form a hypothesis before discovering the theory.
-      </p>
-
-    </div>
-
-
-    <!-- CONTROL GROUP -->
-
-    <div id="ui-control-group" class="reflection hidden">
-
-      <div class="reflection-card">
-
-        <b>01</b>
-
-        <div>
-          <h3>Your observation</h3>
-
-          <p>
-            What major difference did you notice?
-          </p>
-
-          <textarea
-            placeholder="Write your observation..."
-          ></textarea>
-        </div>
-
-      </div>
-
-
-      <div class="reflection-card">
-
-        <b>02</b>
-
-        <div>
-          <h3>Your hypothesis</h3>
-
-          <p>
-            Which algorithm might scale better? Why?
-          </p>
-
-          <textarea
-            placeholder="Write your hypothesis..."
-          ></textarea>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- LOCAL TUTOR -->
-
-    <div id="ui-ai-group" class="ai hidden">
-
-      <div class="ai-header">
-
-        <div class="ai-icon">✦</div>
-
-        <div>
-          <small>LOCAL TUTOR</small>
-          <strong>Guided reasoning — no external AI</strong>
-        </div>
-
-      </div>
-
-
-      <div id="chat-box" class="chat">
-
-        <small>OBSERVATION SESSION</small>
-
-        <div class="chat-message">
-
-          <b>✦ Tutor</b>
-
-          <p>
-            Look at how Merge Sort repeatedly splits the list.
-            What might happen when the list becomes very large?
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="chat-input">
-
-        <input
-          id="ai-input"
-          type="text"
-          placeholder="Your observation..."
-        >
-
-        <button id="btn-send-ai">
-          Send →
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div class="next">
-
-      <button id="btn-go-to-telling" class="dark">
-        Discover the theory →
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- ================= STEP 3 ================= -->
-
-  <section id="step-telling" class="hidden">
-
-    <div class="section-title">
-
-      <small>MISSION 03 · TIME FOR TELLING</small>
-
-      <h2>
-        Now let's explain <span>what you saw.</span>
-      </h2>
-
-      <p>
-        The theory behind the two behaviors you observed.
-      </p>
-
-    </div>
-
-
-    <div class="theory-grid">
-
-
-      <!-- BUBBLE THEORY -->
-
-      <article class="theory-card">
-
-        <div class="theory-icon orange">B</div>
-
-        <small>ALGORITHM A</small>
-
-        <h3>Bubble Sort</h3>
-
-        <p>
-          Bubble Sort repeatedly compares neighboring elements.
-          With an optimized implementation, it can detect that
-          the list is already sorted and stop immediately.
-        </p>
-
-
-        <div class="complexities">
-
-          <span>
-            <b>Best case</b>
-            O(n)
-          </span>
-
-          <span>
-            <b>Average case</b>
-            O(n²)
-          </span>
-
-          <span>
-            <b>Worst case</b>
-            O(n²)
-          </span>
-
-        </div>
-
-
-        <p class="small-note">
-          The O(n) best case happens when the list is already sorted:
-          one pass is enough to check all neighboring elements.
-        </p>
-
-      </article>
-
-
-      <!-- MERGE THEORY -->
-
-      <article class="theory-card">
-
-        <div class="theory-icon purple">M</div>
-
-        <small>ALGORITHM B</small>
-
-        <h3>Merge Sort</h3>
-
-        <p>
-          Merge Sort divides the list into smaller pieces and
-          repeatedly merges sorted pieces together. The number
-          of levels grows logarithmically.
-        </p>
-
-
-        <div class="complexities purple-box">
-
-          <span>
-            <b>Best case</b>
-            O(n log n)
-          </span>
-
-          <span>
-            <b>Average case</b>
-            O(n log n)
-          </span>
-
-          <span>
-            <b>Worst case</b>
-            O(n log n)
-          </span>
-
-        </div>
-
-      </article>
-
-    </div>
-
-
-    <div class="insight">
-
-      <div>!</div>
-
-      <section>
-
-        <small>THE KEY IDEA</small>
-
-        <h3>
-          Same task, very different strategies.
-        </h3>
-
-        <p>
-          Bubble Sort can finish quickly when the list is already
-          sorted, while Merge Sort provides much more predictable
-          performance as the input grows.
-        </p>
-
-      </section>
-
-    </div>
-
-
-    <div class="finish">
-
-      <div>
-
-        <small>EXPERIMENT COMPLETE</small>
-
-        <h3>
-          Observe → compare → hypothesize → theorize.
-        </h3>
-
-      </div>
-
-      <button id="btn-restart">
-        ↻ Restart
-      </button>
-
-    </div>
-
-  </section>
+    </section>
 
 </main>
 
-
 <footer>
-
-  <strong>
-    An Introduction to Algorithmic Complexity
-  </strong>
-
-  <span>
-    Local experiment · No external services
-  </span>
-
+    <strong>An Introduction to Algorithmic Complexity</strong>
+    <span>Local experiment · No external services</span>
 </footer>
 
-
-<script src="script.js"></script>
-
+<script src="js/shared.js"></script>
 </body>
 </html>

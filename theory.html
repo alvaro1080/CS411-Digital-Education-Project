@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 4 · Understand — Algorithm Lab</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div class="brand">
+            <div class="logo">✦</div>
+            <strong>An Introduction to Algorithmic Complexity</strong>
+        </div>
+        <div id="group-badge" class="group-badge">Loading...</div>
+    </div>
+</header>
+
+<main>
+
+    <ol class="steps" aria-label="Progress">
+        <li class="step is-done"><b>✓</b><span>Refresh</span></li>
+        <li class="line is-done" aria-hidden="true"></li>
+        <li class="step is-done"><b>✓</b><span>Explore</span></li>
+        <li class="line is-done" aria-hidden="true"></li>
+        <li class="step is-done"><b>✓</b><span>Analyze</span></li>
+        <li class="line is-done" aria-hidden="true"></li>
+        <li class="step is-active" aria-current="step"><b>04</b><span>Understand</span></li>
+    </ol>
+
+    <section>
+
+        <div class="section-title">
+            <small>MISSION 04 · TIME FOR TELLING</small>
+            <h2>Now let's explain <span>what you saw.</span></h2>
+            <p>The theory behind the two behaviors you observed.</p>
+        </div>
+
+        <div class="theory-grid">
+
+            <!-- Bubble Sort -->
+            <article class="card theory-card">
+                <div class="theory-icon orange">B</div>
+                <small>ALGORITHM A</small>
+                <h3>Bubble Sort</h3>
+
+                <p>
+                    Bubble Sort repeatedly compares neighboring elements.
+                    With an optimized implementation, it can detect that
+                    the list is already sorted and stop immediately.
+                </p>
+
+                <div class="complexities">
+                    <span><b>Best case</b> O(n)</span>
+                    <span><b>Average case</b> O(n²)</span>
+                    <span><b>Worst case</b> O(n²)</span>
+                </div>
+
+                <p class="small-note">
+                    The O(n) best case happens when the list is already sorted:
+                    one pass is enough to check all neighboring elements.
+                </p>
+            </article>
+
+            <!-- Merge Sort -->
+            <article class="card theory-card">
+                <div class="theory-icon purple">M</div>
+                <small>ALGORITHM B</small>
+                <h3>Merge Sort</h3>
+
+                <p>
+                    Merge Sort divides the list into smaller pieces and
+                    repeatedly merges sorted pieces together. The number
+                    of levels grows logarithmically.
+                </p>
+
+                <div class="complexities purple-box">
+                    <span><b>Best case</b> O(n log n)</span>
+                    <span><b>Average case</b> O(n log n)</span>
+                    <span><b>Worst case</b> O(n log n)</span>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="insight">
+            <div class="insight-icon">!</div>
+            <div>
+                <small>THE KEY IDEA</small>
+                <h3>Same task, very different strategies.</h3>
+                <p>
+                    Bubble Sort can finish quickly when the list is already
+                    sorted, while Merge Sort provides much more predictable
+                    performance as the input grows.
+                </p>
+            </div>
+        </div>
+
+        <div class="finish">
+            <div>
+                <small>EXPERIMENT COMPLETE</small>
+                <h3>Observe → compare → hypothesize → theorize.</h3>
+            </div>
+            <a class="btn" href="index.html">↻ Restart</a>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <strong>An Introduction to Algorithmic Complexity</strong>
+    <span>Local experiment · No external services</span>
+</footer>
+
+<script src="js/shared.js"></script>
+</body>
+</html>

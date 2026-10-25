@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 2 · Explore — Algorithm Lab</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div class="brand">
+            <div class="logo">✦</div>
+            <strong>An Introduction to Algorithmic Complexity</strong>
+        </div>
+        <div id="group-badge" class="group-badge">Loading...</div>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="eyebrow">● INTERACTIVE EXPERIENCE</div>
+        <h1>See algorithms <span>think.</span></h1>
+        <p>
+            Compare two sorting algorithms, observe their decisions,
+            and build your intuition before discovering the theory.
+        </p>
+    </section>
+
+    <ol class="steps" aria-label="Progress">
+        <li class="step is-done"><b>✓</b><span>Refresh</span></li>
+        <li class="line is-done" aria-hidden="true"></li>
+        <li class="step is-active" aria-current="step"><b>02</b><span>Explore</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><b>03</b><span>Analyze</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><b>04</b><span>Understand</span></li>
+    </ol>
+
+    <section>
+
+        <div class="intro-card">
+            <div>
+                <small>MISSION 02</small>
+                <h2>Observe before you conclude.</h2>
+                <p>
+                    Both algorithms receive exactly the same data.
+                    Watch how they compare, move and organize elements.
+                </p>
+            </div>
+
+            <div class="buttons">
+                <button id="btn-start-sim">▶ Start experiment</button>
+                <button id="btn-reset-sim" class="btn-secondary">↻ Reset</button>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <span class="live">● LIVE</span>
+            <strong id="global-status">Ready to observe</strong>
+            <span class="data">12 elements</span>
+        </div>
+
+        <div class="algorithms">
+
+            <!-- Bubble Sort -->
+            <article class="card algorithm-card">
+                <div class="algorithm-head">
+                    <div>
+                        <small>ALGORITHM A</small>
+                        <h3>Bubble Sort</h3>
+                    </div>
+                    <b>Sorting by neighbors</b>
+                </div>
+
+                <p>
+                    Bubble Sort compares neighboring elements. If they are in
+                    the wrong order, they are swapped. If a complete pass
+                    makes no swaps, the algorithm stops early.
+                </p>
+
+                <div class="visual-box">
+                    <div class="visual-head">
+                        <span>VISUALIZATION</span>
+                        <span id="bubble-action">Waiting</span>
+                    </div>
+                    <div id="container-bubble" class="visualizer"></div>
+                </div>
+
+                <div class="stats">
+                    <div><span>Comparisons</span><b id="count-bubble-comp">0</b></div>
+                    <div><span>Swaps</span><b id="count-bubble-swap">0</b></div>
+                    <div><span>Passes</span><b id="count-bubble-pass">0</b></div>
+                </div>
+
+                <details class="code">
+                    <summary>View Python code</summary>
+                    <pre><code>def bubble_sort(a):
+    for i in range(len(a)):
+        swapped = False
+
+        for j in range(len(a) - i - 1):
+            if a[j] > a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+                swapped = True
+
+        if not swapped:
+            break
+
+    return a
+</code></pre>
+                </details>
+            </article>
+
+            <!-- Merge Sort -->
+            <article class="card algorithm-card">
+                <div class="algorithm-head">
+                    <div>
+                        <small>ALGORITHM B</small>
+                        <h3>Merge Sort</h3>
+                    </div>
+                    <b>Divide &amp; conquer</b>
+                </div>
+
+                <p>
+                    Merge Sort repeatedly divides the array into smaller pieces,
+                    then rebuilds it by comparing the smallest available values.
+                </p>
+
+                <div class="visual-box">
+                    <div class="visual-head">
+                        <span>ARRAY VISUALIZATION</span>
+                        <span id="merge-action">Waiting</span>
+                    </div>
+                    <div id="container-merge" class="merge-visualizer"></div>
+                </div>
+
+                <div class="stats">
+                    <div><span>Comparisons</span><b id="count-merge-comp">0</b></div>
+                    <div><span>Merges</span><b id="count-merge-pass">0</b></div>
+                    <div><span>Elements</span><b>12</b></div>
+                </div>
+
+                <details class="code">
+                    <summary>View Python code</summary>
+                    <pre><code>def merge_sort(a):
+    if len(a) <= 1:
+        return a
+
+    mid = len(a) // 2
+
+    left = merge_sort(a[:mid])
+    right = merge_sort(a[mid:])
+
+    result = []
+
+    while left and right:
+        if left[0] <= right[0]:
+            result.append(left.pop(0))
+        else:
+            result.append(right.pop(0))
+
+    return result + left + right
+</code></pre>
+                </details>
+            </article>
+
+        </div>
+
+        <div class="legend">
+            <strong>HOW TO READ</strong>
+            <span><i class="dot blue"></i>Normal</span>
+            <span><i class="dot yellow"></i>Comparing</span>
+            <span><i class="dot green"></i>Sorted</span>
+        </div>
+
+        <div class="next">
+            <span>Once you have observed...</span>
+            <a class="btn btn-dark" href="hypothesis.html">Analyze your observations →</a>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <strong>An Introduction to Algorithmic Complexity</strong>
+    <span>Local experiment · No external services</span>
+</footer>
+
+<script src="js/shared.js"></script>
+<script src="js/exploration.js"></script>
+</body>
+</html>
