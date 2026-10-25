@@ -60,7 +60,7 @@ exports.handler = async (event) => {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        fallback: `The AI tutor is unavailable right now. Error: ${error?.message || "Unknown error"}`,
+        fallback: `The AI-tutor is unavailable right now. Error: ${error?.message || "Unknown error"}`,
       }),
     };
   }
