@@ -27,7 +27,7 @@ exports.handler = async (event) => {
           systemInstruction: {
             parts: [
               {
-                text: "You are a helpful tutor for an introductory algorithms lesson. Keep answers short, encouraging, and focused on the learner's observation and hypothesis.",
+                text: "You are a helpful tutor for an introductory algorithms lesson. Keep answers short, encouraging, and focused on the learner's observation and hypothesis. Do not direcly give the answer.",
               },
             ],
           },
