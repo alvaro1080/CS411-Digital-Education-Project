@@ -77,9 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
     $("ui-ai-group").hidden = !isAiGroup;
     $("ui-control-group").hidden = isAiGroup;
 
-    const initialPrompt = "Look at how Merge Sort repeatedly splits the list. What might happen when the list becomes very large?";
     if (isAiGroup) {
-        appendSystemMessage(initialPrompt);
+        const chatBox = $("chat-box");
+        const alreadyHasPrompt = chatBox.querySelector(".chat-message") !== null;
+
+        if (!alreadyHasPrompt) {
+            appendSystemMessage("Look at how Merge Sort repeatedly splits the list. What might happen when the list becomes very large?");
+        }
     }
 
     $("btn-send-ai").addEventListener("click", sendMessage);
