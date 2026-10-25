@@ -1,0 +1,10 @@
+{
+  "name": "cs411-digital-education-project",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "openai": "^4.65.0"
+  }
+}
