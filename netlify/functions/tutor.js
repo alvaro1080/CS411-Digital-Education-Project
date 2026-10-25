@@ -1,39 +1,5 @@
-const { OpenAI } = require("openai");
-
-
-const openai = new OpenAI();
-
-
-const getAIResponse = async (question) => {
-  try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini", // Nom standard du modèle géré par la passerelle
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a helpful tutor for an introductory algorithms lesson. Keep answers short, encouraging, and focused on the learner's observation and hypothesis.",
-        },
-        {
-          role: "user",
-          content: question,
-        },
-      ],
-      temperature: 0.7,
-    });
-
-    // Le SDK gère le parsing et extrait directement le contenu textuel
-    return completion.choices[0]?.message?.content || "I could not generate a response right now.";
-  } catch (apiError) {
-    // Permet de capturer les erreurs spécifiques renvoyées par la passerelle ou OpenAI
-    throw new Error(`AI Gateway API Error: ${apiError.message}`);
-  }
-};
-
-// Handler principal de la fonction Netlify
 exports.handler = async (event) => {
   try {
-    // Validation et extraction du message reçu
     const body = JSON.parse(event.body || "{}");
     const question = (body.message || "").trim();
 
@@ -45,8 +11,48 @@ exports.handler = async (event) => {
       };
     }
 
-    // Appel de la fonction IA
-    const reply = await getAIResponse(question);
+    const apiKey = process.env.GOOGLE_API_KEY;
+    if (!apiKey) {
+      throw new Error("GOOGLE_API_KEY is not configured.");
+    }
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [
+              {
+                text: "You are a helpful tutor for an introductory algorithms lesson. Keep answers short, encouraging, and focused on the learner's observation and hypothesis.",
+              },
+            ],
+          },
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: question }],
+            },
+          ],
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const detail = data?.error?.message || "Google API request failed";
+      throw new Error(`Google API error (${response.status}): ${detail}`);
+    }
+
+    const reply =
+      data.candidates?.[0]?.content?.parts
+        ?.map((part) => part.text)
+        .join("") ||
+      "I could not generate a response right now.";
 
     return {
       statusCode: 200,
@@ -60,7 +66,7 @@ exports.handler = async (event) => {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        fallback: `The AI-tutor is unavailable right now. Error: ${error?.message || "Unknown error"}`,
+        fallback: `The AI tutor is unavailable right now. Error: ${error?.message || "Unknown error"}`,
       }),
     };
   }
