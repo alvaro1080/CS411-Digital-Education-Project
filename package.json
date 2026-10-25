@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "openai": "^4.59.1"
+    "@google/generative-ai": "^0.21.0"
   }
 }
