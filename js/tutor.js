@@ -5,7 +5,7 @@
  * The active implementation is the Netlify-backed tutor in:
  * - hypothesis.html
  * - js/hypothesis.js
- * - netlify/functions/tutor.js
+ * - netlify/functions/sorting-comparison-tutor.js
  */
 
 console.info("Deprecated: netlify tutor UI is disabled. Use js/hypothesis.js instead.");
