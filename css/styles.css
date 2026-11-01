@@ -597,6 +597,23 @@ pre {
     margin-top: 10px;
 }
 
+.chat-input--cta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 14px;
+}
+
+.chat-explore-button {
+    width: 100%;
+    max-width: 320px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(16, 23, 42, 0.12);
+}
+
 
 /* ---------- 7. Theory (step 3) ---------- */
 
@@ -758,6 +775,7 @@ pre {
     .chat { height: 220px; padding: 14px; }
     .chat-input { flex-direction: column; }
     .chat-input button { width: 100%; }
+    .chat-explore-button { width: 100%; }
 
     .insight { flex-direction: column; padding: 18px; }
 

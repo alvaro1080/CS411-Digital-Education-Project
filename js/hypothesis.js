@@ -28,6 +28,21 @@ function appendUserMessage(text) {
     $("chat-box").scrollTop = $("chat-box").scrollHeight;
 }
 
+function replaceChatWithExploreButton() {
+    const controls = $("chat-controls");
+    if (!controls) return;
+
+    controls.classList.add("chat-input--cta");
+    controls.innerHTML = "";
+
+    const link = document.createElement("a");
+    link.href = "explore.html";
+    link.className = "btn btn-dark chat-explore-button";
+    link.textContent = "Go back to Explore →";
+
+    controls.appendChild(link);
+}
+
 async function askTutor(question) {
     const response = await fetch("/.netlify/functions/sorting-tutor", {
         method: "POST",
@@ -62,9 +77,11 @@ async function sendMessage() {
     try {
         const reply = await askTutor(text);
         appendSystemMessage(reply);
+        replaceChatWithExploreButton();
     } catch (error) {
         console.error(error);
         appendSystemMessage("The sorting tutor is unavailable right now. Please use the lesson content and your observations to continue.");
+        replaceChatWithExploreButton();
     } finally {
         button.disabled = false;
         button.textContent = "Send →";
