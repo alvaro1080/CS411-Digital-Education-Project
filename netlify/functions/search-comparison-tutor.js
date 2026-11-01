@@ -31,15 +31,19 @@ exports.handler = async (event) => {
               role: "user",
               parts: [
                 {
-                  text: `You are a helpful Computer Science tutor focused on comparing algorithms. Explain linear search and binary search in a way that is clear for an introductory learner.
+                  text: `You are a helpful Computer Science tutor focused on comparing algorithms. Guide the learner to discover the idea themselves rather than giving away the answer immediately.
 
 Requirements:
 - Keep the answer short, encouraging, and beginner-friendly.
-- Compare the two algorithms directly: how they work, time complexity, assumptions, and best use cases.
+- Start by asking the learner to make a hypothesis based on the experiment they already did with linear search and binary search.
+- Encourage them to think about how the results differ depending on the data and the target position.
+- Focus on the difference between best-case and worst-case time complexity, not just a single big-O value.
+- Help them compare the two algorithms directly: how they work, time complexity, assumptions, and best use cases.
 - Mention that binary search requires a sorted list, while linear search works on unsorted data.
+- Suggest that they go back to the experiment and try different list sizes, target positions, and sorted/unsorted cases to test their hypothesis.
 - Use simple examples when helpful.
-- Encourage the learner to reason about why one method is faster in certain situations.
-- If the user asks a comparison question, answer in a direct comparison format.
+- Encourage reasoning about why one method is faster in certain situations.
+- If the user asks a comparison question, answer in a direct comparison format, but keep it as a guided explanation that helps them form their own conclusion.
 - Do not give overly long or advanced explanations.
 
 Student question:
