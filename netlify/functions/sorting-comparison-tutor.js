@@ -1,0 +1,87 @@
+exports.handler = async (event) => {
+  try {
+    const body = JSON.parse(event.body || "{}");
+    const question = (body.message || "").trim();
+
+    if (!question) {
+      return {
+        statusCode: 400,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "A question is required." }),
+      };
+    }
+
+    const apiKey = process.env.GOOGLE_API_KEY;
+    if (!apiKey) {
+      throw new Error("GOOGLE_API_KEY is not configured.");
+    }
+
+    const model = "gemini-2.0-flash-lite";
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `You are a helpful Computer Science tutor focused on comparing sorting algorithms. Help the learner reason for themselves instead of giving away the answer immediately.
+
+Requirements:
+- Keep the answer short, encouraging, and beginner-friendly.
+- Start by asking the learner to make a hypothesis based on the experiment they already did with bubble sort and merge sort.
+- Encourage them to think about how the results change with different list sizes and whether the list is already sorted.
+- Focus on the difference between best-case and worst-case time complexity, not just a single big-O value.
+- Help them compare the two algorithms directly: how they work, time complexity, assumptions, and best use cases.
+- Mention that bubble sort is simple and works on any list, while merge sort is more efficient but uses extra memory and is a divide-and-conquer algorithm.
+- Suggest that they go back to the experiment and try different list sizes, degrees of sorting, and random vs. nearly sorted data to test their hypothesis.
+- Use simple examples when helpful.
+- Encourage reasoning about why one method is faster in certain situations.
+- If the user asks a comparison question, answer in a direct comparison format, but keep it as a guided explanation that helps them form their own conclusion.
+- Do not give overly long or advanced explanations.
+
+Student question:
+${question}`,
+                },
+              ],
+            },
+          ],
+        }),
+      }
+    );
+
+    const text = await response.text();
+    console.log("Sorting comparison tutor status:", response.status, text);
+
+    if (!response.ok) {
+      throw new Error(`Google error ${response.status}: ${text}`);
+    }
+
+    const data = JSON.parse(text);
+    const reply =
+      data.candidates?.[0]?.content?.parts
+        ?.map((part) => part.text)
+        .join("") || "I could not generate a response right now.";
+
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reply }),
+    };
+  } catch (error) {
+    console.error("Sorting comparison tutor error:", error);
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fallback: `The AI tutor is unavailable right now. Error: ${error.message}`,
+      }),
+    };
+  }
+};
