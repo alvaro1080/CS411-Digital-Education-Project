@@ -1,30 +1,22 @@
-/**
- * Shared by all pages.
- *
- * Which version the learner sees (AI tutor / control) is decided as follows:
- *
- *   1. URL parameter   ?group=ai  or  ?group=control   (forces a version)
- *   2. Saved choice    kept in sessionStorage so it survives page changes
- *   3. Random draw     50/50, only when nothing is forced or saved
- *
- * The landing page (index.html, flagged with data-redraw-group) starts a new
- * session: without a URL parameter it draws a new random group each load.
- * Accepted values for ?group= are listed in GROUP_ALIASES below.
- */
+function attachBackNavigation() {
+    const link = document.getElementById("btn-prev-page");
+    const prevPage = document.body.dataset.prevPage;
 
-const GROUP_KEY = "algorithm-lab-group";
+    if (!link || !prevPage) return;
 
-const GROUP_LABELS = {
-    ai: "Experimental group · AI tutor",
-    control: "Control group · Independent",
-};
+    link.addEventListener("click", (event) => {
+        const referrerOrigin = document.referrer ? new URL(document.referrer).origin : "";
+        const sameOrigin = referrerOrigin && referrerOrigin === window.location.origin;
 
-const GROUP_ALIASES = {
-    ai: "ai",
-    tutor: "ai",
-    experimental: "ai",
-    control: "control",
-};
+        if (sameOrigin && window.history.length > 1) {
+            event.preventDefault();
+            window.history.back();
+            return;
+        }
+
+        link.href = prevPage;
+    });
+}
 
 function drawGroup() {
     return Math.random() < 0.5 ? "ai" : "control";
@@ -74,4 +66,5 @@ document.addEventListener("DOMContentLoaded", () => {
     window.algorithmLab = { group };
 
     document.getElementById("group-badge").textContent = GROUP_LABELS[group];
+    attachBackNavigation();
 });
