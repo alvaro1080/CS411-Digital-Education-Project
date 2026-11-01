@@ -99,13 +99,6 @@ function buildProgressBar() {
         const step = document.createElement("li");
         step.className = "step";
 
-        if (i + 1 < currentStep) {
-            step.classList.add("is-done");
-        } else if (i + 1 === currentStep) {
-            step.classList.add("is-active");
-            step.setAttribute("aria-current", "step");
-        }
-
         const number = document.createElement("b");
         number.textContent = String(i + 1);
 
@@ -113,6 +106,14 @@ function buildProgressBar() {
         label.textContent = STEP_LABELS[i];
 
         step.append(number, label);
+
+        if (i + 1 < currentStep) {
+            step.classList.add("is-done");
+        } else if (i + 1 === currentStep) {
+            step.classList.add("is-active");
+            step.setAttribute("aria-current", "step");
+        }
+
         ol.appendChild(step);
 
         if (i < STEP_LABELS.length - 1) {
