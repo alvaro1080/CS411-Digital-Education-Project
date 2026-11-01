@@ -26,6 +26,18 @@ const GROUP_ALIASES = {
     control: "control",
 };
 
+const PAGE_PROGRESS = {
+    "index.html": ["refresh"],
+    "explore-search.html": ["refresh", "explore"],
+    "hypothesis-search.html": ["refresh", "explore", "analyze"],
+    "theory-search.html": ["refresh", "explore", "analyze", "understand"],
+    "explore.html": ["refresh", "explore"],
+    "hypothesis.html": ["refresh", "explore", "analyze"],
+    "theory.html": ["refresh", "explore", "analyze", "understand"],
+};
+
+const STEP_ORDER = ["refresh", "explore", "analyze", "understand"];
+
 function drawGroup() {
     return Math.random() < 0.5 ? "ai" : "control";
 }
@@ -67,11 +79,33 @@ function resolveGroup({ newSession }) {
     return drawn;
 }
 
+function applyProgressState() {
+    const pageName = window.location.pathname.split("/").pop() || "index.html";
+    const progress = PAGE_PROGRESS[pageName] || ["refresh"];
+    const currentStep = progress[progress.length - 1];
+    const steps = document.querySelectorAll(".step");
+
+    steps.forEach((step, index) => {
+        const stepName = STEP_ORDER[index];
+        if (!stepName) return;
+
+        if (progress.includes(stepName)) {
+            step.classList.add(stepName === currentStep ? "is-active" : "is-done");
+            if (stepName === currentStep) {
+                step.setAttribute("aria-current", "step");
+            }
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const newSession = document.body.hasAttribute("data-redraw-group");
 
     const group = resolveGroup({ newSession });
     window.algorithmLab = { group };
 
-    document.getElementById("group-badge").textContent = GROUP_LABELS[group];
+    const badge = document.getElementById("group-badge");
+    if (badge) badge.textContent = GROUP_LABELS[group];
+
+    applyProgressState();
 });
