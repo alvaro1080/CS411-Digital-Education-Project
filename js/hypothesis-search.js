@@ -37,9 +37,9 @@ function replaceChatWithExploreButton() {
     controls.innerHTML = "";
 
     const link = document.createElement("a");
-    link.href = "theory-search.html";
+    link.href = "explore-search.html";
     link.className = "btn btn-dark chat-explore-button";
-    link.textContent = "See the theory →";
+    link.textContent = "← Go back to explore";
 
     controls.appendChild(link);
 }
