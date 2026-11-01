@@ -26,17 +26,25 @@ const GROUP_ALIASES = {
     control: "control",
 };
 
-const PAGE_PROGRESS = {
-    "index.html": ["refresh"],
-    "explore-search.html": ["refresh", "explore"],
-    "hypothesis-search.html": ["refresh", "explore", "analyze"],
-    "theory-search.html": ["refresh", "explore", "analyze", "understand"],
-    "explore.html": ["refresh", "explore"],
-    "hypothesis.html": ["refresh", "explore", "analyze"],
-    "theory.html": ["refresh", "explore", "analyze", "understand"],
-};
+const STEP_LABELS = [
+    "Refresh",
+    "Explore",
+    "Analyze",
+    "Understand",
+    "Explore",
+    "Analyze",
+    "Understand",
+];
 
-const STEP_ORDER = ["refresh", "explore", "analyze", "understand"];
+const PAGE_PROGRESS = {
+    "index.html": { current: 1 },
+    "explore-search.html": { current: 2 },
+    "hypothesis-search.html": { current: 3 },
+    "theory-search.html": { current: 4 },
+    "explore.html": { current: 5 },
+    "hypothesis.html": { current: 6 },
+    "theory.html": { current: 7 },
+};
 
 function drawGroup() {
     return Math.random() < 0.5 ? "ai" : "control";
@@ -79,23 +87,44 @@ function resolveGroup({ newSession }) {
     return drawn;
 }
 
-function applyProgressState() {
+function buildProgressBar() {
     const pageName = window.location.pathname.split("/").pop() || "index.html";
-    const progress = PAGE_PROGRESS[pageName] || ["refresh"];
-    const currentStep = progress[progress.length - 1];
-    const steps = document.querySelectorAll(".step");
+    const currentStep = PAGE_PROGRESS[pageName]?.current || 1;
+    const ol = document.querySelector(".steps");
+    if (!ol) return;
 
-    steps.forEach((step, index) => {
-        const stepName = STEP_ORDER[index];
-        if (!stepName) return;
+    ol.innerHTML = "";
 
-        if (progress.includes(stepName)) {
-            step.classList.add(stepName === currentStep ? "is-active" : "is-done");
-            if (stepName === currentStep) {
-                step.setAttribute("aria-current", "step");
-            }
+    for (let i = 0; i < STEP_LABELS.length; i++) {
+        const step = document.createElement("li");
+        step.className = "step";
+
+        if (i + 1 < currentStep) {
+            step.classList.add("is-done");
+        } else if (i + 1 === currentStep) {
+            step.classList.add("is-active");
+            step.setAttribute("aria-current", "step");
         }
-    });
+
+        const number = document.createElement("b");
+        number.textContent = String(i + 1);
+
+        const label = document.createElement("span");
+        label.textContent = STEP_LABELS[i];
+
+        step.append(number, label);
+        ol.appendChild(step);
+
+        if (i < STEP_LABELS.length - 1) {
+            const line = document.createElement("li");
+            line.className = "line";
+            if (i + 1 < currentStep) {
+                line.classList.add("is-done");
+            }
+            line.setAttribute("aria-hidden", "true");
+            ol.appendChild(line);
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -107,5 +136,5 @@ document.addEventListener("DOMContentLoaded", () => {
     const badge = document.getElementById("group-badge");
     if (badge) badge.textContent = GROUP_LABELS[group];
 
-    applyProgressState();
+    buildProgressBar();
 });
