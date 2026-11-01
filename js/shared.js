@@ -37,13 +37,13 @@ const STEP_LABELS = [
 ];
 
 const PAGE_PROGRESS = {
-    "index.html": { current: 1 },
-    "explore-search.html": { current: 2 },
-    "hypothesis-search.html": { current: 3 },
-    "theory-search.html": { current: 4 },
-    "explore.html": { current: 5 },
-    "hypothesis.html": { current: 6 },
-    "theory.html": { current: 7 },
+    index: 1,
+    "explore-search": 2,
+    "hypothesis-search": 3,
+    "theory-search": 4,
+    explore: 5,
+    hypothesis: 6,
+    theory: 7,
 };
 
 function drawGroup() {
@@ -87,9 +87,14 @@ function resolveGroup({ newSession }) {
     return drawn;
 }
 
+function currentPageKey() {
+    const pagePath = window.location.pathname.split("/").pop() || "index.html";
+    const pageName = pagePath.replace(/\.html?$/i, "") || "index";
+    return pageName.toLowerCase();
+}
+
 function buildProgressBar() {
-    const pageName = window.location.pathname.split("/").pop() || "index.html";
-    const currentStep = PAGE_PROGRESS[pageName]?.current || 1;
+    const currentStep = PAGE_PROGRESS[currentPageKey()] || 1;
     const ol = document.querySelector(".steps");
     if (!ol) return;
 
