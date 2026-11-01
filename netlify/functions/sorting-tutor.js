@@ -16,7 +16,7 @@ exports.handler = async (event) => {
       throw new Error("GOOGLE_API_KEY is not configured.");
     }
 
-    const model = "gemini-2.5-flash";
+    const model = "gemini-3.5-flash-lite";
 
     const prompt = `You are a patient tutor for introductory algorithms. Focus only on sorting algorithms and ask the learner to form a hypothesis before giving an answer.
 
