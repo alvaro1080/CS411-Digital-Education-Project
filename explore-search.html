@@ -58,10 +58,29 @@
             </div>
         </div>
 
+        <div class="settings-panel" aria-label="Simulation settings">
+            <div class="setting-group">
+                <label for="element-count">Number of elements</label>
+                <div class="setting-control">
+                    <input id="element-count" type="range" min="10" max="20" step="1" value="12">
+                    <span id="element-count-value">12</span>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label for="initial-order">Starting order</label>
+                <select id="initial-order">
+                    <option value="unsorted">Unsorted</option>
+                    <option value="almost-sorted">Almost sorted</option>
+                    <option value="sorted">Sorted</option>
+                </select>
+            </div>
+        </div>
+
         <div class="status-bar">
             <span class="live">● LIVE</span>
             <strong id="global-status">Ready to observe</strong>
-            <span class="data">12 elements</span>
+            <span class="data">12 elements · Unsorted</span>
         </div>
 
         <div class="algorithms">
@@ -90,7 +109,7 @@
 
                 <div class="stats">
                     <div><span>Comparisons</span><b id="count-linear-comp">0</b></div>
-                    <div><span>Target</span><b>64</b></div>
+                    <div><span>Target</span><b id="count-linear-target">64</b></div>
                     <div><span>Status</span><b id="count-linear-status">-</b></div>
                 </div>
 
@@ -129,7 +148,7 @@
 
                 <div class="stats">
                     <div><span>Comparisons</span><b id="count-binary-comp">0</b></div>
-                    <div><span>Target</span><b>64</b></div>
+                    <div><span>Target</span><b id="count-binary-target">64</b></div>
                     <div><span>Status</span><b id="count-binary-status">-</b></div>
                 </div>
 

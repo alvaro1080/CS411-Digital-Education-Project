@@ -3,8 +3,8 @@
  * Runs Bubble Sort and Merge Sort side by side on the same data.
  */
 
-const INITIAL_DATA = [45, 23, 87, 12, 64, 38, 71, 9, 56, 31, 82, 17];
-const MAX_VALUE = Math.max(...INITIAL_DATA);
+const DEFAULT_SIZE = 12;
+const DEFAULT_ORDER = "unsorted";
 const MAX_BAR_HEIGHT = 155; // px
 const MIN_BAR_HEIGHT = 12; // px
 
@@ -15,16 +15,69 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const range = (start, end) =>
     Array.from({ length: Math.max(0, end - start) }, (_, i) => start + i);
 
-/* The arrays are kept between runs so that "Run again" sorts an
-   already-sorted list (a nice way to see Bubble Sort's best case). */
-let bubbleList = [...INITIAL_DATA];
-let mergeList = [...INITIAL_DATA];
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function buildSortedList(size) {
+    return Array.from({ length: size }, (_, index) => index + 1);
+}
+
+function buildAlmostSortedList(size) {
+    const values = buildSortedList(size);
+    const swaps = Math.max(1, Math.floor(size * 0.15));
+
+    for (let i = 0; i < swaps; i++) {
+        const left = randomInt(0, size - 1);
+        const right = randomInt(0, size - 1);
+        [values[left], values[right]] = [values[right], values[left]];
+    }
+
+    return values;
+}
+
+function buildUnsortedList(size) {
+    const values = buildSortedList(size);
+    for (let i = values.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [values[i], values[j]] = [values[j], values[i]];
+    }
+    return values;
+}
+
+function buildInitialData(size, order) {
+    if (order === "sorted") return buildSortedList(size);
+    if (order === "almost-sorted") return buildAlmostSortedList(size);
+    return buildUnsortedList(size);
+}
+
+let currentSize = DEFAULT_SIZE;
+let currentOrder = DEFAULT_ORDER;
+
+let bubbleList = buildInitialData(currentSize, currentOrder);
+let mergeList = buildInitialData(currentSize, currentOrder);
 let mergeSorted = [];
 let running = false;
 
 const bubbleStats = { comparisons: 0, swaps: 0, passes: 0 };
 const mergeStats = { comparisons: 0, merges: 0 };
 
+function syncSettingsUI() {
+    const slider = $("element-count");
+    const value = $("element-count-value");
+    const orderSelect = $("initial-order");
+    const dataLabel = document.querySelector(".status-bar .data");
+
+    if (slider) slider.value = String(currentSize);
+    if (value) value.textContent = String(currentSize);
+    if (orderSelect) orderSelect.value = currentOrder;
+    if (dataLabel) {
+        const label = currentOrder.replace("-", " ");
+        dataLabel.textContent = `${currentSize} elements · ${label}`;
+    }
+    const mergeCount = $("count-merge-elements");
+    if (mergeCount) mergeCount.textContent = String(currentSize);
+}
 
 /* =========================================================
    STATS & STATUS
@@ -41,9 +94,9 @@ function renderMergeStats() {
     $("count-merge-pass").textContent = mergeStats.merges;
 }
 
-const setBubbleAction = (text) => ($("bubble-action").textContent = text);
-const setMergeAction = (text) => ($("merge-action").textContent = text);
-const setGlobalStatus = (text) => ($("global-status").textContent = text);
+const setBubbleAction = (text) => $("bubble-action").textContent = text;
+const setMergeAction = (text) => $("merge-action").textContent = text;
+const setGlobalStatus = (text) => $("global-status").textContent = text;
 
 
 /* =========================================================
@@ -53,12 +106,12 @@ const setGlobalStatus = (text) => ($("global-status").textContent = text);
 function renderBars(list, active = [], sorted = []) {
     const container = $("container-bubble");
     container.innerHTML = "";
+    const maxValue = Math.max(...list, 1);
 
     list.forEach((value, i) => {
         const bar = document.createElement("div");
         bar.className = "bar";
-        bar.style.height =
-            `${Math.max(MIN_BAR_HEIGHT, (value / MAX_VALUE) * MAX_BAR_HEIGHT)}px`;
+        bar.style.height = `${Math.max(MIN_BAR_HEIGHT, (value / maxValue) * MAX_BAR_HEIGHT)}px`;
 
         if (active.includes(i)) bar.classList.add("compare");
         if (sorted.includes(i)) bar.classList.add("sorted");
@@ -104,11 +157,6 @@ async function bubbleSort() {
             }
         }
 
-        /*
-          PEDAGOGICAL POINT
-          If a whole pass makes no swap, the array is already sorted and we
-          stop. Best case = a single pass over n-1 neighbors => O(n).
-        */
         if (!swapped) {
             setBubbleAction("No swaps → already sorted");
             await sleep(500);
@@ -127,8 +175,6 @@ async function bubbleSort() {
 
 /* =========================================================
    MERGE SORT
-   The learner sees one array the whole time:
-     purple = current range · yellow = comparing · green = sorted
    ========================================================= */
 
 function renderMerge(array, rangeIdx = [], compare = [], sorted = [], phase = "", detail = "") {
@@ -152,7 +198,7 @@ function renderMerge(array, rangeIdx = [], compare = [], sorted = [], phase = ""
 
 function renderMergeIdle() {
     renderMerge(
-        INITIAL_DATA,
+        mergeList,
         [],
         [],
         [],
@@ -161,7 +207,6 @@ function renderMergeIdle() {
     );
 }
 
-/** Merge the two sorted ranges [start, middle) and [middle, end) of `a`. */
 async function mergeRanges(a, start, middle, end) {
     const left = a.slice(start, middle);
     const right = a.slice(middle, end);
@@ -214,7 +259,6 @@ async function mergeRanges(a, start, middle, end) {
         await sleep(400);
     }
 
-    // One side is empty: the remaining values are already in order.
     while (i < left.length) {
         result.push(left[i]);
         setMergeAction(`Place remaining ${left[i]}`);
@@ -239,7 +283,6 @@ async function mergeRanges(a, start, middle, end) {
         await sleep(300);
     }
 
-    // Write the merged values back and mark the section as sorted.
     result.forEach((value, k) => (a[start + k] = value));
     section.forEach((k) => {
         if (!mergeSorted.includes(k)) mergeSorted.push(k);
@@ -256,7 +299,6 @@ async function mergeRanges(a, start, middle, end) {
 }
 
 async function mergeSort(a, start = 0, end = a.length) {
-    // Base case: a single element is already sorted.
     if (end - start <= 1) {
         renderMerge(
             a, [start], [], mergeSorted,
@@ -324,7 +366,6 @@ async function start() {
     $("btn-start-sim").textContent = "Running...";
     setGlobalStatus("Watching both algorithms...");
 
-    // Both algorithms run at the same time to make the comparison easier.
     await Promise.all([bubbleSort(), runMergeSort()]);
 
     setGlobalStatus("Experiment complete");
@@ -338,8 +379,8 @@ async function start() {
 function reset() {
     if (running) return;
 
-    bubbleList = [...INITIAL_DATA];
-    mergeList = [...INITIAL_DATA];
+    bubbleList = buildInitialData(currentSize, currentOrder);
+    mergeList = buildInitialData(currentSize, currentOrder);
 
     Object.assign(bubbleStats, { comparisons: 0, swaps: 0, passes: 0 });
     Object.assign(mergeStats, { comparisons: 0, merges: 0 });
@@ -352,6 +393,7 @@ function reset() {
     setBubbleAction("Waiting");
     setMergeAction("Waiting");
     setGlobalStatus("Ready to observe");
+    syncSettingsUI();
 }
 
 
@@ -360,8 +402,33 @@ function reset() {
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+    const slider = $("element-count");
+    const orderSelect = $("initial-order");
+
+    bubbleList = buildInitialData(currentSize, currentOrder);
+    mergeList = buildInitialData(currentSize, currentOrder);
+
     renderBars(bubbleList);
     renderMergeIdle();
+    renderBubbleStats();
+    renderMergeStats();
+    syncSettingsUI();
+
+    if (slider) {
+        slider.addEventListener("input", (event) => {
+            currentSize = Number(event.target.value);
+            syncSettingsUI();
+            reset();
+        });
+    }
+
+    if (orderSelect) {
+        orderSelect.addEventListener("change", (event) => {
+            currentOrder = event.target.value;
+            syncSettingsUI();
+            reset();
+        });
+    }
 
     $("btn-start-sim").addEventListener("click", start);
     $("btn-reset-sim").addEventListener("click", reset);
