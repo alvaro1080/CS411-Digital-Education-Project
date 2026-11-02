@@ -26,6 +26,26 @@ const GROUP_ALIASES = {
     control: "control",
 };
 
+const STEP_LABELS = [
+    "Refresh",
+    "Explore",
+    "Analyze",
+    "Understand",
+    "Explore",
+    "Analyze",
+    "Understand",
+];
+
+const PAGE_PROGRESS = {
+    index: 1,
+    "explore-search": 2,
+    "hypothesis-search": 3,
+    "theory-search": 4,
+    explore: 5,
+    hypothesis: 6,
+    theory: 7,
+};
+
 function drawGroup() {
     return Math.random() < 0.5 ? "ai" : "control";
 }
@@ -67,11 +87,60 @@ function resolveGroup({ newSession }) {
     return drawn;
 }
 
+function currentPageKey() {
+    const pagePath = window.location.pathname.split("/").pop() || "index.html";
+    const pageName = pagePath.replace(/\.html?$/i, "") || "index";
+    return pageName.toLowerCase();
+}
+
+function buildProgressBar() {
+    const currentStep = PAGE_PROGRESS[currentPageKey()] || 1;
+    const ol = document.querySelector(".steps");
+    if (!ol) return;
+
+    ol.innerHTML = "";
+
+    for (let i = 0; i < STEP_LABELS.length; i++) {
+        const step = document.createElement("li");
+        step.className = "step";
+
+        const number = document.createElement("b");
+        number.textContent = String(i + 1);
+
+        const label = document.createElement("span");
+        label.textContent = STEP_LABELS[i];
+
+        step.append(number, label);
+
+        if (i + 1 < currentStep) {
+            step.classList.add("is-done");
+        } else if (i + 1 === currentStep) {
+            step.classList.add("is-active");
+            step.setAttribute("aria-current", "step");
+        }
+
+        ol.appendChild(step);
+
+        if (i < STEP_LABELS.length - 1) {
+            const line = document.createElement("li");
+            line.className = "line";
+            if (i + 1 < currentStep) {
+                line.classList.add("is-done");
+            }
+            line.setAttribute("aria-hidden", "true");
+            ol.appendChild(line);
+        }
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const newSession = document.body.hasAttribute("data-redraw-group");
 
     const group = resolveGroup({ newSession });
     window.algorithmLab = { group };
 
-    document.getElementById("group-badge").textContent = GROUP_LABELS[group];
+    const badge = document.getElementById("group-badge");
+    if (badge) badge.textContent = GROUP_LABELS[group];
+
+    buildProgressBar();
 });

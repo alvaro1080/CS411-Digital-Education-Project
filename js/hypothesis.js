@@ -10,7 +10,7 @@ function appendSystemMessage(text) {
     message.className = "chat-message";
 
     const name = document.createElement("b");
-    name.textContent = "✦ Tutor";
+    name.textContent = "✦ Sorting Tutor";
 
     const body = document.createElement("p");
     body.textContent = text;
@@ -28,8 +28,23 @@ function appendUserMessage(text) {
     $("chat-box").scrollTop = $("chat-box").scrollHeight;
 }
 
+function replaceChatWithExploreButton() {
+    const controls = $("chat-controls");
+    if (!controls) return;
+
+    controls.classList.add("chat-input--cta");
+    controls.innerHTML = "";
+
+    const link = document.createElement("a");
+    link.href = "explore.html";
+    link.className = "btn btn-dark chat-explore-button";
+    link.textContent = "← Go back to Explore";
+
+    controls.appendChild(link);
+}
+
 async function askTutor(question) {
-    const response = await fetch("/.netlify/functions/tutor", {
+    const response = await fetch("/.netlify/functions/sorting-tutor", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -41,7 +56,7 @@ async function askTutor(question) {
 
     if (!response.ok) {
         if (data && data.fallback) return data.fallback;
-        return "The AI tutor is unavailable right now.";
+        return "The sorting tutor is unavailable right now.";
     }
 
     return data.reply || "I could not generate a response.";
@@ -62,9 +77,11 @@ async function sendMessage() {
     try {
         const reply = await askTutor(text);
         appendSystemMessage(reply);
+        replaceChatWithExploreButton();
     } catch (error) {
         console.error(error);
-        appendSystemMessage("The AI tutor is unavailable right now. Please use the lesson content and your observations to continue.");
+        appendSystemMessage("The sorting tutor is unavailable right now. Please use the lesson content and your observations to continue.");
+        replaceChatWithExploreButton();
     } finally {
         button.disabled = false;
         button.textContent = "Send →";
@@ -82,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const alreadyHasPrompt = chatBox.querySelector(".chat-message") !== null;
 
         if (!alreadyHasPrompt) {
-            appendSystemMessage("Look at how Merge Sort repeatedly splits the list. What might happen when the list becomes very large?");
+            appendSystemMessage("Before you answer, compare bubble sort and merge sort. Which one do you predict will scale better, and why?");
         }
     }
 

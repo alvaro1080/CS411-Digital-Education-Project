@@ -191,7 +191,8 @@ button:disabled {
 }
 
 textarea,
-input {
+input,
+select {
     width: 100%;
     border: 1px solid #dce1ea;
     border-radius: 9px;
@@ -203,7 +204,8 @@ input {
 textarea { resize: vertical; }
 
 textarea:focus,
-input:focus { border-color: var(--accent); }
+input:focus,
+select:focus { border-color: var(--accent); }
 
 
 /* ---------- 4. Stepper ---------- */
@@ -253,6 +255,55 @@ input:focus { border-color: var(--accent); }
 
 
 /* ---------- 5. Exploration (step 1) ---------- */
+
+.settings-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 18px;
+    margin: 20px 0;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(16, 23, 42, 0.04);
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-group label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.setting-control input[type="range"] {
+    flex: 1;
+    min-width: 0;
+}
+
+.setting-control span {
+    min-width: 32px;
+    text-align: right;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.settings-panel select {
+    width: 100%;
+    background: white;
+}
 
 .intro-card {
     display: flex;
@@ -487,7 +538,6 @@ pre {
 .dot.green  { background: var(--ok); }
 
 
-
 /* ---------- 5b. Refresher (step 1) ---------- */
 
 .refresher-grid {
@@ -686,12 +736,10 @@ pre {
 /* ---------- 8. Responsive ---------- */
 
 @media (max-width: 1000px) {
-
     .refresher-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 800px) {
-
     .algorithms,
     .theory-grid { grid-template-columns: 1fr; }
 
@@ -712,7 +760,6 @@ pre {
 }
 
 @media (max-width: 550px) {
-
     .header { padding: 14px 16px; }
 
     .header-inner { flex-direction: column; align-items: flex-start; }
@@ -724,7 +771,6 @@ pre {
     .hero { margin-bottom: 30px; }
     .hero p, .section-title p { font-size: 15px; }
 
-    /* Stepper: only the current step shows its label */
     .steps { margin-bottom: 25px; }
     .step { gap: 0; }
     .step span { display: none; }
@@ -763,8 +809,7 @@ pre {
 
     footer { flex-direction: column; padding: 20px 14px; }
 
-    /* 16px prevents iOS Safari from zooming on focus */
-    textarea, input { font-size: 16px; }
+    textarea, input, select { font-size: 16px; }
 }
 
 /* ---------- AI tutor additions ---------- */
@@ -839,4 +884,54 @@ pre {
     color: white;
     border-radius: 10px;
     cursor: pointer;
+}
+
+/* ---------- Search visualization styles ---------- */
+
+.search-visualizer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    min-height: 235px;
+    padding: 20px 15px;
+}
+
+.search-item {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #5966d8;
+    color: #fff;
+    font: 13px monospace;
+    transition: transform .2s, background .2s, box-shadow .2s;
+}
+
+.search-item.compare {
+    background: var(--warn);
+    color: #171717;
+    transform: translateY(-5px);
+    box-shadow: 0 0 18px rgba(244, 185, 66, 0.55);
+}
+
+.search-item.found {
+    background: var(--ok);
+    box-shadow: 0 0 18px rgba(66, 201, 139, 0.4);
+}
+
+@media (max-width: 550px) {
+    .search-item {
+        width: 36px;
+        height: 36px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 550px) {
+    .settings-panel {
+        grid-template-columns: 1fr;
+    }
 }

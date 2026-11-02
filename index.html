@@ -25,8 +25,8 @@
         <div class="eyebrow">● WARM-UP</div>
         <h1>Quick <span>refresher.</span></h1>
         <p>
-            The experiment uses a few basic programming ideas. Skim these
-            five cards so everything feels familiar. All examples are in Python.
+            The lesson starts with searching, then moves to sorting. Review the core ideas below,
+            then compare linear and binary search before exploring bubble and merge sort.
         </p>
     </section>
 
@@ -46,7 +46,7 @@
             <small>MISSION 01</small>
             <h2>The building blocks.</h2>
             <p>
-                Already comfortable with these? Go straight to the experiment.
+                Already comfortable with these? Go straight to the search experiment.
             </p>
         </div>
 
@@ -69,13 +69,13 @@ is_sorted = False</code></pre>
                 <h3>Making decisions</h3>
                 <p>
                     An <code>if</code> runs some code only when a
-                    comparison is true. Sorting algorithms rely on
+                    comparison is true. Search algorithms rely on
                     this constantly.
                 </p>
-                <pre><code>if a > b:
-    print("a is bigger")
+                <pre><code>if target == value:
+    print("found")
 else:
-    print("b is bigger or equal")</code></pre>
+    print("keep looking")</code></pre>
             </article>
 
             <article class="card refresher-card">
@@ -87,10 +87,10 @@ else:
                     a <code>while</code> loop runs as long as a condition holds.
                 </p>
                 <pre><code>for i in range(3):
-    print(i)        # 0, 1, 2
+    print(i)
 
-while x > 0:
-    x = x - 1</code></pre>
+while low <= high:
+    mid = (low + high) // 2</code></pre>
             </article>
 
             <article class="card refresher-card">
@@ -100,12 +100,9 @@ while x > 0:
                     An array (a list in Python) holds many values. Each
                     one has a position, called an index, starting at 0.
                 </p>
-                <pre><code>a = [45, 23, 87]
-a[0]               # 45
-len(a)             # 3
-
-# swap two neighbors
-a[0], a[1] = a[1], a[0]</code></pre>
+                <pre><code>numbers = [8, 12, 17, 23]
+numbers[2]          # 17
+len(numbers)        # 4</code></pre>
             </article>
 
             <article class="card refresher-card">
@@ -113,35 +110,32 @@ a[0], a[1] = a[1], a[0]</code></pre>
                 <h3>Reusable recipes</h3>
                 <p>
                     A function packages instructions under a name. It can
-                    even call itself, which is called recursion.
+                    also call itself, which is called recursion.
                 </p>
-                <pre><code>def double(x):
-    return x * 2
-
-def countdown(n):
-    if n == 0:
-        return
-    countdown(n - 1)</code></pre>
+                <pre><code>def linear_search(a, target):
+    for i, value in enumerate(a):
+        if value == target:
+            return i
+    return -1</code></pre>
             </article>
 
             <article class="card refresher-card refresher-goal">
                 <div class="refresher-tag">What's next</div>
-                <h3>Put it to use</h3>
+                <h3>Start with search</h3>
                 <p>
-                    You will watch two sorting algorithms at work. Both
-                    use comparisons, loops, arrays and swaps, and one of
-                    them also uses recursion.
+                    First, you will compare linear search and binary search.
+                    Then, you will continue to bubble sort and merge sort.
                 </p>
                 <p>
-                    Your task is simply to observe how each one behaves.
+                    Your task is simply to observe how each algorithm behaves.
                 </p>
             </article>
 
         </div>
 
         <div class="next">
-            <span>Ready to see algorithms think?</span>
-            <a class="btn btn-dark" href="explore.html">Start exploring →</a>
+            <span>Ready to see search algorithms think?</span>
+            <a class="btn btn-dark" href="explore-search.html">Start exploring →</a>
         </div>
 
     </section>

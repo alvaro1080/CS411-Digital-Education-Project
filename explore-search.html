@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 2 · Explore — Search strategies</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div class="brand">
+            <div class="logo">✦</div>
+            <strong>An Introduction to Algorithmic Complexity</strong>
+        </div>
+        <div id="group-badge" class="group-badge">Loading...</div>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="eyebrow">● INTERACTIVE EXPERIENCE</div>
+        <h1>See search <span>algorithms think.</span></h1>
+        <p>
+            Compare linear search and binary search, observe their decisions,
+            and build your intuition before discovering the theory.
+        </p>
+    </section>
+
+    <ol class="steps" aria-label="Progress">
+        <li class="step is-done"><b>✓</b><span>Refresh</span></li>
+        <li class="line is-done" aria-hidden="true"></li>
+        <li class="step is-active" aria-current="step"><b>02</b><span>Explore</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><b>03</b><span>Analyze</span></li>
+        <li class="line" aria-hidden="true"></li>
+        <li class="step"><b>04</b><span>Understand</span></li>
+    </ol>
+
+    <section>
+
+        <div class="intro-card">
+            <div>
+                <small>MISSION 02</small>
+                <h2>Observe before you conclude.</h2>
+                <p>
+                    Both algorithms receive exactly the same data. Watch how each one chooses
+                    where to look next and how that changes when the list is sorted.
+                </p>
+            </div>
+
+            <div class="buttons">
+                <button id="btn-start-sim">▶ Start experiment</button>
+                <button id="btn-reset-sim" class="btn-secondary">↻ Reset</button>
+            </div>
+        </div>
+
+        <div class="settings-panel" aria-label="Simulation settings">
+            <div class="setting-group">
+                <label for="element-count">Number of elements</label>
+                <div class="setting-control">
+                    <input id="element-count" type="range" min="10" max="20" step="1" value="12">
+                    <span id="element-count-value">12</span>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label for="initial-order">Starting order</label>
+                <select id="initial-order">
+                    <option value="unsorted">Unsorted</option>
+                    <option value="almost-sorted">Almost sorted</option>
+                    <option value="sorted">Sorted</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <span class="live">● LIVE</span>
+            <strong id="global-status">Ready to observe</strong>
+            <span class="data">12 elements · Unsorted</span>
+        </div>
+
+        <div class="algorithms">
+
+            <article class="card algorithm-card">
+                <div class="algorithm-head">
+                    <div>
+                        <small>ALGORITHM A</small>
+                        <h3>Linear Search</h3>
+                    </div>
+                    <b>Check one by one</b>
+                </div>
+
+                <p>
+                    Linear search starts at the beginning and checks each value in order until it finds the target.
+                    It does not need the list to be sorted.
+                </p>
+
+                <div class="visual-box">
+                    <div class="visual-head">
+                        <span>SEARCH VISUALIZATION</span>
+                        <span id="linear-action">Waiting</span>
+                    </div>
+                    <div id="container-linear" class="search-visualizer"></div>
+                </div>
+
+                <div class="stats">
+                    <div><span>Comparisons</span><b id="count-linear-comp">0</b></div>
+                    <div><span>Target</span><b id="count-linear-target">64</b></div>
+                    <div><span>Status</span><b id="count-linear-status">-</b></div>
+                </div>
+
+                <details class="code">
+                    <summary>View Python code</summary>
+                    <pre><code>def linear_search(a, target):
+    for i, value in enumerate(a):
+        if value == target:
+            return i
+    return -1
+</code></pre>
+                </details>
+            </article>
+
+            <article class="card algorithm-card">
+                <div class="algorithm-head">
+                    <div>
+                        <small>ALGORITHM B</small>
+                        <h3>Binary Search</h3>
+                    </div>
+                    <b>Cut the list in half</b>
+                </div>
+
+                <p>
+                    Binary search only works on sorted data. It checks the middle element, then decides whether to
+                    keep the left or right half and continues narrowing the search.
+                </p>
+
+                <div class="visual-box">
+                    <div class="visual-head">
+                        <span>SEARCH VISUALIZATION</span>
+                        <span id="binary-action">Waiting</span>
+                    </div>
+                    <div id="container-binary" class="search-visualizer"></div>
+                </div>
+
+                <div class="stats">
+                    <div><span>Comparisons</span><b id="count-binary-comp">0</b></div>
+                    <div><span>Target</span><b id="count-binary-target">64</b></div>
+                    <div><span>Status</span><b id="count-binary-status">-</b></div>
+                </div>
+
+                <details class="code">
+                    <summary>View Python code</summary>
+                    <pre><code>def binary_search(a, target):
+    low, high = 0, len(a) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+        if a[mid] == target:
+            return mid
+        if a[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return -1
+</code></pre>
+                </details>
+            </article>
+
+        </div>
+
+        <div class="legend">
+            <strong>HOW TO READ</strong>
+            <span><i class="dot blue"></i>Unvisited</span>
+            <span><i class="dot yellow"></i>Current check</span>
+            <span><i class="dot green"></i>Found</span>
+        </div>
+
+        <div class="next">
+            <span>Once you have observed...</span>
+            <a class="btn btn-dark" href="hypothesis-search.html">Analyze your observations →</a>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <strong>An Introduction to Algorithmic Complexity</strong>
+    <span>Local experiment · No external services</span>
+</footer>
+
+<script src="js/shared.js"></script>
+<script src="js/exploration-search.js"></script>
+</body>
+</html>
