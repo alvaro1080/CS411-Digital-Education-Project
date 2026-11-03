@@ -34,6 +34,7 @@ const STEP_LABELS = [
     "Explore",
     "Analyze",
     "Understand",
+    "Post-test",
 ];
 
 const PAGE_PROGRESS = {
@@ -44,6 +45,7 @@ const PAGE_PROGRESS = {
     explore: 5,
     hypothesis: 6,
     theory: 7,
+    posttest: 8,
 };
 
 function drawGroup() {
