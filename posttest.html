@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 8 · Post-test — Algorithm Lab</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div class="brand">
+            <div class="logo">✦</div>
+            <strong>An Introduction to Algorithmic Complexity</strong>
+        </div>
+        <div id="group-badge" class="group-badge">Loading...</div>
+    </div>
+</header>
+
+<main>
+
+    <ol class="steps" aria-label="Progress"></ol>
+
+    <section>
+
+        <div class="section-title">
+            <small>FINAL STEP · POST-TEST</small>
+            <h2>Show what you <span>learned.</span></h2>
+            <p>
+                10 multiple-choice questions on searching and sorting. Work on your own,
+                without notes or the other pages. Only one answer is correct per question.
+            </p>
+        </div>
+
+        <div id="demo-banner" class="notice" hidden>
+            <b>Demo mode.</b> No spreadsheet is connected yet, so answers are scored here
+            but not saved. Set the link in <code>js/config.js</code> to enable saving.
+        </div>
+
+        <form id="posttest-form" novalidate>
+
+            <div class="card participant-card">
+                <label for="participant-id"><b>Participant code</b></label>
+                <p>Use the code given to you by the research team. Please do not enter your real name.</p>
+                <input id="participant-id" type="text" autocomplete="off" maxlength="40" placeholder="e.g. P-042">
+            </div>
+
+            <div id="question-list" class="question-list"></div>
+
+            <div id="submit-area" class="submit-area">
+                <span id="answered-count" class="answered-count">0 / 10 answered</span>
+                <p id="form-error" class="form-error" role="alert" hidden></p>
+                <button id="btn-submit" type="submit" class="btn btn-dark">Submit post-test →</button>
+            </div>
+
+        </form>
+
+        <div id="result-area" hidden>
+            <div class="finish result-card">
+                <div>
+                    <small>YOUR SCORE</small>
+                    <h3><span id="score-value"></span> · <span id="score-percent"></span></h3>
+                    <p id="save-status" class="save-status" role="status"></p>
+                </div>
+                <div class="result-actions">
+                    <button id="btn-retry" type="button" class="btn-secondary" hidden>Try saving again</button>
+                    <a class="btn" href="index.html">↻ Restart</a>
+                </div>
+            </div>
+            <p class="small-note result-note">Review the explanations under each question above.</p>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <strong>An Introduction to Algorithmic Complexity</strong>
+    <span>Post-test answers are stored in the research team's spreadsheet</span>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/posttest.js"></script>
+</body>
+</html>
