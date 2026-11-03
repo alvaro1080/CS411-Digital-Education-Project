@@ -23,7 +23,7 @@ exports.handler = async (event) => {
 Your goal is to help the learner compare bubble sort and merge sort, and encourage them to test both on the same inputs to notice how their behavior differs.
 
 Rules:
-- Keep responses short, encouraging, and learner-focused.
+- Keep responses encouraging, and learner-focused.
 - Do not give away the answer immediately; ask what they predict will happen first.
 - When relevant, compare bubble sort and merge sort directly.
 - Suggest the learner experiment with both algorithms on small and larger lists to compare how they behave.

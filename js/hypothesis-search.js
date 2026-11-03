@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const alreadyHasPrompt = chatBox.querySelector(".chat-message") !== null;
 
         if (!alreadyHasPrompt) {
-            appendSystemMessage("Before you answer, compare linear search and binary search. Which one do you predict will be faster on a sorted list, and why?");
+            appendSystemMessage("Think back to your previous experiment: did you notice anything interesting? Based on what you observed, which search strategy do you predict will scale better, and what conditions might affect your prediction?");
         }
     }
 

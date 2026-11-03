@@ -39,6 +39,41 @@
             <p>The theory behind the two searching behaviors you observed.</p>
         </div>
 
+        <article class="card theory-card">
+            <small style="display: block; font-size: 14px;">FIRST, A TOOL FOR COMPARING ALGORITHMS</small>
+            <h3>What does Big O mean?</h3>
+            <p>
+                To compare the best- and worst-case running times of algorithms, we need a way to describe how their work changes as the input grows. Big O notation gives us that way: it describes the rate at which an algorithm's work grows as the number of items increases, rather than measuring time in seconds on a particular computer.
+                Here, <b>n</b> means the number of items in the list.
+            </p>
+            <p>
+                In simple terms, <b>O(f(n))</b> describes an upper bound on how an algorithm's work grows with input size. We focus on the overall growth pattern and ignore fixed extra steps and constant factors, which makes it easier to compare algorithms across different computers and implementations.
+            </p>
+            <p>
+                For example, <b>O(n)</b> means the work grows roughly in proportion to the list: twice as many items can mean about twice as much work. <b>O(log n)</b> grows much more slowly: when the list doubles, it takes only about one extra step.
+            </p>
+
+            <h3>Working it out: linear search</h3>
+            <p>
+                Recall the first algorithm you saw (Linear Search). In the worst case, the target is last or is not in the list. A list of <b>n</b> items then needs
+                at most <b>n comparisons</b>. The work grows in proportion to the list size, so the worst-case
+                time complexity is <b>O(n)</b>. If the first item is the target, it takes just one comparison:
+                the best case is <b>O(1)</b>, meaning constant work.
+            </p>
+            <p class="small-note">
+                Example: with 10 items, linear search may need up to 10 comparisons; with 100 items, up to 100.
+                The exact count can vary, but the growth pattern is linear.
+            </p>
+
+            <h3>Using Big O to compare our searches</h3>
+            <p>
+                Linear search has worst-case complexity <b>O(n)</b>. Binary search has worst-case complexity
+                <b>O(log n)</b>, because each comparison lets it discard half of the remaining sorted list.
+                For 16 items, that takes about 4 halving steps; for 1,024 items, about 10. So binary search
+                usually needs fewer checks on a large list—but the list must already be sorted.
+            </p>
+        </article>
+
         <div class="theory-grid">
 
             <article class="card theory-card">
