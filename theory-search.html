@@ -40,17 +40,17 @@
         </div>
 
         <article class="card theory-card">
-            <small>FIRST, A TOOL FOR COMPARING ALGORITHMS</small>
+            <small style="display: block; font-size: 14px;">FIRST, A TOOL FOR COMPARING ALGORITHMS</small>
             <h3>What does Big O mean?</h3>
             <p>
-                Big O notation describes how the amount of work an algorithm does grows as its input gets bigger.
-                Here, <b>n</b> means the number of items in the list. It helps us compare algorithms on large lists,
-                without worrying about the exact computer or tiny timing differences.
+                To compare the best- and worst-case running times of algorithms, we need a way to describe how their work changes as the input grows. Big O notation gives us that way: it describes the rate at which an algorithm's work grows as the number of items increases, rather than measuring time in seconds on a particular computer.
+                Here, <b>n</b> means the number of items in the list.
             </p>
             <p>
-                For example, <b>O(n)</b> means the work grows roughly with the list: twice as many items can mean
-                about twice as much work. <b>O(log n)</b> grows much more slowly: when the list doubles, it takes
-                only about one extra step. We focus on this growth and ignore small details like fixed extra steps.
+                In simple terms, <b>O(f(n))</b> describes an upper bound on how an algorithm's work grows with input size. We focus on the overall growth pattern and ignore fixed extra steps and constant factors, which makes it easier to compare algorithms across different computers and implementations.
+            </p>
+            <p>
+                For example, <b>O(n)</b> means the work grows roughly in proportion to the list: twice as many items can mean about twice as much work. <b>O(log n)</b> grows much more slowly: when the list doubles, it takes only about one extra step.
             </p>
 
             <h3>Working it out: linear search</h3>
