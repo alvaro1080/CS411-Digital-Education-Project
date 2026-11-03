@@ -54,14 +54,8 @@
             </p>
 
             <h3>Working it out: linear search</h3>
-            <p>Imagine searching for a target by checking each item from the beginning:</p>
-            <ol>
-                <li>Start at the first item.</li>
-                <li>Compare the current item with the target.</li>
-                <li>If they are different, move to the next item and repeat.</li>
-            </ol>
-            <p>
-                In the worst case, the target is last or is not in the list. A list of <b>n</b> items then needs
+        
+                Recall the first algorithm you saw (Linear Search). In the worst case, the target is last or is not in the list. A list of <b>n</b> items then needs
                 at most <b>n comparisons</b>. The work grows in proportion to the list size, so the worst-case
                 time complexity is <b>O(n)</b>. If the first item is the target, it takes just one comparison:
                 the best case is <b>O(1)</b>, meaning constant work.
