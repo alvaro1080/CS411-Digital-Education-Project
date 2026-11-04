@@ -43,15 +43,18 @@
             <small style="display: block; font-size: 14px;">FIRST, A TOOL FOR COMPARING ALGORITHMS</small>
             <h3>What does Big O mean?</h3>
             <p>
-                To compare the best- and worst-case running times of algorithms, we need a way to describe how their work changes as the input grows. Big O notation gives us that way: it describes the rate at which an algorithm's work grows as the number of items increases, rather than measuring time in seconds on a particular computer.
-                Here, <b>n</b> means the number of items in the list.
+                To compare the best- and worst-case running times of algorithms, we need a way to describe how their work changes as the input grows. Big O notation describes the growth rate of an algorithm's running time as the input size increases. Here, <b>n</b> means the number of items in the list.
             </p>
             <p>
-                In simple terms, <b>O(f(n))</b> describes an upper bound on how an algorithm's work grows with input size. We focus on the overall growth pattern and ignore fixed extra steps and constant factors, which makes it easier to compare algorithms across different computers and implementations.
+                In simple terms, <b>O(f(n))</b> describes an upper bound on how an algorithm's work grows with input size. We focus on the overall growth pattern and ignore fixed extra steps and constant factors, because those do not change the main trend as the input gets larger.
             </p>
-            <p>
-                For example, <b>O(n)</b> means the work grows roughly in proportion to the list: twice as many items can mean about twice as much work. <b>O(log n)</b> grows much more slowly: when the list doubles, it takes only about one extra step.
-            </p>
+
+            <h3>Common time complexity classes</h3>
+            <p><b>O(1)</b> Constant time: the number of operations stays bounded as the input grows, so the input size does not affect the amount of work.</p>
+            <p><b>O(log n)</b> Logarithmic time: the number of operations increases slowly as the input grows; each operation reduces the remaining problem by a consistent proportion.</p>
+            <p><b>O(n)</b> Linear time: the number of operations grows in proportion to the input size.</p>
+            <p><b>O(n log n)</b> Linearithmic time: the number of operations grows in proportion to the input size multiplied by its logarithm, so it grows faster than linear time but slower than quadratic time.</p>
+            <p><b>O(n^2)</b> Quadratic time: the number of operations grows in proportion to the square of the input size, making the work increase more rapidly as the input grows.</p>
 
             <h3>Working it out: linear search</h3>
             <p>
@@ -71,7 +74,7 @@
                 <b>O(log n)</b>, because each comparison lets it discard half of the remaining sorted list.
                 For 16 items, that takes about 4 halving steps; for 1,024 items, about 10. So binary search
                 usually needs fewer checks on a large list—but the list must already be sorted.
-                </p>
+            </p>
             <p>
                 In the best case, both linear and binary search have complexity <b>O(1)</b>: each finds the target
                 on its first check. For linear search, this happens when the target is the first item in the list.
