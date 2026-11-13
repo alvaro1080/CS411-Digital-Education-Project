@@ -1,3 +1,29 @@
+const MAX_HISTORY_MESSAGES = 20; // last 10 exchanges
+const MAX_TEXT = 4000;
+
+// Turns the history sent by the page into Gemini "contents", then adds the new question.
+// The page is untrusted input: roles are whitelisted, texts are capped, and the turns must
+// strictly alternate user/model, starting with "user" (a Gemini requirement).
+function buildContents(history, question) {
+  const turns = [];
+  if (Array.isArray(history)) {
+    for (const item of history) {
+      const role = item && (item.role === "user" || item.role === "model") ? item.role : null;
+      const text = item && typeof item.text === "string" ? item.text.trim().slice(0, MAX_TEXT) : "";
+      if (!role || !text) continue;
+      if (turns.length && turns[turns.length - 1].role === role) continue;
+      turns.push({ role, parts: [{ text }] });
+    }
+  }
+
+  const recent = turns.slice(-MAX_HISTORY_MESSAGES);
+  while (recent.length && recent[0].role !== "user") recent.shift();
+  while (recent.length && recent[recent.length - 1].role !== "model") recent.pop();
+
+  recent.push({ role: "user", parts: [{ text: question }] });
+  return recent;
+}
+
 exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body || "{}");
@@ -18,7 +44,7 @@ exports.handler = async (event) => {
 
     const model = "gemini-3.5-flash-lite";
 
-    const prompt = `You are a patient tutor for introductory algorithms. Focus only on sorting algorithms and ask the learner to form a hypothesis before giving an answer.
+    const systemPrompt = `You are a patient tutor for introductory algorithms. Focus only on sorting algorithms and ask the learner to form a hypothesis before giving an answer.
 
 Your goal is to help the learner compare bubble sort and merge sort, and encourage them to test both on the same inputs to notice how their behavior differs.
 
@@ -29,9 +55,7 @@ Rules:
 - Suggest the learner experiment with both algorithms on small and larger lists to compare how they behave.
 - Encourage them to observe swaps, repeated passes, and recursive splitting.
 - If they ask for a direct answer, give a concise explanation but still invite them to test it.
-
-Learner question:
-${question}`;
+- You can see the earlier messages of this conversation: build on them and do not repeat yourself.`;
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
@@ -41,12 +65,8 @@ ${question}`;
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: prompt }],
-            },
-          ],
+          systemInstruction: { parts: [{ text: systemPrompt }] },
+          contents: buildContents(body.history, question),
         }),
       }
     );
