@@ -41,12 +41,6 @@
 
         <form id="posttest-form" novalidate>
 
-            <div class="card participant-card">
-                <label for="participant-id"><b>Participant code</b></label>
-                <p>Use the code given to you by the research team. Please do not enter your real name.</p>
-                <input id="participant-id" type="text" autocomplete="off" maxlength="40" placeholder="e.g. P-042">
-            </div>
-
             <div id="question-list" class="question-list"></div>
 
             <div id="submit-area" class="submit-area">
@@ -70,6 +64,7 @@
                 </div>
             </div>
             <p class="small-note result-note">Review the explanations under each question above.</p>
+            <p class="small-note result-note">Your anonymous session ID: <code id="session-id"></code></p>
         </div>
 
     </section>

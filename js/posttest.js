@@ -2,6 +2,9 @@
  * Post-test: scoring + submission to Google Sheets (via Apps Script web app).
  * Questions live in the QUESTIONS array below, so they are easy to edit.
  * `correct` is the id of the right option; `topic` is logged for analysis.
+ *
+ * The participant ID is generated automatically (see shared.js). The payload also
+ * carries the navigation counts and the AI tutor log collected during the session.
  */
 
 const QUESTIONS = [
@@ -132,7 +135,7 @@ const QUESTIONS = [
 const $ = (id) => document.getElementById(id);
 const SUBMITTED_KEY = "algorithm-lab-posttest-done";
 const DRAFT_KEY = "algorithm-lab-posttest-draft";
-const WEBHOOK = (window.POSTTEST_CONFIG || {}).SHEET_WEBHOOK_URL || "";
+const WEBHOOK = ((window.POSTTEST_CONFIG || {}).SHEET_WEBHOOK_URL || "").trim();
 const DEMO_MODE = !WEBHOOK || WEBHOOK.includes("PLACEHOLDER");
 
 let startedAt = Date.now();
@@ -237,6 +240,7 @@ function buildPayload(participantId, answers) {
         group: (window.algorithmLab && window.algorithmLab.group) || "unknown",
         durationSec: Math.round((Date.now() - startedAt) / 1000),
         clientTime: new Date().toISOString(),
+        ...buildTrackingData(), // navigation + aiInteractions
         answers: {},
         correct: {},
         score: 0,
@@ -262,8 +266,19 @@ async function sendToSheet(payload) {
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload),
     });
-    const result = await response.json();
-    if (!result.ok) throw new Error(result.error || "Sheet rejected the submission");
+
+    const raw = await response.text();
+    let result;
+    try {
+        result = JSON.parse(raw);
+    } catch {
+        throw new Error("the web app did not answer with JSON (wrong URL, or access not set to Anyone)");
+    }
+    if (!result.ok) throw new Error(`the script reported: ${result.error || "unknown error"}`);
+    if (typeof result.row !== "number") {
+        throw new Error("the script answered but wrote no row. An old script version is probably deployed: Deploy → Manage deployments → New version");
+    }
+    return result;
 }
 
 function showResults(payload) {
@@ -286,6 +301,7 @@ function showResults(payload) {
 
     $("score-value").textContent = `${payload.score} / ${payload.total}`;
     $("score-percent").textContent = `${payload.percent}%`;
+    $("session-id").textContent = payload.participantId;
     $("submit-area").hidden = true;
     $("result-area").hidden = false;
     $("result-area").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -307,12 +323,15 @@ async function trySave() {
 
     setSaveStatus("pending", "Saving your answers…");
     try {
-        await sendToSheet(lastPayload);
+        const saved = await sendToSheet(lastPayload);
+        console.info("[post-test] saved:", saved);
         try { sessionStorage.setItem(SUBMITTED_KEY, "1"); } catch { /* ignore */ }
-        setSaveStatus("ok", "✓ Your answers were saved. Thank you!");
+        const debug = new URLSearchParams(window.location.search).has("debug");
+        const where = debug ? ` (row ${saved.row} of "${saved.spreadsheet}", tab "${saved.sheet}")` : "";
+        setSaveStatus("ok", `✓ Your answers were saved. Thank you!${where}`);
     } catch (error) {
         console.error(error);
-        setSaveStatus("error", "Your answers could not be saved. Check your connection and try again.");
+        setSaveStatus("error", `Your answers could not be saved (${error.message}). Check your connection and try again.`);
     }
 }
 
@@ -320,15 +339,10 @@ async function onSubmit(event) {
     event.preventDefault();
     showError("");
 
-    const participantId = $("participant-id").value.trim();
+    const participantId = (window.algorithmLab && window.algorithmLab.participantId) || generateParticipantId();
     const answers = readAnswers();
     const missing = QUESTIONS.filter((q) => !answers[q.id]).map((q) => QUESTIONS.indexOf(q) + 1);
 
-    if (!participantId) {
-        showError("Please enter your participant code.");
-        $("participant-id").focus();
-        return;
-    }
     if (missing.length) {
         showError(`Please answer every question. Missing: ${missing.join(", ")}.`);
         return;
