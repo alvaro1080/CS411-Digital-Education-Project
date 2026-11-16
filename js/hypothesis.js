@@ -49,17 +49,22 @@ async function askTutor(question) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: question }),
+        body: JSON.stringify({ message: question, history: getAiHistoryForApi() }),
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-        if (data && data.fallback) return data.fallback;
-        return "The sorting tutor is unavailable right now.";
+        return {
+            text: (data && data.fallback) || "The sorting tutor is unavailable right now.",
+            ok: false,
+        };
     }
 
-    return data.reply || "I could not generate a response.";
+    return {
+        text: data.reply || "I could not generate a response.",
+        ok: Boolean(data.reply),
+    };
 }
 
 async function sendMessage() {
@@ -74,15 +79,25 @@ async function sendMessage() {
     button.disabled = true;
     button.textContent = "Thinking...";
 
+    const startedAt = Date.now();
+    let reply = "";
+    let ok = false;
+
     try {
-        const reply = await askTutor(text);
+        const result = await askTutor(text);
+        reply = result.text;
+        ok = result.ok;
         appendSystemMessage(reply);
         replaceChatWithExploreButton();
     } catch (error) {
         console.error(error);
-        appendSystemMessage("The sorting tutor is unavailable right now. Please use the lesson content and your observations to continue.");
+        reply = "The sorting tutor is unavailable right now. Please use the lesson content and your observations to continue.";
+        appendSystemMessage(reply);
         replaceChatWithExploreButton();
     } finally {
+        // Research log: sent with the post-test.
+        logAiInteraction({ question: text, reply, ok, latencyMs: Date.now() - startedAt });
+
         button.disabled = false;
         button.textContent = "Send →";
     }
@@ -101,6 +116,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!alreadyHasPrompt) {
             appendSystemMessage("Before you answer, compare bubble sort and merge sort. Which one do you predict will scale better, and why?");
         }
+    }
+
+    // Coming back to this page: put the earlier conversation back on screen.
+    if (isAiGroup) {
+        getAiHistory().forEach((item) => {
+            appendUserMessage(item.question);
+            appendSystemMessage(item.reply);
+        });
     }
 
     $("btn-send-ai").addEventListener("click", sendMessage);
